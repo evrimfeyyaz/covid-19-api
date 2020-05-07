@@ -4,6 +4,14 @@
   "version": "0.1.0",
   "description": "A JavaScript library that provides a simple API for the JHU CSSE COVID-19 data.",
   "license": "ISC",
+  "keywords": [
+    "covid",
+    "covid19",
+    "covid-19",
+    "coronavirus",
+    "api",
+    "sars-cov-2"
+  ],
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "module": "dist/covid-19-data-store.esm.js",
