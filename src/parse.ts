@@ -3,10 +3,10 @@ import { InternalLocationInfo } from 'types';
 import { getFullLocationName } from 'utils';
 
 export interface ParsedCSV {
-  [location: string]: ParsedCsvRow;
+  [location: string]: ParsedCSVRow;
 }
 
-export interface ParsedCsvRow {
+export interface ParsedCSVRow {
   [column: string]: string | number;
 }
 
@@ -26,6 +26,8 @@ const usCsvColumnTitles = {
   longitude: 'Long_',
 };
 
+const dateKeyRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{2})$/;
+
 export async function parseCSV(csv: string): Promise<ParsedCSV> {
   return new Promise<ParsedCSV>((resolve, reject) => {
     const parser = parse(csv, {
@@ -42,14 +44,14 @@ export async function parseCSV(csv: string): Promise<ParsedCSV> {
             return columnTitles.countryOrRegion;
           } else if (value === usCsvColumnTitles.longitude) {
             return columnTitles.longitude;
-          } else if (value === usCsvColumnTitles.countryOrRegion) {
+          } else if (value === usCsvColumnTitles.county) {
             return columnTitles.county;
           }
 
           return value;
         }
 
-        if (isDateColumn(context.column as string)) {
+        if (isDateKey(context.column as string)) {
           return parseInt(value);
         }
 
@@ -61,7 +63,7 @@ export async function parseCSV(csv: string): Promise<ParsedCSV> {
       },
     });
 
-    const parsedCsv: ParsedCSV = {};
+    const parsedCSV: ParsedCSV = {};
     parser.on('readable', () => {
       while (true) {
         const record = parser.read();
@@ -76,7 +78,7 @@ export async function parseCSV(csv: string): Promise<ParsedCSV> {
 
         const location = getFullLocationName(countryOrRegion, provinceOrState, county);
 
-        parsedCsv[location] = record;
+        parsedCSV[location] = record;
       }
     });
 
@@ -84,11 +86,11 @@ export async function parseCSV(csv: string): Promise<ParsedCSV> {
       reject(error);
     });
 
-    parser.on('end', () => resolve(parsedCsv));
+    parser.on('end', () => resolve(parsedCSV));
   });
 }
 
-export function getLocationInfoFromRow(row: ParsedCsvRow): InternalLocationInfo {
+export function getLocationInfoFromRow(row: ParsedCSVRow): InternalLocationInfo {
   const countryOrRegion = row[columnTitles.countryOrRegion] as string;
   const provinceOrState = row[columnTitles.provinceOrState] as string | undefined;
   const county = row[columnTitles.county] as string | undefined;
@@ -106,15 +108,38 @@ export function getLocationInfoFromRow(row: ParsedCsvRow): InternalLocationInfo 
   };
 }
 
-export function getDateKeys(parsedCsv: ParsedCSV): string[] {
-  const firstLocation = Object.keys(parsedCsv)[0];
-  const rowKeys = Object.keys(parsedCsv[firstLocation]);
+export function getDateKeys(parsedCSV: ParsedCSV): string[] {
+  const firstLocation = Object.keys(parsedCSV)[0];
+  const rowKeys = Object.keys(parsedCSV[firstLocation]);
 
-  return rowKeys.filter(columnName => isDateColumn(columnName));
+  return rowKeys.filter(columnName => isDateKey(columnName));
 }
 
-function isDateColumn(columnName: string): boolean {
-  const dateColRegex = /^\d{1,2}\/\d{1,2}\/\d{2}$/;
+export function dateKeyToDate(dateStr: string): Date | undefined {
+  const dateParts = dateStr.match(dateKeyRegex);
 
-  return dateColRegex.test(columnName);
+  if (dateParts == null || dateParts.length < 3) {
+    return undefined;
+  }
+
+  const year = parseInt(`20${dateParts[3]}`);
+  const month = parseInt(dateParts[1]) - 1;
+  const day = parseInt(dateParts[2]);
+
+  return new Date(year, month, day);
+}
+
+export function dateToDateKey(date: Date): string {
+  const year = date
+    .getFullYear()
+    .toString()
+    .slice(2);
+  const month = (date.getMonth() + 1).toString();
+  const day = date.getDate().toString();
+
+  return `${month}/${day}/${year}`;
+}
+
+function isDateKey(columnName: string): boolean {
+  return dateKeyRegex.test(columnName);
 }

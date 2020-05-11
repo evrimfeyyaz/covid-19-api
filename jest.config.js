@@ -8,4 +8,5 @@ module.exports = {
   testMatch: ['<rootDir>/**/*.(spec|test).{ts,tsx}'],
   rootDir: '.',
   setupFilesAfterEnv: ['./jest.setup.js'],
+  moduleDirectories: ['node_modules', 'src'],
 };

@@ -2,10 +2,9 @@ import { DataGetter } from 'DataGetter/DataGetter';
 import { DataStore } from 'DataStore/DataStore';
 import { NotInitializedError, PersistedDataAnomalyError } from 'errors';
 import { formatGlobalParsedData, formatUSParsedData } from 'format';
-import { parseCSV, ParsedCSV } from 'parse';
+import { dateKeyToDate, dateToDateKey, parseCSV, ParsedCSV } from 'parse';
 import { InternalLocationData, LocationData, ValuesOnDate } from 'types';
 import { US_LOCATIONS } from 'us-locations';
-import { dateKeyToDate, dateToDateKey } from 'utils';
 
 interface Covid19APIOptions {
   lazyLoadUSData: boolean;

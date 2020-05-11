@@ -1,4 +1,4 @@
-import { getDateKeys, getLocationInfoFromRow, ParsedCSV, ParsedCsvRow } from 'parse';
+import { getDateKeys, getLocationInfoFromRow, ParsedCSV, ParsedCSVRow } from 'parse';
 import { InternalLocationData, InternalLocationDataValues } from 'types';
 import { US_STATES } from 'us-states';
 import { getFullLocationName } from 'utils';
@@ -103,9 +103,9 @@ function formatParsedData(
 
 function getValuesFromParsedRows(
   dateKeys: string[],
-  confirmedData: ParsedCsvRow,
-  deathsData?: ParsedCsvRow,
-  recoveredData?: ParsedCsvRow
+  confirmedData: ParsedCSVRow,
+  deathsData?: ParsedCSVRow,
+  recoveredData?: ParsedCSVRow
 ): InternalLocationDataValues {
   return dateKeys.map(date => {
     const confirmed = confirmedData[date] as number;

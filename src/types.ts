@@ -6,17 +6,6 @@ export interface ValuesOnDate extends InternalValuesOnDate {
   recoveryRate: number | null;
 }
 
-export type ValuesOnDateProperty =
-  | 'date'
-  | 'confirmed'
-  | 'newConfirmed'
-  | 'deaths'
-  | 'newDeaths'
-  | 'mortalityRate'
-  | 'recovered'
-  | 'newRecovered'
-  | 'recoveryRate';
-
 export type LocationDataValues = ValuesOnDate[];
 
 export interface LocationData extends InternalLocationData {
