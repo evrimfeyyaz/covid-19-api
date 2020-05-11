@@ -5,22 +5,26 @@ import {
   getLocationInfoFromRow,
   parseCSV,
 } from '../src/parse';
-import { globalDataCSV } from '../src/testData/globalDataCSV';
+import { globalConfirmedDataCSV } from '../src/testData/globalDataCSV';
 import { parsedCSV } from '../src/testData/parsedCSV';
 import { parsedCSVRow } from '../src/testData/parsedCSVRow';
-import { usDataCSV } from '../src/testData/usDataCSV';
+import { usConfirmedDataCSV } from '../src/testData/usDataCSV';
 import { InternalLocationInfo } from '../src/types';
 
 describe('parse', () => {
   describe('parseCSV', () => {
     it('parses CSVs containing global data', async () => {
-      const result = await parseCSV(globalDataCSV);
+      const result = await parseCSV(globalConfirmedDataCSV);
       const locations = Object.keys(result);
       const newSouthWales = result['Australia (New South Wales)'];
 
       expect(locations).toEqual([
         'Australia (Australian Capital Territory)',
         'Australia (New South Wales)',
+        'Canada (Alberta)',
+        'Canada (British Columbia)',
+        'China (Anhui)',
+        'China (Beijing)',
         'Turkey',
       ]);
       expect(newSouthWales['Country/Region']).toEqual('Australia');
@@ -28,11 +32,11 @@ describe('parse', () => {
       expect(newSouthWales['Lat']).toEqual('-33.8688');
       expect(newSouthWales['Long']).toEqual('151.2093');
       expect(newSouthWales['1/22/20']).toEqual(0);
-      expect(newSouthWales['5/7/20']).toEqual(44);
+      expect(newSouthWales['1/23/20']).toEqual(4);
     });
 
     it('parses CSVs containing US data', async () => {
-      const result = await parseCSV(usDataCSV);
+      const result = await parseCSV(usConfirmedDataCSV);
       const locations = Object.keys(result);
       const autauga = result['US (Autauga, Alabama)'];
 
@@ -49,7 +53,7 @@ describe('parse', () => {
       expect(autauga['Lat']).toEqual('32.53952745');
       expect(autauga['Long']).toEqual('-86.64408227');
       expect(autauga['1/22/20']).toEqual(0);
-      expect(autauga['5/7/20']).toEqual(3);
+      expect(autauga['1/23/20']).toEqual(4);
     });
   });
 
@@ -73,9 +77,9 @@ describe('parse', () => {
     it('returns an array of date keys', () => {
       const result = getDateKeys(parsedCSV);
 
-      expect(result).toHaveLength(107);
+      expect(result).toHaveLength(2);
       expect(result[0]).toEqual('1/22/20');
-      expect(result[result.length - 1]).toEqual('5/7/20');
+      expect(result[1]).toEqual('1/23/20');
     });
   });
 
