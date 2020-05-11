@@ -4,7 +4,7 @@ import { NotInitializedError, PersistedDataAnomalyError } from 'errors';
 import { formatGlobalParsedData, formatUSParsedData } from 'format';
 import { dateKeyToDate, dateToDateKey, parseCSV, ParsedCSV } from 'parse';
 import { InternalLocationData, LocationData, ValuesOnDate } from 'types';
-import { US_LOCATIONS } from 'us-locations';
+import { US_LOCATIONS } from 'usLocations';
 
 interface Covid19APIOptions {
   lazyLoadUSData: boolean;

@@ -1,6 +1,6 @@
 import { getDateKeys, getLocationInfoFromRow, ParsedCSV, ParsedCSVRow } from 'parse';
 import { InternalLocationData, InternalLocationDataValues } from 'types';
-import { US_STATES } from 'us-states';
+import { US_STATES } from 'usStates';
 import { getFullLocationName } from 'utils';
 
 export function formatGlobalParsedData(
