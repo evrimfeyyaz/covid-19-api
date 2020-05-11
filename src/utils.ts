@@ -1,6 +1,3 @@
-import _ from 'lodash';
-import { LocationData, ValuesOnDateProperty } from 'types';
-
 export function getFullLocationName(
   countryOrRegion: string,
   provinceOrState?: string,
@@ -18,58 +15,6 @@ export function getFullLocationName(
   }
 
   return location;
-}
-
-export function humanizePropertyName(propertyName: ValuesOnDateProperty): string {
-  switch (propertyName) {
-    case 'confirmed':
-      return 'confirmed cases';
-    case 'date':
-      return 'date';
-    case 'deaths':
-      return 'deaths';
-    case 'mortalityRate':
-      return 'mortality rate';
-    case 'newConfirmed':
-      return 'new cases';
-    case 'newDeaths':
-      return 'new deaths';
-    case 'newRecovered':
-      return 'new recoveries';
-    case 'recovered':
-      return 'recoveries';
-    case 'recoveryRate':
-      return 'rate of recoveries';
-  }
-}
-
-export function stripDataBeforePropertyExceedsN(
-  locationData: Readonly<LocationData>,
-  property: ValuesOnDateProperty,
-  n: number
-): LocationData {
-  const dataClone = _.cloneDeep(locationData);
-
-  return {
-    ...dataClone,
-    values: dataClone.values.filter(value => (value[property] ?? 0) > n),
-  };
-}
-
-export function isValuesOnDateProperty(str: string): str is ValuesOnDateProperty {
-  const valuesOnDateProperties: ValuesOnDateProperty[] = [
-    'confirmed',
-    'deaths',
-    'recovered',
-    'date',
-    'newConfirmed',
-    'newDeaths',
-    'newRecovered',
-    'mortalityRate',
-    'recoveryRate',
-  ];
-
-  return valuesOnDateProperties.indexOf(str as never) !== -1;
 }
 
 export function dateKeyToDate(dateStr: string): Date | undefined {
@@ -93,9 +38,9 @@ export function dateToDateKey(date: Date): string {
     .slice(2);
   const month = `${date.getMonth() + 1}`.padStart(2, '0');
   const day = date
-    .getDay()
+    .getDate()
     .toString()
     .padStart(2, '0');
 
-  return `${year}/${month}/${day}`;
+  return `${month}/${day}/${year}`;
 }
