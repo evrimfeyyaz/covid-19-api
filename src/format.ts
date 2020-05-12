@@ -16,17 +16,19 @@ export function formatGlobalParsedData(
 
   const ausCanChnData = data.filter(
     locationData =>
-      locationData.location === 'Australia' ||
-      locationData.location === 'Canada' ||
-      locationData.location === 'China'
+      locationData.countryOrRegion === 'Australia' ||
+      locationData.countryOrRegion === 'Canada' ||
+      locationData.countryOrRegion === 'China'
   );
   const australiaStateData = ausCanChnData.filter(
-    locationData => locationData.location === 'Australia'
+    locationData => locationData.countryOrRegion === 'Australia'
   );
   const canadaProvinceData = ausCanChnData.filter(
-    locationData => locationData.location === 'Canada'
+    locationData => locationData.countryOrRegion === 'Canada'
   );
-  const chinaProvinceData = ausCanChnData.filter(locationData => locationData.location === 'China');
+  const chinaProvinceData = ausCanChnData.filter(
+    locationData => locationData.countryOrRegion === 'China'
+  );
 
   const australiaTotalData = getAustraliaTotalData(australiaStateData);
   const canadaTotalData = getCanadaTotalData(parsedGlobalRecoveredData, canadaProvinceData);
@@ -132,7 +134,7 @@ function getValuesFromParsedRows(
 function getAustraliaTotalData(australiaStateData: InternalLocationData[]): InternalLocationData {
   const australiaTotalValues = sumMultipleLocationValues(australiaStateData);
 
-  // Latitudes and longitudes are from https://www.latlong.net/.
+  // Latitude and longitude are from https://www.latlong.net/.
   return {
     location: 'Australia',
     countryOrRegion: 'Australia',
@@ -150,24 +152,26 @@ function getCanadaTotalData(
   const parsedCanadaRecoveredValues = parsedRecoveredData['Canada'];
   const dateKeys = getDateKeys(parsedRecoveredData);
 
+  // The JHU data doesn't include the recovered data for the provinces of Canada,
+  // but includes the recovered data for the whole country.
   dateKeys.forEach((date, index) => {
     canadaTotalValues[index].recovered = parsedCanadaRecoveredValues[date] as number;
   });
 
-  // Latitudes and longitudes are from https://www.latlong.net/.
+  // Latitude and longitude are from the JHU CSSE global recoveries CSV file.
   return {
     location: 'Canada',
     countryOrRegion: 'Canada',
     values: canadaTotalValues,
-    latitude: '56.130367',
-    longitude: '-106.346771',
+    latitude: '56.1304',
+    longitude: '-106.3468',
   };
 }
 
 function getChinaTotalData(chinaProvinceData: InternalLocationData[]): InternalLocationData {
   const chinaTotalValues = sumMultipleLocationValues(chinaProvinceData);
 
-  // Latitudes and longitudes are from https://www.latlong.net/.
+  // Latitude and longitude are from https://www.latlong.net/.
   return {
     location: 'China',
     countryOrRegion: 'China',
@@ -185,12 +189,14 @@ function getUSStateTotalsData(usCountyData: InternalLocationData[]): InternalLoc
     const stateCountiesData = usCountyData.filter(
       locationData => locationData.provinceOrState === name
     );
+
     const stateTotalValues = sumMultipleLocationValues(stateCountiesData);
 
     const location = getFullLocationName('US', name);
     data.push({
       location,
       countryOrRegion: 'US',
+      provinceOrState: name,
       values: stateTotalValues,
       latitude,
       longitude,
@@ -219,9 +225,9 @@ function sumMultipleLocationValues(data: InternalLocationData[]): InternalLocati
         totalDeaths = (totalDeaths ?? 0) + deaths;
       }
 
-      const totalRecovered = totalValuesOnDate.recovered;
+      let totalRecovered = totalValuesOnDate.recovered;
       if (recovered != null) {
-        totalDeaths = (totalRecovered ?? 0) + recovered;
+        totalRecovered = (totalRecovered ?? 0) + recovered;
       }
 
       sum[index] = {

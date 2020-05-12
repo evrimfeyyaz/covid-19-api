@@ -7,7 +7,7 @@ export interface ParsedCSV {
 }
 
 export interface ParsedCSVRow {
-  [column: string]: string | number;
+  [column: string]: string | number | undefined;
 }
 
 const columnTitles = {
@@ -56,6 +56,10 @@ export async function parseCSV(csv: string): Promise<ParsedCSV> {
         }
 
         if (context.column === columnTitles.provinceOrState && value === '') {
+          return undefined;
+        }
+
+        if (context.column === columnTitles.county && value === '') {
           return undefined;
         }
 

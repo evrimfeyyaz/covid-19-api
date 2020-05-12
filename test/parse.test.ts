@@ -4,11 +4,12 @@ import {
   getDateKeys,
   getLocationInfoFromRow,
   parseCSV,
+  ParsedCSVRow,
 } from '../src/parse';
 import { globalConfirmedDataCSV } from '../src/testData/globalDataCSV';
-import { parsedCSV } from '../src/testData/parsedCSV';
-import { parsedCSVRow } from '../src/testData/parsedCSVRow';
+import { parsedGlobalConfirmedCSV } from '../src/testData/globalParsedCSV';
 import { usConfirmedDataCSV } from '../src/testData/usDataCSV';
+import { parsedUSConfirmedCSV } from '../src/testData/usParsedCSV';
 import { InternalLocationInfo } from '../src/types';
 
 describe('parse', () => {
@@ -55,13 +56,30 @@ describe('parse', () => {
       expect(autauga['1/22/20']).toEqual(0);
       expect(autauga['1/23/20']).toEqual(4);
     });
+
+    it('sets the province/state to `undefined` when it is empty', async () => {
+      const parsedCSV = await parseCSV(globalConfirmedDataCSV);
+      const result = parsedCSV['Turkey'];
+
+      expect(result['Province/State']).toBeUndefined();
+    });
+
+    it('sets the county to `undefined` when it is empty', async () => {
+      const parsedCSV = await parseCSV(usConfirmedDataCSV);
+      const result = parsedCSV['US (American Samoa)'];
+
+      expect(result['County']).toBeUndefined();
+    });
   });
 
   describe('getLocationInfoFromRow', () => {
     it('returns location info from parsed CSV rows', () => {
+      const location = 'US (Autauga, Alabama)';
+      const parsedCSVRow: ParsedCSVRow = parsedUSConfirmedCSV[location];
+
       const result = getLocationInfoFromRow(parsedCSVRow);
       const expected: InternalLocationInfo = {
-        location: 'US (Autauga, Alabama)',
+        location,
         countryOrRegion: 'US',
         provinceOrState: 'Alabama',
         county: 'Autauga',
@@ -75,7 +93,7 @@ describe('parse', () => {
 
   describe('getDateKeys', () => {
     it('returns an array of date keys', () => {
-      const result = getDateKeys(parsedCSV);
+      const result = getDateKeys(parsedGlobalConfirmedCSV);
 
       expect(result).toHaveLength(2);
       expect(result[0]).toEqual('1/22/20');
