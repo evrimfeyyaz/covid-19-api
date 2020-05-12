@@ -77,8 +77,8 @@ export async function parseCSV(csv: string): Promise<ParsedCSV> {
         }
 
         const countryOrRegion = record[columnTitles.countryOrRegion] as string;
-        const provinceOrState = record?.[columnTitles.provinceOrState] as string | undefined;
-        const county = record?.[columnTitles.county] as string | undefined;
+        const provinceOrState = record[columnTitles.provinceOrState] as string | undefined;
+        const county = record[columnTitles.county] as string | undefined;
 
         const location = getFullLocationName(countryOrRegion, provinceOrState, county);
 
