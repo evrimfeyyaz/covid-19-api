@@ -1,4 +1,5 @@
 import fetchMock, { enableFetchMocks } from 'jest-fetch-mock';
+import { DataGetterError } from '../../src/DataGetter/DataGetter';
 import { GitHubGetter } from '../../src/DataGetter/GitHubGetter';
 
 describe('GitHubGetter', () => {
@@ -50,6 +51,21 @@ describe('GitHubGetter', () => {
       expect(fetchMock).toBeCalledTimes(1);
       expect(result).toEqual(expectedFromMock);
     });
+
+    it('throws an error when it cannot connect to the GitHub server', async () => {
+      fetchMock.mockResponseOnce(
+        () => new Promise(resolve => resolve({ status: 404, body: 'Not Found' }))
+      );
+
+      let error: DataGetterError | undefined;
+      try {
+        await gitHubGetter.getGlobalConfirmedData();
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).toBeDefined();
+    });
   });
 
   describe('getGlobalDeathsData', () => {
@@ -98,6 +114,21 @@ describe('GitHubGetter', () => {
 
       expect(fetchMock).toBeCalledTimes(1);
       expect(result).toEqual(mockLastUpdatedAt);
+    });
+
+    it('throws an error when it cannot connect to the GitHub server', async () => {
+      fetchMock.mockResponseOnce(
+        () => new Promise(resolve => resolve({ status: 404, body: 'Not Found' }))
+      );
+
+      let error: DataGetterError | undefined;
+      try {
+        await gitHubGetter.getLastUpdatedAt();
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).toBeDefined();
     });
   });
 });
