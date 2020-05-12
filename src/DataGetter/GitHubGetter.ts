@@ -1,6 +1,6 @@
 import { DataGetter, DataGetterError } from 'DataGetter/DataGetter';
 
-export class GitHubFetch implements DataGetter {
+export class GitHubGetter implements DataGetter {
   private commitDataUrl =
     'https://api.github.com/repos/CSSEGISandData/COVID-19/commits?path=csse_covid_19_data%2Fcsse_covid_19_time_series&page=1&per_page=1';
   private baseUrl =
@@ -19,7 +19,7 @@ export class GitHubFetch implements DataGetter {
     const rawResponse = await fetch(url);
 
     if (!rawResponse.ok) {
-      const errorMessage = GitHubFetch.createErrorMessage(rawResponse);
+      const errorMessage = GitHubGetter.createErrorMessage(rawResponse);
       throw new DataGetterError(errorMessage);
     }
 
@@ -27,30 +27,30 @@ export class GitHubFetch implements DataGetter {
   }
 
   async getGlobalConfirmedData(): Promise<string> {
-    return await GitHubFetch.fetchData(this.globalConfirmedUrl);
+    return await GitHubGetter.fetchData(this.globalConfirmedUrl);
   }
 
   async getGlobalDeathsData(): Promise<string> {
-    return await GitHubFetch.fetchData(this.globalDeathsUrl);
+    return await GitHubGetter.fetchData(this.globalDeathsUrl);
   }
 
   async getGlobalRecoveredData(): Promise<string> {
-    return await GitHubFetch.fetchData(this.globalRecoveredUrl);
+    return await GitHubGetter.fetchData(this.globalRecoveredUrl);
   }
 
   async getUSConfirmedData(): Promise<string> {
-    return await GitHubFetch.fetchData(this.usConfirmedUrl);
+    return await GitHubGetter.fetchData(this.usConfirmedUrl);
   }
 
   async getUSDeathsData(): Promise<string> {
-    return await GitHubFetch.fetchData(this.usDeathsUrl);
+    return await GitHubGetter.fetchData(this.usDeathsUrl);
   }
 
   async getLastUpdatedAt(): Promise<Date> {
     const response = await fetch(this.commitDataUrl);
 
     if (!response.ok) {
-      const errorMessage = GitHubFetch.createErrorMessage(response);
+      const errorMessage = GitHubGetter.createErrorMessage(response);
       throw new DataGetterError(errorMessage);
     }
 
