@@ -1,48 +1,57 @@
-import { DataStore, InvalidLocationError } from '../DataStore/DataStore';
+import { DataStore, InvalidLocationError } from 'DataStore/DataStore';
+import { InternalLocationData } from 'types';
 import { internalLocationDataArray } from './internalLocationData';
 
-export async function sharedDataStoreTests(
-  storeName: string,
-  store: DataStore,
-  doBeforeEach: () => Promise<void>
+export async function sharedInitializedDataStoreTests<T extends DataStore>(
+  dataStoreConstructor: new () => T
 ): Promise<void> {
-  describe(storeName, () => {
+  describe('when initialized', () => {
     let locations: string[];
+    let store: T;
 
-    beforeEach(async () => {
-      await doBeforeEach();
+    beforeAll(async () => {
+      store = new dataStoreConstructor();
+      await store.init();
       locations = await addTestDataToStore();
     });
 
-    describe('put/getLocationData', () => {
-      it('put and get internal location data', async () => {
-        const result = await store.getLocationData(locations);
+    it('allows putting and getting internal location data', async () => {
+      const result = await store.getLocationData(locations);
 
-        expect(result).toHaveLength(internalLocationDataArray.length);
-        expect(result).toEqual(expect.arrayContaining(internalLocationDataArray));
-      });
+      expect(result).toHaveLength(internalLocationDataArray.length);
+      expect(result).toEqual(expect.arrayContaining(internalLocationDataArray));
     });
 
-    describe('putLocationData/getSavedAt', () => {
-      it('set and get the saved at info', async () => {
-        const oneMinuteAgo = Date.now() - 1000 * 60;
+    it('allows setting and getting the saved at info', async () => {
+      const oneMinuteAgo = Date.now() - 1000 * 60;
 
-        const result = (await store.getSavedAt()) as Date;
+      const result = (await store.getSavedAt()) as Date;
 
-        // savedAt is set to less than one minute ago.
-        expect(result.getTime()).toBeGreaterThan(oneMinuteAgo);
-      });
+      // savedAt is set to less than one minute ago.
+      expect(result.getTime()).toBeGreaterThan(oneMinuteAgo);
     });
 
-    describe('set/getLastUpdatedAt', () => {
-      it('set and get the last updated at info', async () => {
-        const lastUpdatedAt = new Date();
+    it('allows setting and getting the last updated at info', async () => {
+      const lastUpdatedAt = new Date();
 
-        await store.setLastUpdatedAt(lastUpdatedAt);
-        const result = (await store.getLastUpdatedAt()) as Date;
+      await store.setLastUpdatedAt(lastUpdatedAt);
+      const result = (await store.getLastUpdatedAt()) as Date;
 
-        expect(result.getTime()).toEqual(lastUpdatedAt.getTime());
-      });
+      expect(result.getTime()).toEqual(lastUpdatedAt.getTime());
+    });
+
+    it('replaces existing locations when putting locations', async () => {
+      const existingData: InternalLocationData = {
+        ...internalLocationDataArray.filter(({ location }) => location === 'Turkey')[0],
+        values: [],
+      };
+      await store.putLocationData([existingData]);
+
+      const [turkeyData] = await store.getLocationData(['Turkey']);
+      const locations = await store.getLocationsList();
+
+      expect(turkeyData.values).toEqual([]);
+      expect(locations.filter(location => location === 'Turkey')).toHaveLength(1);
     });
 
     describe('getLocationData', () => {
@@ -71,17 +80,10 @@ export async function sharedDataStoreTests(
         expect(result).toEqual(expect.arrayContaining(expected));
       });
 
-      it('throws an error when the given country cannot be found', async () => {
-        const unknownCountry = 'Unknown Country';
+      it('returns an empty array when no state for the given country can be found', async () => {
+        const result = await store.getStatesData('Unknown');
 
-        let error: InvalidLocationError | undefined;
-        try {
-          await store.getStatesData(unknownCountry);
-        } catch (e) {
-          error = e;
-        }
-
-        expect(error?.name).toEqual('InvalidLocationError');
+        expect(result).toHaveLength(0);
       });
     });
 
@@ -96,18 +98,10 @@ export async function sharedDataStoreTests(
         expect(result).toEqual(expect.arrayContaining(expected));
       });
 
-      it('throws an error when the given country/state combination cannot be found', async () => {
-        const unknownCountry = 'Unknown Country';
-        const unknownState = 'Unknown State';
+      it('returns an empty array when no county for the given country/state combination can be found', async () => {
+        const result = await store.getCountiesData('Unknown', 'Unknown');
 
-        let error: InvalidLocationError | undefined;
-        try {
-          await store.getCountiesData(unknownCountry, unknownState);
-        } catch (e) {
-          error = e;
-        }
-
-        expect(error?.name).toEqual('InvalidLocationError');
+        expect(result).toHaveLength(0);
       });
     });
 

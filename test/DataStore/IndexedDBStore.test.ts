@@ -1,19 +1,15 @@
 import IndexedDBStore, { IndexedDBNotInitializedError } from '../../src/DataStore/IndexedDBStore';
 import { internalLocationDataArray } from '../../src/testData/internalLocationData';
-import { sharedDataStoreTests } from '../../src/testData/sharedDataStoreTests';
+import { sharedInitializedDataStoreTests } from '../../src/testData/sharedInitializedDataStoreTests';
 
 require('fake-indexeddb/auto');
 
 describe('IndexedDBStore', () => {
-  const indexedDBStore = new IndexedDBStore();
-
-  describe('when initialized', () => {
-    sharedDataStoreTests('IndexedDBStore', indexedDBStore, async () => {
-      await indexedDBStore.init();
-    });
-  });
+  sharedInitializedDataStoreTests(IndexedDBStore);
 
   describe('when not initialized', () => {
+    const indexedDBStore = new IndexedDBStore();
+
     it('throws an error when trying to read data', async () => {
       let error: IndexedDBNotInitializedError | undefined;
       try {

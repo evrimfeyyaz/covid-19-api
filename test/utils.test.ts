@@ -1,4 +1,4 @@
-import { getFullLocationName } from '../src/utils';
+import { getFullLocationName, pushUnique } from '../src/utils';
 
 describe('utils', () => {
   describe('getFullLocationName', () => {
@@ -22,6 +22,26 @@ describe('utils', () => {
       const result = getFullLocationName(country, state, county);
 
       expect(result).toEqual('US (Ontario, New York)');
+    });
+  });
+
+  describe('pushUnique', () => {
+    let arr: number[];
+
+    beforeEach(() => {
+      arr = [1, 2, 3];
+    });
+
+    it('pushes the given element into the given array if it does not exist', () => {
+      pushUnique(arr, 4);
+
+      expect(arr).toEqual([1, 2, 3, 4]);
+    });
+
+    it('does not push the given element into the given array if it exists', () => {
+      pushUnique(arr, 3);
+
+      expect(arr).toEqual([1, 2, 3]);
     });
   });
 });

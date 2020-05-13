@@ -16,3 +16,9 @@ export function getFullLocationName(
 
   return location;
 }
+
+export function pushUnique<T>(arr: T[], el: T): void {
+  if (arr.indexOf(el) === -1) {
+    arr.push(el);
+  }
+}
