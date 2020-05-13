@@ -1,6 +1,6 @@
 import { IDBPDatabase, openDB } from 'idb';
-import { InvalidLocationError, NotInitializedError } from '../../src/DataStore/DataStore';
-import IndexedDBStore from '../../src/DataStore/IndexedDBStore';
+import { InvalidLocationError } from '../../src/DataStore/DataStore';
+import IndexedDBStore, { IndexedDBNotInitializedError } from '../../src/DataStore/IndexedDBStore';
 import { internalLocationDataArray } from '../../src/testData/internalLocationData';
 
 require('fake-indexeddb/auto');
@@ -159,25 +159,25 @@ describe('IndexedDBStore', () => {
 
   describe('when not initialized', () => {
     it('throws an error when trying to read data', async () => {
-      let error: NotInitializedError | undefined;
+      let error: IndexedDBNotInitializedError | undefined;
       try {
         await indexedDBStore.getLocationData([internalLocationDataArray[0].location]);
       } catch (e) {
         error = e;
       }
 
-      expect(error?.name).toEqual('NotInitializedError');
+      expect(error?.name).toEqual('IndexedDBNotInitializedError');
     });
 
     it('throws an error when trying to write data', async () => {
-      let error: NotInitializedError | undefined;
+      let error: IndexedDBNotInitializedError | undefined;
       try {
         await indexedDBStore.putLocationData(internalLocationDataArray);
       } catch (e) {
         error = e;
       }
 
-      expect(error?.name).toEqual('NotInitializedError');
+      expect(error?.name).toEqual('IndexedDBNotInitializedError');
     });
   });
 });

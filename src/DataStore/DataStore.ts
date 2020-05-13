@@ -25,13 +25,6 @@ export class DataStoreError extends Covid19APIError {
   }
 }
 
-export class NotInitializedError extends DataStoreError {
-  constructor() {
-    super('You must first call `init()` to initialize the data store instance.');
-    this.name = 'NotInitializedError';
-  }
-}
-
 export class InvalidLocationError extends DataStoreError {
   constructor(location: string) {
     super(`Invalid location: "${location}".`);
