@@ -240,7 +240,7 @@ export default class Covid19API {
       parsedGlobalRecoveredData
     );
 
-    await this.dataStore.putData(formattedGlobalData);
+    await this.dataStore.putLocationData(formattedGlobalData);
     this.isGlobalDataLoaded = true;
   }
 
@@ -250,7 +250,7 @@ export default class Covid19API {
 
     const formattedUSData = formatUSParsedData(parsedUSConfirmedData, parsedUSDeathsData);
 
-    await this.dataStore.putData(formattedUSData);
+    await this.dataStore.putLocationData(formattedUSData);
     this.isUSDataLoaded = true;
   }
 

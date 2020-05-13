@@ -5,13 +5,6 @@ export class Covid19APIError extends Error {
   }
 }
 
-export class InvalidLocationError extends Covid19APIError {
-  constructor(location: string) {
-    super(`Invalid location: "${location}".`);
-    this.name = 'InvalidLocationError';
-  }
-}
-
 export class NotInitializedError extends Covid19APIError {
   constructor() {
     super('The data store is not populated. Make sure to first call the `init` method.');
