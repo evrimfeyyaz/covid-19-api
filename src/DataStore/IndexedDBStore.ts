@@ -9,7 +9,7 @@ export class IndexedDBNotInitializedError extends DataStoreError {
   }
 }
 
-interface Covid19TimeSeriesDBSchema extends DBSchema {
+interface COVID19TimeSeriesDBSchema extends DBSchema {
   settings: {
     key: string;
     value: unknown;
@@ -27,11 +27,11 @@ interface Covid19TimeSeriesDBSchema extends DBSchema {
 export default class IndexedDBStore implements DataStore {
   readonly savedAtKey = 'DataExpiresAt';
   readonly lastUpdatedAtKey = 'DataLastUpdatedAt';
-  readonly dbName = 'Covid19TimeSeriesDB';
+  readonly dbName = 'COVID19TimeSeriesDB';
   readonly dbVersion = 1;
 
-  private _db: IDBPDatabase<Covid19TimeSeriesDBSchema> | undefined;
-  private get db(): IDBPDatabase<Covid19TimeSeriesDBSchema> {
+  private _db: IDBPDatabase<COVID19TimeSeriesDBSchema> | undefined;
+  private get db(): IDBPDatabase<COVID19TimeSeriesDBSchema> {
     if (this._db == null) {
       throw new IndexedDBNotInitializedError();
     }
@@ -124,7 +124,7 @@ export default class IndexedDBStore implements DataStore {
   }
 
   private async setDB(): Promise<void> {
-    this._db = await openDB<Covid19TimeSeriesDBSchema>(this.dbName, this.dbVersion, {
+    this._db = await openDB<COVID19TimeSeriesDBSchema>(this.dbName, this.dbVersion, {
       upgrade(db, _oldVersion, _newVersion, transaction) {
         db.createObjectStore('data', { keyPath: 'location' });
         db.createObjectStore('settings');

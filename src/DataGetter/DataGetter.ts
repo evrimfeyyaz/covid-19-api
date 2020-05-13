@@ -1,4 +1,4 @@
-import { Covid19APIError } from 'errors';
+import { COVID19APIError } from 'errors';
 
 export interface DataGetter {
   getLastUpdatedAt(): Promise<Date>;
@@ -9,7 +9,7 @@ export interface DataGetter {
   getUSDeathsData(): Promise<string>;
 }
 
-export class DataGetterError extends Covid19APIError {
+export class DataGetterError extends COVID19APIError {
   constructor(message: string) {
     super(message);
     this.name = 'DataGetterError';

@@ -1,4 +1,4 @@
-import { Covid19APIError } from 'errors';
+import { COVID19APIError } from 'errors';
 import { InternalLocationData } from 'types';
 
 export interface DataStore {
@@ -18,7 +18,7 @@ export interface DataStore {
   getLastUpdatedAt(): Promise<Readonly<Date> | undefined>;
 }
 
-export class DataStoreError extends Covid19APIError {
+export class DataStoreError extends COVID19APIError {
   constructor(message: string) {
     super(message);
     this.name = 'DataStoreError';

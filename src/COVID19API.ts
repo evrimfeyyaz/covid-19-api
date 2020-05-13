@@ -6,22 +6,22 @@ import { dateKeyToDate, dateToDateKey, parseCSV, ParsedCSV } from 'parse';
 import { InternalLocationData, LocationData, ValuesOnDate } from 'types';
 import { US_LOCATIONS } from 'usLocations';
 
-interface Covid19APIOptions {
+interface COVID19APIOptions {
   lazyLoadUSData: boolean;
   dataValidityInMS: number;
   onLoadingStatusChange?: (isLoading: boolean, loadingMessage?: string) => void;
 }
 
-export default class Covid19API {
+export default class COVID19API {
   private isGlobalDataLoaded = false;
   private isUSDataLoaded = false;
 
   constructor(
     private dataGetter: DataGetter,
     private dataStore: DataStore,
-    private options: Covid19APIOptions = {
+    private options: COVID19APIOptions = {
       lazyLoadUSData: true,
-      dataValidityInMS: 60 * 60 * 1000,
+      dataValidityInMS: 60 * 60 * 1000, // 1 hour
     }
   ) {}
 
@@ -255,17 +255,17 @@ export default class Covid19API {
   }
 
   private getParsedGlobalConfirmedData = (): Promise<ParsedCSV> =>
-    Covid19API.getParsedData(this.dataGetter.getGlobalConfirmedData());
+    COVID19API.getParsedData(this.dataGetter.getGlobalConfirmedData());
 
   private getParsedGlobalDeathsData = (): Promise<ParsedCSV> =>
-    Covid19API.getParsedData(this.dataGetter.getGlobalDeathsData());
+    COVID19API.getParsedData(this.dataGetter.getGlobalDeathsData());
 
   private getParsedGlobalRecoveredData = (): Promise<ParsedCSV> =>
-    Covid19API.getParsedData(this.dataGetter.getGlobalRecoveredData());
+    COVID19API.getParsedData(this.dataGetter.getGlobalRecoveredData());
 
   private getParsedUSConfirmedData = (): Promise<ParsedCSV> =>
-    Covid19API.getParsedData(this.dataGetter.getUSConfirmedData());
+    COVID19API.getParsedData(this.dataGetter.getUSConfirmedData());
 
   private getParsedUSDeathsData = (): Promise<ParsedCSV> =>
-    Covid19API.getParsedData(this.dataGetter.getUSDeathsData());
+    COVID19API.getParsedData(this.dataGetter.getUSDeathsData());
 }
