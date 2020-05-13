@@ -121,7 +121,7 @@ describe('parse', () => {
   });
 
   describe('dateToDateKey', () => {
-    it('returns the date key representation of given Date', () => {
+    it('returns the date key representation of the given Date', () => {
       const date = new Date(2020, 0, 2);
 
       const result = dateToDateKey(date);
