@@ -52,10 +52,8 @@ describe('GitHubGetter', () => {
       expect(result).toEqual(expectedFromMock);
     });
 
-    it('throws an error when it cannot connect to the GitHub server', async () => {
-      fetchMock.mockResponseOnce(
-        () => new Promise(resolve => resolve({ status: 404, body: 'Not Found' }))
-      );
+    it('throws an error when it cannot fetch the data', async () => {
+      mock404();
 
       let error: DataGetterError | undefined;
       try {
@@ -64,7 +62,7 @@ describe('GitHubGetter', () => {
         error = e;
       }
 
-      expect(error).toBeDefined();
+      expect(error?.name).toEqual('GitHubDataFetchError');
     });
   });
 
@@ -116,10 +114,8 @@ describe('GitHubGetter', () => {
       expect(result).toEqual(mockLastUpdatedAt);
     });
 
-    it('throws an error when it cannot connect to the GitHub server', async () => {
-      fetchMock.mockResponseOnce(
-        () => new Promise(resolve => resolve({ status: 404, body: 'Not Found' }))
-      );
+    it('throws an error when it cannot fetch the commit date', async () => {
+      mock404();
 
       let error: DataGetterError | undefined;
       try {
@@ -128,7 +124,13 @@ describe('GitHubGetter', () => {
         error = e;
       }
 
-      expect(error).toBeDefined();
+      expect(error?.name).toEqual('GitHubCommitFetchError');
     });
   });
+
+  function mock404(): void {
+    fetchMock.mockResponseOnce(
+      () => new Promise(resolve => resolve({ status: 404, body: 'Not Found' }))
+    );
+  }
 });
