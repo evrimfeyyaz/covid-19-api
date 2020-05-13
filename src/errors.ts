@@ -25,10 +25,3 @@ export class PersistedDataAnomalyError extends Covid19APIError {
     this.name = 'PersistedDataAnomalyError';
   }
 }
-
-export class DbNotOpenError extends Covid19APIError {
-  constructor() {
-    super('IndexedDB connection is not open.');
-    this.name = 'DbNotOpenError';
-  }
-}
