@@ -1,7 +1,7 @@
 import { COVID19APIError } from 'errors';
 
 export interface DataGetter {
-  getLastUpdatedAt(): Promise<Date>;
+  getLastUpdatedAt(): Promise<Date | undefined>;
   getGlobalConfirmedData(): Promise<string>;
   getGlobalDeathsData(): Promise<string>;
   getGlobalRecoveredData(): Promise<string>;
