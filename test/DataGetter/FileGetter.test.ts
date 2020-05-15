@@ -63,6 +63,14 @@ describe('FileGetter', () => {
         expect(result).toEqual(expected);
       });
     });
+
+    describe('getLastUpdatedAt', () => {
+      it('returns `undefined`', async () => {
+        const result = await fileGetter.getLastUpdatedAt();
+
+        expect(result).toBeUndefined();
+      });
+    });
   });
 
   describe('given files that do not exist', () => {
@@ -125,34 +133,6 @@ describe('FileGetter', () => {
           error = e;
         }
       });
-    });
-  });
-
-  describe('given last updated at parameter', () => {
-    const lastUpdatedAt = new Date();
-    const fileGetter = new FileGetter(
-      'unknown',
-      'unknown',
-      'unknown',
-      'unknown',
-      'unknown',
-      lastUpdatedAt
-    );
-
-    it('returns the last updated at date', async () => {
-      const result = await fileGetter.getLastUpdatedAt();
-
-      expect(result).toEqual(lastUpdatedAt);
-    });
-  });
-
-  describe('when the last updated at parameter is not given', () => {
-    const fileGetter = new FileGetter('unknown', 'unknown', 'unknown', 'unknown', 'unknown');
-
-    it('returns the last updated at date', async () => {
-      const result = await fileGetter.getLastUpdatedAt();
-
-      expect(result).toBeUndefined();
     });
   });
 });

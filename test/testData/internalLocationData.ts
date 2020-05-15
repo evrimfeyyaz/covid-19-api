@@ -1,4 +1,4 @@
-import { InternalLocationData } from 'types';
+import { InternalLocationData } from '../../src/types';
 
 export const internalLocationDataArray: InternalLocationData[] = [
   {

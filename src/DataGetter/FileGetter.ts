@@ -7,8 +7,7 @@ export class FileGetter implements DataGetter {
     private globalDeathsCSVPath: string,
     private globalRecoveredCSVPath: string,
     private usConfirmedCSVPath: string,
-    private usDeathsCSVPath: string,
-    private lastUpdatedAt?: Date
+    private usDeathsCSVPath: string
   ) {}
 
   private static async getFileAsString(path: string): Promise<string> {
@@ -32,7 +31,7 @@ export class FileGetter implements DataGetter {
   }
 
   async getLastUpdatedAt(): Promise<Date | undefined> {
-    return this.lastUpdatedAt;
+    return undefined;
   }
 
   async getUSConfirmedData(): Promise<string> {

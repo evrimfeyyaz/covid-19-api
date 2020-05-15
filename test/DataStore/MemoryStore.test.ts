@@ -1,6 +1,6 @@
 import MemoryStore from '../../src/DataStore/MemoryStore';
-import { sharedInitializedDataStoreTests } from '../../src/testData/sharedInitializedDataStoreTests';
+import { sharedDataStoreTests } from './sharedDataStoreTests';
 
 describe('MemoryStore', () => {
-  sharedInitializedDataStoreTests(MemoryStore);
+  sharedDataStoreTests(MemoryStore);
 });

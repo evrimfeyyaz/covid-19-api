@@ -1,4 +1,4 @@
-import { ParsedCSV } from 'parse';
+import { ParsedCSV } from '../../src/parse';
 
 export const parsedUSConfirmedCSV: ParsedCSV = {
   'US (American Samoa)': {

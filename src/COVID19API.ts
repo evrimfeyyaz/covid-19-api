@@ -1,34 +1,54 @@
 import { DataGetter } from 'DataGetter/DataGetter';
 import { DataStore } from 'DataStore/DataStore';
-import { NotInitializedError, PersistedDataAnomalyError } from 'errors';
 import { formatGlobalParsedData, formatUSParsedData } from 'format';
 import { dateKeyToDate, dateToDateKey, parseCSV, ParsedCSV } from 'parse';
 import { InternalLocationData, LocationData, ValuesOnDate } from 'types';
 import { US_LOCATIONS } from 'usLocations';
 
 interface COVID19APIOptions {
-  lazyLoadUSData: boolean;
-  dataValidityInMS: number;
+  lazyLoadUSData?: boolean;
+  dataValidityInMS?: number;
   onLoadingStatusChange?: (isLoading: boolean, loadingMessage?: string) => void;
 }
 
+export class COVID19APIError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'COVID19APIError';
+
+    // This is needed because of:
+    // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
+    Object.setPrototypeOf(this, COVID19APIError.prototype);
+  }
+}
+
+export class APINotInitializedError extends COVID19APIError {
+  constructor() {
+    super('The API is not initialized. Make sure to first call the `init` method.');
+    this.name = 'APINotInitializedError';
+    Object.setPrototypeOf(this, APINotInitializedError.prototype);
+  }
+}
+
 export default class COVID19API {
-  private isGlobalDataLoaded = false;
+  private static defaultDataValidityInMS = 60 * 60 * 1000; // 1 hour
+
   private isUSDataLoaded = false;
+  private isInitialized = false;
 
   constructor(
     private dataGetter: DataGetter,
     private dataStore: DataStore,
     private options: COVID19APIOptions = {
       lazyLoadUSData: true,
-      dataValidityInMS: 60 * 60 * 1000, // 1 hour
+      dataValidityInMS: COVID19API.defaultDataValidityInMS,
     }
   ) {}
 
   private _locations: Readonly<string[]> | undefined;
   get locations(): Readonly<string[]> {
     if (this._locations == null) {
-      throw new NotInitializedError();
+      throw new APINotInitializedError();
     }
 
     return this._locations;
@@ -37,7 +57,7 @@ export default class COVID19API {
   private _lastUpdatedAt: Readonly<Date> | undefined;
   get lastUpdatedAt(): Readonly<Date> {
     if (this._lastUpdatedAt == null) {
-      throw new NotInitializedError();
+      throw new APINotInitializedError();
     }
 
     return this._lastUpdatedAt;
@@ -46,7 +66,7 @@ export default class COVID19API {
   private _firstDate: Readonly<Date> | undefined;
   get firstDate(): Readonly<Date> {
     if (this._firstDate == null) {
-      throw new NotInitializedError();
+      throw new APINotInitializedError();
     }
 
     return this._firstDate;
@@ -55,7 +75,7 @@ export default class COVID19API {
   private _lastDate: Readonly<Date> | undefined;
   get lastDate(): Readonly<Date> {
     if (this._lastDate == null) {
-      throw new NotInitializedError();
+      throw new APINotInitializedError();
     }
 
     return this._lastDate;
@@ -68,14 +88,18 @@ export default class COVID19API {
   }
 
   async init(): Promise<void> {
+    if (this.isInitialized) {
+      return;
+    }
+
     await this.dataStore.init();
 
-    const hasFreshData = await this.hasFreshDataInStore();
+    await this.loadDataIfStoreHasNoFreshData(!this.options.lazyLoadUSData);
+    await this.setLastUpdatedAt();
+    await this.setLocations();
+    await this.setFirstAndLastDates();
 
-    if (!hasFreshData) {
-      await this.clearData();
-      await this.loadData(!this.options.lazyLoadUSData);
-    }
+    this.isInitialized = true;
   }
 
   async getDataByLocation(location: string): Promise<LocationData> {
@@ -83,29 +107,24 @@ export default class COVID19API {
   }
 
   async getDataByLocations(locations: string[]): Promise<LocationData[]> {
-    // Check if the user is requesting US state data while it
-    // is not yet loaded.
-    const requestingUSData = locations.some(location => location.includes('US'));
-    if (!this.isUSDataLoaded && requestingUSData) {
-      await this.loadData(true);
+    if (!this.isInitialized) {
+      throw new APINotInitializedError();
     }
+
+    // Check if the user is requesting US state or county data data.
+    const loadUSData = locations.some(location => location !== 'US' && location.includes('US'));
+    await this.loadDataIfStoreHasNoFreshData(loadUSData);
 
     const data = await this.dataStore.getLocationData(locations);
 
     return data.map(this.addCalculatedValues);
   }
 
-  async getDataByLocationAndDate(location: string, date: Date): Promise<ValuesOnDate> {
+  async getDataByLocationAndDate(location: string, date: Date): Promise<ValuesOnDate | undefined> {
     const locationData = await this.getDataByLocation(location);
     const dateStr = dateToDateKey(date);
 
-    const data = locationData.values.find(dateValues => dateValues.date === dateStr);
-
-    if (data == null) {
-      throw new Error(`Cannot find any data for ${date.toDateString()}`);
-    }
-
-    return data;
+    return locationData.values.find(dateValues => dateValues.date === dateStr);
   }
 
   private async hasFreshDataInStore(): Promise<boolean> {
@@ -117,15 +136,10 @@ export default class COVID19API {
       return false;
     }
 
-    const expirationTime = savedAt.getTime() + this.options.dataValidityInMS;
+    const dataValidity = this.options.dataValidityInMS ?? COVID19API.defaultDataValidityInMS;
+    const expirationTime = savedAt.getTime() + dataValidity;
 
     return Date.now() < expirationTime;
-  }
-
-  private async clearData(): Promise<void> {
-    await this.dataStore.clearData();
-    this.isGlobalDataLoaded = false;
-    this.isUSDataLoaded = false;
   }
 
   private addCalculatedValues(locationData: InternalLocationData): LocationData {
@@ -176,58 +190,61 @@ export default class COVID19API {
 
   private async setLastUpdatedAt(): Promise<void> {
     this._lastUpdatedAt = await this.dataStore.getLastUpdatedAt();
-
-    if (this._lastUpdatedAt == null) {
-      throw new PersistedDataAnomalyError();
-    }
   }
 
   private async setLocations(): Promise<void> {
     this._locations = await this.dataStore.getLocationsList();
 
-    const usIndex = this._locations.indexOf('US');
-    // If we haven't yet loaded the US data, add the US
-    // location names to the locations list, so that the
-    // user can request them.
-    if (!this._locations[usIndex + 1].includes('US')) {
-      this._locations = [
-        ...this._locations.slice(0, usIndex + 1),
-        ...US_LOCATIONS,
-        ...this._locations.slice(usIndex + 1),
-      ];
+    const someStateIndex = this._locations.indexOf('US (Alabama)');
+    // If we haven't yet loaded the US state and county data,
+    // add the US location names to the locations list, so that
+    // the user can request them.
+    if (someStateIndex === -1) {
+      this._locations = [...this._locations, ...US_LOCATIONS];
     }
   }
 
   private async setFirstAndLastDates(): Promise<void> {
-    const firstLocation = this.locations[0];
-    const [firstLocationData] = await this.dataStore.getLocationData([firstLocation]);
-    const firstLocationValues = firstLocationData.values;
+    const someGlobalLocation = 'Australia';
+    const [someGlobalLocationData] = await this.dataStore.getLocationData([someGlobalLocation]);
+    const someGlobalLocationValues = someGlobalLocationData.values;
 
-    const dataSetLength = firstLocationValues.length as number;
-    this._firstDate = dateKeyToDate(firstLocationValues[0].date as string);
-    this._lastDate = dateKeyToDate(firstLocationValues[dataSetLength - 1].date as string);
+    const dataSetLength = someGlobalLocationValues.length as number;
+    this._firstDate = dateKeyToDate(someGlobalLocationValues[0].date as string);
+    this._lastDate = dateKeyToDate(someGlobalLocationValues[dataSetLength - 1].date as string);
   }
 
-  private async loadData(loadUSData = false): Promise<void> {
-    const dataLastUpdated = await this.dataGetter.getLastUpdatedAt();
+  private async loadDataIfStoreHasNoFreshData(forceLoadUSData = false): Promise<void> {
+    const hasFreshData = await this.hasFreshDataInStore();
+    let sourceLastUpdatedAt: Date | undefined;
 
-    let isCurrentDataStale = true;
-    if (this._lastUpdatedAt != null) {
-      isCurrentDataStale = dataLastUpdated.getTime() > this._lastUpdatedAt.getTime();
-    }
-
-    if (!this.isGlobalDataLoaded || isCurrentDataStale) {
-      await this.loadGlobalData();
-    }
-
-    if (loadUSData && (!this.isUSDataLoaded || isCurrentDataStale)) {
+    if (forceLoadUSData && !this.isUSDataLoaded) {
       await this.loadUSStateAndCountyData();
+
+      sourceLastUpdatedAt = await this.dataGetter.getLastUpdatedAt();
+      await this.dataStore.setLastUpdatedAt(sourceLastUpdatedAt);
+
+      if (
+        (sourceLastUpdatedAt != null && sourceLastUpdatedAt.getTime() > Date.now()) ||
+        !hasFreshData
+      ) {
+        await this.loadGlobalData();
+      }
+
+      return;
     }
 
-    await this.dataStore.setLastUpdatedAt(dataLastUpdated);
-    await this.setLastUpdatedAt();
-    await this.setLocations();
-    await this.setFirstAndLastDates();
+    if (!hasFreshData) {
+      await this.dataStore.clearData();
+
+      await this.loadGlobalData();
+      if (this.isUSDataLoaded) {
+        await this.loadUSStateAndCountyData();
+      }
+
+      sourceLastUpdatedAt = await this.dataGetter.getLastUpdatedAt();
+      await this.dataStore.setLastUpdatedAt(sourceLastUpdatedAt);
+    }
   }
 
   private async loadGlobalData(): Promise<void> {
@@ -241,7 +258,6 @@ export default class COVID19API {
     );
 
     await this.dataStore.putLocationData(formattedGlobalData);
-    this.isGlobalDataLoaded = true;
   }
 
   private async loadUSStateAndCountyData(): Promise<void> {

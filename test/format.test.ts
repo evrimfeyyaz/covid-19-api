@@ -3,8 +3,8 @@ import {
   parsedGlobalConfirmedCSV,
   parsedGlobalDeathsCSV,
   parsedGlobalRecoveredCSV,
-} from '../src/testData/globalParsedCSV';
-import { parsedUSConfirmedCSV, parsedUSDeathsCSV } from '../src/testData/usParsedCSV';
+} from './testData/globalParsedCSV';
+import { parsedUSConfirmedCSV, parsedUSDeathsCSV } from './testData/usParsedCSV';
 import { InternalLocationData } from '../src/types';
 import { US_STATES } from '../src/usStates';
 

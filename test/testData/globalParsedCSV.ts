@@ -1,4 +1,4 @@
-import { ParsedCSV } from 'parse';
+import { ParsedCSV } from '../../src/parse';
 
 export const parsedGlobalConfirmedCSV: ParsedCSV = {
   'Australia (Australian Capital Territory)': {

@@ -6,10 +6,10 @@ import {
   parseCSV,
   ParsedCSVRow,
 } from '../src/parse';
-import { globalConfirmedDataCSV } from '../src/testData/globalDataCSV';
-import { parsedGlobalConfirmedCSV } from '../src/testData/globalParsedCSV';
-import { usConfirmedDataCSV } from '../src/testData/usDataCSV';
-import { parsedUSConfirmedCSV } from '../src/testData/usParsedCSV';
+import { globalConfirmedDataCSV } from './testData/globalDataCSV';
+import { parsedGlobalConfirmedCSV } from './testData/globalParsedCSV';
+import { usConfirmedDataCSV } from './testData/usDataCSV';
+import { parsedUSConfirmedCSV } from './testData/usParsedCSV';
 import { InternalLocationInfo } from '../src/types';
 
 describe('parse', () => {

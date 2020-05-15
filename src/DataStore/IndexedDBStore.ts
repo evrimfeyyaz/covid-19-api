@@ -1,13 +1,10 @@
-import { DataStore, DataStoreError, InvalidLocationError } from 'DataStore/DataStore';
+import {
+  DataStore,
+  DataStoreInvalidLocationError,
+  DataStoreNotInitializedError,
+} from 'DataStore/DataStore';
 import { DBSchema, IDBPDatabase, openDB } from 'idb';
 import { InternalLocationData } from 'types';
-
-export class IndexedDBNotInitializedError extends DataStoreError {
-  constructor() {
-    super('You must first call `init()` to connect to the database.');
-    this.name = 'IndexedDBNotInitializedError';
-  }
-}
 
 interface COVID19TimeSeriesDBSchema extends DBSchema {
   settings: {
@@ -33,7 +30,7 @@ export default class IndexedDBStore implements DataStore {
   private _db: IDBPDatabase<COVID19TimeSeriesDBSchema> | undefined;
   private get db(): IDBPDatabase<COVID19TimeSeriesDBSchema> {
     if (this._db == null) {
-      throw new IndexedDBNotInitializedError();
+      throw new DataStoreNotInitializedError();
     }
 
     return this._db;
@@ -57,7 +54,7 @@ export default class IndexedDBStore implements DataStore {
       const locationData = await dataStore.get(location);
 
       if (locationData == null) {
-        throw new InvalidLocationError(location);
+        throw new DataStoreInvalidLocationError(location);
       }
 
       data.push(locationData);

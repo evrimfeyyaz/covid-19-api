@@ -6,6 +6,7 @@ export class GitHubDataFetchError extends DataGetterError {
       `There was an error fetching the data from GitHub. Response status: ${status} - ${statusText}`
     );
     this.name = 'GitHubDataFetchError';
+    Object.setPrototypeOf(this, GitHubDataFetchError.prototype);
   }
 }
 
@@ -15,6 +16,7 @@ export class GitHubCommitFetchError extends DataGetterError {
       `There was an error fetching the commit date from the GitHub API. Response status: ${status} - ${statusText}`
     );
     this.name = 'GitHubCommitFetchError';
+    Object.setPrototypeOf(this, GitHubCommitFetchError.prototype);
   }
 }
 
@@ -59,7 +61,7 @@ export class GitHubGetter implements DataGetter {
     return await GitHubGetter.fetchData(this.usDeathsUrl);
   }
 
-  async getLastUpdatedAt(): Promise<Date> {
+  async getLastUpdatedAt(): Promise<Date | undefined> {
     const response = await fetch(this.commitDataUrl);
 
     if (!response.ok) {

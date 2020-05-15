@@ -1,8 +1,12 @@
-import { DataStore, InvalidLocationError } from 'DataStore/DataStore';
-import { InternalLocationData } from 'types';
-import { internalLocationDataArray } from './internalLocationData';
+import {
+  DataStore,
+  DataStoreInvalidLocationError,
+  DataStoreNotInitializedError,
+} from '../../src/DataStore/DataStore';
+import { InternalLocationData } from '../../src/types';
+import { internalLocationDataArray } from '../testData/internalLocationData';
 
-export async function sharedInitializedDataStoreTests<T extends DataStore>(
+export async function sharedDataStoreTests<T extends DataStore>(
   dataStoreConstructor: new () => T
 ): Promise<void> {
   describe('when initialized', () => {
@@ -58,7 +62,7 @@ export async function sharedInitializedDataStoreTests<T extends DataStore>(
       it('throws an error when the given location cannot be found', async () => {
         const unknownLocation = 'Unknown Location';
 
-        let error: InvalidLocationError | undefined;
+        let error: DataStoreInvalidLocationError | undefined;
         try {
           await store.getLocationData([unknownLocation]);
         } catch (e) {
@@ -133,7 +137,7 @@ export async function sharedInitializedDataStoreTests<T extends DataStore>(
         const locationsList = await store.getLocationsList();
         const locationCount = await store.getLocationCount();
 
-        let error: InvalidLocationError | undefined;
+        let error: DataStoreInvalidLocationError | undefined;
         try {
           await store.getLocationData(locations);
         } catch (e) {
@@ -153,5 +157,67 @@ export async function sharedInitializedDataStoreTests<T extends DataStore>(
 
       return internalLocationDataArray.map(data => data.location);
     }
+  });
+
+  describe('when not initialized', () => {
+    let store: T;
+
+    beforeAll(async () => {
+      store = new dataStoreConstructor();
+    });
+
+    describe('putLocationData', () => {
+      it('throws not initialized error', async () => {
+        await expect(store.putLocationData([])).rejects.toThrow(DataStoreNotInitializedError);
+      });
+    });
+
+    describe('getLocationData', () => {
+      it('throws not initialized error', async () => {
+        await expect(store.getLocationData([])).rejects.toThrow(DataStoreNotInitializedError);
+      });
+    });
+
+    describe('getStatesData', () => {
+      it('throws not initialized error', async () => {
+        await expect(store.getStatesData('')).rejects.toThrow(DataStoreNotInitializedError);
+      });
+    });
+
+    describe('getCountiesData', () => {
+      it('throws not initialized error', async () => {
+        await expect(store.getCountiesData('', '')).rejects.toThrow(DataStoreNotInitializedError);
+      });
+    });
+
+    describe('getLocationsList', () => {
+      it('throws not initialized error', async () => {
+        await expect(store.getLocationsList()).rejects.toThrow(DataStoreNotInitializedError);
+      });
+    });
+
+    describe('getLocationCount', () => {
+      it('throws not initialized error', async () => {
+        await expect(store.getLocationCount()).rejects.toThrow(DataStoreNotInitializedError);
+      });
+    });
+
+    describe('getLastUpdatedAt', () => {
+      it('throws not initialized error', async () => {
+        await expect(store.getLastUpdatedAt()).rejects.toThrow(DataStoreNotInitializedError);
+      });
+    });
+
+    describe('getSavedAt', () => {
+      it('throws not initialized error', async () => {
+        await expect(store.getSavedAt()).rejects.toThrow(DataStoreNotInitializedError);
+      });
+    });
+
+    describe('clearData', () => {
+      it('throws not initialized error', async () => {
+        await expect(store.clearData()).rejects.toThrow(DataStoreNotInitializedError);
+      });
+    });
   });
 }
