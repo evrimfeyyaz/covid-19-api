@@ -18,7 +18,7 @@ describe('COVID19API', () => {
     usConfirmedCSVPath,
     usDeathsCSVPath
   );
-  const lastUpdatedAt = new Date();
+  const sourceLastUpdatedAt = new Date();
   // As the file getter does not look up the last updated date
   // of the GitHub source, and as this information is not included
   // in the global data files, the file getter returns `undefined`
@@ -26,7 +26,7 @@ describe('COVID19API', () => {
   // can still test that the API returns the date from the getter.
   jest
     .spyOn(fileGetter, 'getSourceLastUpdatedAt')
-    .mockImplementation(() => Promise.resolve(lastUpdatedAt));
+    .mockImplementation(() => Promise.resolve(sourceLastUpdatedAt));
   const getGlobalConfirmedDataSpy = jest.spyOn(fileGetter, 'getGlobalConfirmedData');
   const getGlobalDeathsDataSpy = jest.spyOn(fileGetter, 'getGlobalDeathsData');
   const getGlobalRecoveredDataSpy = jest.spyOn(fileGetter, 'getGlobalRecoveredData');
@@ -169,11 +169,11 @@ describe('COVID19API', () => {
       });
     });
 
-    describe('lastUpdatedAt', () => {
+    describe('sourceLastUpdatedAt', () => {
       it('returns the date that the source data was last updated', () => {
-        const result = covid19API.lastUpdatedAt;
+        const result = covid19API.sourceLastUpdatedAt;
 
-        expect(result).toEqual(lastUpdatedAt);
+        expect(result).toEqual(sourceLastUpdatedAt);
       });
     });
 
@@ -310,9 +310,9 @@ describe('COVID19API', () => {
       });
     });
 
-    describe('lastUpdatedAt', () => {
+    describe('sourceLastUpdatedAt', () => {
       it('throws an error', async () => {
-        expect(() => covid19API.lastUpdatedAt).toThrow(APINotInitializedError);
+        expect(() => covid19API.sourceLastUpdatedAt).toThrow(APINotInitializedError);
       });
     });
 

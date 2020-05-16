@@ -7,7 +7,7 @@ import {
 
 describe('GitHubGetter', () => {
   let gitHubGetter: GitHubGetter;
-  let mockLastUpdatedAt: Date;
+  let mockSourceLastUpdatedAt: Date;
 
   beforeAll(() => {
     enableFetchMocks();
@@ -24,13 +24,13 @@ describe('GitHubGetter', () => {
           // Return the last part of the file name, such as 'confirmed_global'.
           resolve(url.match(/^.+_(\w+_\w+)\.csv$/)?.[1]);
         } else if (url.match(/^https:\/\/api\.github\.com/)) {
-          mockLastUpdatedAt = new Date();
+          mockSourceLastUpdatedAt = new Date();
           resolve(
             JSON.stringify([
               {
                 commit: {
                   author: {
-                    date: mockLastUpdatedAt.toISOString(),
+                    date: mockSourceLastUpdatedAt.toISOString(),
                   },
                 },
               },
@@ -131,7 +131,7 @@ describe('GitHubGetter', () => {
       const result = await gitHubGetter.getSourceLastUpdatedAt();
 
       expect(fetchMock).toBeCalledTimes(1);
-      expect(result).toEqual(mockLastUpdatedAt);
+      expect(result).toEqual(mockSourceLastUpdatedAt);
     });
 
     it('throws an error when it cannot fetch the commit date', async () => {

@@ -55,12 +55,12 @@ export async function sharedDataStoreTests<T extends DataStore>(
     });
 
     it('allows setting and getting the last updated at info', async () => {
-      const lastUpdatedAt = new Date();
+      const sourceLastUpdatedAt = new Date();
 
-      await store.setLastUpdatedAt(lastUpdatedAt);
-      const result = (await store.getLastUpdatedAt()) as Date;
+      await store.setSourceLastUpdatedAt(sourceLastUpdatedAt);
+      const result = (await store.getSourceLastUpdatedAt()) as Date;
 
-      expect(result.getTime()).toEqual(lastUpdatedAt.getTime());
+      expect(result.getTime()).toEqual(sourceLastUpdatedAt.getTime());
     });
 
     it('replaces existing locations when putting locations', async () => {
@@ -146,7 +146,7 @@ export async function sharedDataStoreTests<T extends DataStore>(
       it('clears all the location data and settings', async () => {
         await store.clearData();
 
-        const lastUpdatedAt = await store.getLastUpdatedAt();
+        const sourceLastUpdatedAt = await store.getSourceLastUpdatedAt();
         const savedAt = await store.getSavedAt();
         const locationsList = await store.getLocationsList();
         const locationCount = await store.getLocationCount();
@@ -154,7 +154,7 @@ export async function sharedDataStoreTests<T extends DataStore>(
         await expect(store.getLocationData(['Turkey'])).rejects.toThrow(
           DataStoreInvalidLocationError
         );
-        expect(lastUpdatedAt).toBeUndefined();
+        expect(sourceLastUpdatedAt).toBeUndefined();
         expect(savedAt).toBeUndefined();
         expect(locationsList).toEqual([]);
         expect(locationCount).toEqual(0);
@@ -205,9 +205,9 @@ export async function sharedDataStoreTests<T extends DataStore>(
       });
     });
 
-    describe('getLastUpdatedAt', () => {
+    describe('getSourceLastUpdatedAt', () => {
       it('throws not initialized error', async () => {
-        await expect(store.getLastUpdatedAt()).rejects.toThrow(DataStoreNotInitializedError);
+        await expect(store.getSourceLastUpdatedAt()).rejects.toThrow(DataStoreNotInitializedError);
       });
     });
 

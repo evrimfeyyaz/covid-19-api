@@ -46,6 +46,9 @@ export default class COVID19API {
   ) {}
 
   private _locations: Readonly<string[]> | undefined;
+  /**
+   * Returns the list of locations.
+   */
   get locations(): Readonly<string[]> {
     if (this._locations == null) {
       throw new APINotInitializedError();
@@ -54,13 +57,13 @@ export default class COVID19API {
     return this._locations;
   }
 
-  private _lastUpdatedAt: Readonly<Date> | undefined;
-  get lastUpdatedAt(): Readonly<Date> {
-    if (this._lastUpdatedAt == null) {
+  private _sourceLastUpdatedAt: Readonly<Date> | undefined;
+  get sourceLastUpdatedAt(): Readonly<Date> {
+    if (this._sourceLastUpdatedAt == null) {
       throw new APINotInitializedError();
     }
 
-    return this._lastUpdatedAt;
+    return this._sourceLastUpdatedAt;
   }
 
   private _firstDate: Readonly<Date> | undefined;
@@ -95,7 +98,7 @@ export default class COVID19API {
     await this.dataStore.init();
 
     await this.loadDataIfStoreHasNoFreshData(!this.options.lazyLoadUSData);
-    await this.setLastUpdatedAt();
+    await this.setSourceLastUpdatedAt();
     await this.setLocations();
     await this.setFirstAndLastDates();
 
@@ -129,10 +132,10 @@ export default class COVID19API {
 
   private async hasFreshDataInStore(): Promise<boolean> {
     const savedAt = await this.dataStore.getSavedAt();
-    const lastUpdatedAt = await this.dataStore.getLastUpdatedAt();
+    const sourceLastUpdatedAt = await this.dataStore.getSourceLastUpdatedAt();
     const locationCount = await this.dataStore.getLocationCount();
 
-    if (savedAt == null || lastUpdatedAt == null || locationCount === 0) {
+    if (savedAt == null || sourceLastUpdatedAt == null || locationCount === 0) {
       return false;
     }
 
@@ -188,8 +191,8 @@ export default class COVID19API {
     };
   }
 
-  private async setLastUpdatedAt(): Promise<void> {
-    this._lastUpdatedAt = await this.dataStore.getLastUpdatedAt();
+  private async setSourceLastUpdatedAt(): Promise<void> {
+    this._sourceLastUpdatedAt = await this.dataStore.getSourceLastUpdatedAt();
   }
 
   private async setLocations(): Promise<void> {
@@ -222,7 +225,7 @@ export default class COVID19API {
       await this.loadUSStateAndCountyData();
 
       sourceLastUpdatedAt = await this.dataGetter.getSourceLastUpdatedAt();
-      await this.dataStore.setLastUpdatedAt(sourceLastUpdatedAt);
+      await this.dataStore.setSourceLastUpdatedAt(sourceLastUpdatedAt);
 
       if (
         (sourceLastUpdatedAt != null && sourceLastUpdatedAt.getTime() > Date.now()) ||
@@ -243,7 +246,7 @@ export default class COVID19API {
       }
 
       sourceLastUpdatedAt = await this.dataGetter.getSourceLastUpdatedAt();
-      await this.dataStore.setLastUpdatedAt(sourceLastUpdatedAt);
+      await this.dataStore.setSourceLastUpdatedAt(sourceLastUpdatedAt);
     }
   }
 

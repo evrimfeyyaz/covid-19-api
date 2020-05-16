@@ -23,7 +23,7 @@ interface COVID19TimeSeriesDBSchema extends DBSchema {
 
 export default class IndexedDBStore implements DataStore {
   readonly savedAtKey = 'DataExpiresAt';
-  readonly lastUpdatedAtKey = 'DataLastUpdatedAt';
+  readonly sourceLastUpdatedAtKey = 'DataSourceLastUpdatedAt';
   readonly dbName = 'COVID19TimeSeriesDB';
   readonly dbVersion = 1;
 
@@ -100,8 +100,8 @@ export default class IndexedDBStore implements DataStore {
     return (await this.db.get('settings', this.savedAtKey)) as Date | undefined;
   }
 
-  async getLastUpdatedAt(): Promise<Readonly<Date> | undefined> {
-    return (await this.db.get('settings', this.lastUpdatedAtKey)) as Date | undefined;
+  async getSourceLastUpdatedAt(): Promise<Readonly<Date> | undefined> {
+    return (await this.db.get('settings', this.sourceLastUpdatedAtKey)) as Date | undefined;
   }
 
   async putLocationData(data: InternalLocationData[]): Promise<void> {
@@ -116,8 +116,8 @@ export default class IndexedDBStore implements DataStore {
     await settingsStore.put(new Date(), this.savedAtKey);
   }
 
-  async setLastUpdatedAt(lastUpdatedAt: Date): Promise<void> {
-    await this.db.put('settings', lastUpdatedAt, this.lastUpdatedAtKey);
+  async setSourceLastUpdatedAt(lastUpdatedAt: Date): Promise<void> {
+    await this.db.put('settings', lastUpdatedAt, this.sourceLastUpdatedAtKey);
   }
 
   private async setDB(): Promise<void> {

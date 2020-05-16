@@ -11,7 +11,7 @@ export default class MemoryStore implements DataStore {
   private states: { [country: string]: string[] } | undefined;
   private counties: { [country: string]: { [state: string]: string[] } } | undefined;
   private savedAt: Date | undefined;
-  private lastUpdatedAt: Date | undefined;
+  private sourceLastUpdatedAt: Date | undefined;
 
   async init(): Promise<void> {
     if (this.data != null) {
@@ -116,22 +116,22 @@ export default class MemoryStore implements DataStore {
     return this.savedAt;
   }
 
-  async setLastUpdatedAt(lastUpdatedAt: Date): Promise<void> {
+  async setSourceLastUpdatedAt(sourceLastUpdatedAt: Date): Promise<void> {
     if (this.data == null) {
       throw new DataStoreNotInitializedError();
     }
 
-    this.lastUpdatedAt = lastUpdatedAt;
+    this.sourceLastUpdatedAt = sourceLastUpdatedAt;
 
     return;
   }
 
-  async getLastUpdatedAt(): Promise<Readonly<Date> | undefined> {
+  async getSourceLastUpdatedAt(): Promise<Readonly<Date> | undefined> {
     if (this.data == null) {
       throw new DataStoreNotInitializedError();
     }
 
-    return this.lastUpdatedAt;
+    return this.sourceLastUpdatedAt;
   }
 
   async clearData(): Promise<void> {
@@ -143,7 +143,7 @@ export default class MemoryStore implements DataStore {
     this.states = {};
     this.counties = {};
     this.savedAt = undefined;
-    this.lastUpdatedAt = undefined;
+    this.sourceLastUpdatedAt = undefined;
 
     return;
   }

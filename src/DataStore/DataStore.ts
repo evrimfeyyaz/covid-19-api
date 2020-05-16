@@ -28,7 +28,7 @@ export interface DataStore {
   init(): Promise<void>;
   clearData(): Promise<void>;
   putLocationData(data: InternalLocationData[]): Promise<void>;
-  setLastUpdatedAt(lastUpdatedAt: Date | undefined): Promise<void>;
+  setSourceLastUpdatedAt(sourceLastUpdatedAt: Date | undefined): Promise<void>;
   getLocationData(locations: string[]): Promise<readonly Readonly<InternalLocationData>[]>;
   getStatesData(countryOrRegion: string): Promise<readonly Readonly<InternalLocationData>[]>;
   getCountiesData(
@@ -38,5 +38,5 @@ export interface DataStore {
   getLocationsList(): Promise<readonly string[]>;
   getLocationCount(): Promise<number>;
   getSavedAt(): Promise<Readonly<Date> | undefined>;
-  getLastUpdatedAt(): Promise<Readonly<Date> | undefined>;
+  getSourceLastUpdatedAt(): Promise<Readonly<Date> | undefined>;
 }
