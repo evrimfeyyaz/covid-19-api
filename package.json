@@ -1,8 +1,8 @@
 {
-  "name": "covid-19-data-store",
+  "name": "covid-19-api",
   "author": "Evrim Persembe",
   "version": "0.1.0",
-  "description": "A JavaScript library that provides a simple API for the JHU CSSE COVID-19 data.",
+  "description": "A JavaScript library that provides a simple API for the JHU CSSE COVID-19 time series data.",
   "license": "ISC",
   "keywords": [
     "covid",
@@ -14,7 +14,7 @@
   ],
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "module": "dist/covid-19-data-store.esm.js",
+  "module": "dist/covid-19-api.esm.js",
   "files": [
     "dist",
     "src"
