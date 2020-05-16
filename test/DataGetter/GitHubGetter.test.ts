@@ -126,9 +126,9 @@ describe('GitHubGetter', () => {
     });
   });
 
-  describe('getLastUpdatedAt', () => {
+  describe('getSourceLastUpdatedAt', () => {
     it('requests the last commit date for the JHU CSSE data time series directory', async () => {
-      const result = await gitHubGetter.getLastUpdatedAt();
+      const result = await gitHubGetter.getSourceLastUpdatedAt();
 
       expect(fetchMock).toBeCalledTimes(1);
       expect(result).toEqual(mockLastUpdatedAt);
@@ -137,7 +137,7 @@ describe('GitHubGetter', () => {
     it('throws an error when it cannot fetch the commit date', async () => {
       mock404();
 
-      await expect(gitHubGetter.getLastUpdatedAt()).rejects.toThrow(GitHubCommitFetchError);
+      await expect(gitHubGetter.getSourceLastUpdatedAt()).rejects.toThrow(GitHubCommitFetchError);
     });
   });
 

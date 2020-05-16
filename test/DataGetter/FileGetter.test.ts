@@ -64,9 +64,9 @@ describe('FileGetter', () => {
       });
     });
 
-    describe('getLastUpdatedAt', () => {
+    describe('getSourceLastUpdatedAt', () => {
       it('returns `undefined`', async () => {
-        const result = await fileGetter.getLastUpdatedAt();
+        const result = await fileGetter.getSourceLastUpdatedAt();
 
         expect(result).toBeUndefined();
       });

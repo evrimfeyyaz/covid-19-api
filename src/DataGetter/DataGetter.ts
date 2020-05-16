@@ -7,7 +7,7 @@ export class DataGetterError extends Error {
 }
 
 export interface DataGetter {
-  getLastUpdatedAt(): Promise<Date | undefined>;
+  getSourceLastUpdatedAt(): Promise<Date | undefined>;
   getGlobalConfirmedData(): Promise<string>;
   getGlobalDeathsData(): Promise<string>;
   getGlobalRecoveredData(): Promise<string>;

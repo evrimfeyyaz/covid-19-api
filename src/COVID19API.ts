@@ -221,7 +221,7 @@ export default class COVID19API {
     if (forceLoadUSData && !this.isUSDataLoaded) {
       await this.loadUSStateAndCountyData();
 
-      sourceLastUpdatedAt = await this.dataGetter.getLastUpdatedAt();
+      sourceLastUpdatedAt = await this.dataGetter.getSourceLastUpdatedAt();
       await this.dataStore.setLastUpdatedAt(sourceLastUpdatedAt);
 
       if (
@@ -242,7 +242,7 @@ export default class COVID19API {
         await this.loadUSStateAndCountyData();
       }
 
-      sourceLastUpdatedAt = await this.dataGetter.getLastUpdatedAt();
+      sourceLastUpdatedAt = await this.dataGetter.getSourceLastUpdatedAt();
       await this.dataStore.setLastUpdatedAt(sourceLastUpdatedAt);
     }
   }

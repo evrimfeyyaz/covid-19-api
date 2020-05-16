@@ -61,7 +61,7 @@ export class GitHubGetter implements DataGetter {
     return await GitHubGetter.fetchData(this.usDeathsUrl);
   }
 
-  async getLastUpdatedAt(): Promise<Date | undefined> {
+  async getSourceLastUpdatedAt(): Promise<Date | undefined> {
     const response = await fetch(this.commitDataUrl);
 
     if (!response.ok) {

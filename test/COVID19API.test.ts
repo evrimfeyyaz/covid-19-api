@@ -25,7 +25,7 @@ describe('COVID19API', () => {
   // as the last updated at date. We mock that method so that we
   // can still test that the API returns the date from the getter.
   jest
-    .spyOn(fileGetter, 'getLastUpdatedAt')
+    .spyOn(fileGetter, 'getSourceLastUpdatedAt')
     .mockImplementation(() => Promise.resolve(lastUpdatedAt));
   const getGlobalConfirmedDataSpy = jest.spyOn(fileGetter, 'getGlobalConfirmedData');
   const getGlobalDeathsDataSpy = jest.spyOn(fileGetter, 'getGlobalDeathsData');

@@ -30,15 +30,15 @@ export class FileGetter implements DataGetter {
     return await FileGetter.getFileAsString(this.globalRecoveredCSVPath);
   }
 
-  async getLastUpdatedAt(): Promise<Date | undefined> {
-    return undefined;
-  }
-
   async getUSConfirmedData(): Promise<string> {
     return await FileGetter.getFileAsString(this.usConfirmedCSVPath);
   }
 
   async getUSDeathsData(): Promise<string> {
     return await FileGetter.getFileAsString(this.usDeathsCSVPath);
+  }
+
+  async getSourceLastUpdatedAt(): Promise<Date | undefined> {
+    return undefined;
   }
 }
