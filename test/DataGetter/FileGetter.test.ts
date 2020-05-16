@@ -4,7 +4,7 @@ import { FileGetter } from '../../src/DataGetter/FileGetter';
 
 describe('FileGetter', () => {
   describe('given files that exist', () => {
-    const testDataPath = 'src/testData/csv/';
+    const testDataPath = 'test/testData/csv/';
     const globalConfirmedCSVPath = testDataPath + 'globalConfirmed.csv';
     const globalDeathsCSVPath = testDataPath + 'globalDeaths.csv';
     const globalRecoveredCSVPath = testDataPath + 'globalRecovered.csv';

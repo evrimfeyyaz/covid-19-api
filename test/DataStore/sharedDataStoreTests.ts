@@ -62,14 +62,9 @@ export async function sharedDataStoreTests<T extends DataStore>(
       it('throws an error when the given location cannot be found', async () => {
         const unknownLocation = 'Unknown Location';
 
-        let error: DataStoreInvalidLocationError | undefined;
-        try {
-          await store.getLocationData([unknownLocation]);
-        } catch (e) {
-          error = e;
-        }
-
-        expect(error?.name).toEqual('InvalidLocationError');
+        await expect(store.getLocationData([unknownLocation])).rejects.toThrow(
+          DataStoreInvalidLocationError
+        );
       });
     });
 
@@ -137,18 +132,13 @@ export async function sharedDataStoreTests<T extends DataStore>(
         const locationsList = await store.getLocationsList();
         const locationCount = await store.getLocationCount();
 
-        let error: DataStoreInvalidLocationError | undefined;
-        try {
-          await store.getLocationData(locations);
-        } catch (e) {
-          error = e;
-        }
-
+        await expect(store.getLocationData(['Turkey'])).rejects.toThrow(
+          DataStoreInvalidLocationError
+        );
         expect(lastUpdatedAt).toBeUndefined();
         expect(savedAt).toBeUndefined();
         expect(locationsList).toEqual([]);
         expect(locationCount).toEqual(0);
-        expect(error?.name).toEqual('InvalidLocationError');
       });
     });
 
