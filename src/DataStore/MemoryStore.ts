@@ -14,6 +14,10 @@ export default class MemoryStore implements DataStore {
   private lastUpdatedAt: Date | undefined;
 
   async init(): Promise<void> {
+    if (this.data != null) {
+      return;
+    }
+
     this.data = {};
     this.states = {};
     this.counties = {};

@@ -9,6 +9,25 @@ import { internalLocationDataArray } from '../testData/internalLocationData';
 export async function sharedDataStoreTests<T extends DataStore>(
   dataStoreConstructor: new () => T
 ): Promise<void> {
+  describe('init', () => {
+    it('does not reinitialize', async () => {
+      const locationData = internalLocationDataArray[0];
+      const locationName = locationData.location;
+      const store = new dataStoreConstructor();
+
+      await store.init();
+      await store.putLocationData([locationData]);
+      let result = await store.getLocationData([locationName]);
+
+      expect(result).toHaveLength(1);
+
+      await store.init();
+      result = await store.getLocationData([locationName]);
+
+      expect(result).toHaveLength(1);
+    });
+  });
+
   describe('when initialized', () => {
     let locations: string[];
     let store: T;
@@ -16,7 +35,7 @@ export async function sharedDataStoreTests<T extends DataStore>(
     beforeAll(async () => {
       store = new dataStoreConstructor();
       await store.init();
-      locations = await addTestDataToStore();
+      locations = await addTestDataToStore(store);
     });
 
     it('allows putting and getting internal location data', async () => {
@@ -141,12 +160,6 @@ export async function sharedDataStoreTests<T extends DataStore>(
         expect(locationCount).toEqual(0);
       });
     });
-
-    async function addTestDataToStore(): Promise<string[]> {
-      await store.putLocationData(internalLocationDataArray);
-
-      return internalLocationDataArray.map(data => data.location);
-    }
   });
 
   describe('when not initialized', () => {
@@ -210,4 +223,10 @@ export async function sharedDataStoreTests<T extends DataStore>(
       });
     });
   });
+
+  async function addTestDataToStore(store: DataStore): Promise<string[]> {
+    await store.putLocationData(internalLocationDataArray);
+
+    return internalLocationDataArray.map(data => data.location);
+  }
 }

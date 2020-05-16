@@ -201,11 +201,15 @@ describe('COVID19API', () => {
       const covid19API = new COVID19API(fileGetter, memoryStore);
       await covid19API.init();
 
+      getGlobalConfirmedDataSpy.mockClear();
+      getGlobalDeathsDataSpy.mockClear();
+      getGlobalRecoveredDataSpy.mockClear();
+
       await covid19API.getDataByLocation('Turkey');
 
-      expect(getGlobalConfirmedDataSpy).toBeCalledTimes(1);
-      expect(getGlobalDeathsDataSpy).toBeCalledTimes(1);
-      expect(getGlobalRecoveredDataSpy).toBeCalledTimes(1);
+      expect(getGlobalConfirmedDataSpy).not.toBeCalled();
+      expect(getGlobalDeathsDataSpy).not.toBeCalled();
+      expect(getGlobalRecoveredDataSpy).not.toBeCalled();
     });
 
     it('reloads the data when it is expired', async () => {
@@ -214,17 +218,16 @@ describe('COVID19API', () => {
       });
       await covid19API.init();
 
-      expect(getGlobalConfirmedDataSpy).toBeCalledTimes(1);
-      expect(getGlobalDeathsDataSpy).toBeCalledTimes(1);
-      expect(getGlobalRecoveredDataSpy).toBeCalledTimes(1);
-
       await new Promise(r => setTimeout(r, 100));
+      getGlobalConfirmedDataSpy.mockClear();
+      getGlobalDeathsDataSpy.mockClear();
+      getGlobalRecoveredDataSpy.mockClear();
 
       await covid19API.getDataByLocation('Turkey');
 
-      expect(getGlobalConfirmedDataSpy).toBeCalledTimes(2);
-      expect(getGlobalDeathsDataSpy).toBeCalledTimes(2);
-      expect(getGlobalRecoveredDataSpy).toBeCalledTimes(2);
+      expect(getGlobalConfirmedDataSpy).toBeCalledTimes(1);
+      expect(getGlobalDeathsDataSpy).toBeCalledTimes(1);
+      expect(getGlobalRecoveredDataSpy).toBeCalledTimes(1);
     });
   });
 
