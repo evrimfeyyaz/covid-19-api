@@ -75,63 +75,34 @@ describe('FileGetter', () => {
 
   describe('given files that do not exist', () => {
     const fileGetter = new FileGetter('unknown', 'unknown', 'unknown', 'unknown', 'unknown');
-    let error: DataGetterError | undefined;
-
-    beforeEach(() => {
-      error = undefined;
-    });
-
-    afterEach(() => {
-      expect(error?.name).toEqual('DataGetterError');
-    });
 
     describe('getGlobalConfirmedData', () => {
       it('throws an error', async () => {
-        try {
-          await fileGetter.getGlobalConfirmedData();
-        } catch (e) {
-          error = e;
-        }
+        await expect(fileGetter.getGlobalConfirmedData()).rejects.toThrow(DataGetterError);
       });
     });
 
     describe('getGlobalDeathsData', () => {
       it('throws an error', async () => {
-        try {
-          await fileGetter.getGlobalDeathsData();
-        } catch (e) {
-          error = e;
-        }
+        await expect(fileGetter.getGlobalDeathsData()).rejects.toThrow(DataGetterError);
       });
     });
 
     describe('getGlobalRecoveredData', () => {
       it('throws an error', async () => {
-        try {
-          await fileGetter.getGlobalRecoveredData();
-        } catch (e) {
-          error = e;
-        }
+        await expect(fileGetter.getGlobalRecoveredData()).rejects.toThrow(DataGetterError);
       });
     });
 
     describe('getUSConfirmedData', () => {
       it('throws an error', async () => {
-        try {
-          await fileGetter.getUSConfirmedData();
-        } catch (e) {
-          error = e;
-        }
+        await expect(fileGetter.getUSConfirmedData()).rejects.toThrow(DataGetterError);
       });
     });
 
     describe('getUSDeathsData', () => {
       it('throws an error', async () => {
-        try {
-          await fileGetter.getUSDeathsData();
-        } catch (e) {
-          error = e;
-        }
+        await expect(fileGetter.getUSDeathsData()).rejects.toThrow(DataGetterError);
       });
     });
   });

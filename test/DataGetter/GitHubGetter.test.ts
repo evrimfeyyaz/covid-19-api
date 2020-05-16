@@ -1,6 +1,9 @@
 import fetchMock, { enableFetchMocks } from 'jest-fetch-mock';
-import { DataGetterError } from '../../src/DataGetter/DataGetter';
-import { GitHubGetter } from '../../src/DataGetter/GitHubGetter';
+import {
+  GitHubCommitFetchError,
+  GitHubDataFetchError,
+  GitHubGetter,
+} from '../../src/DataGetter/GitHubGetter';
 
 describe('GitHubGetter', () => {
   let gitHubGetter: GitHubGetter;
@@ -55,14 +58,7 @@ describe('GitHubGetter', () => {
     it('throws an error when it cannot fetch the data', async () => {
       mock404();
 
-      let error: DataGetterError | undefined;
-      try {
-        await gitHubGetter.getGlobalConfirmedData();
-      } catch (e) {
-        error = e;
-      }
-
-      expect(error?.name).toEqual('GitHubDataFetchError');
+      await expect(gitHubGetter.getGlobalConfirmedData()).rejects.toThrow(GitHubDataFetchError);
     });
   });
 
@@ -74,6 +70,12 @@ describe('GitHubGetter', () => {
       expect(fetchMock).toBeCalledTimes(1);
       expect(result).toEqual(expectedFromMock);
     });
+
+    it('throws an error when it cannot fetch the data', async () => {
+      mock404();
+
+      await expect(gitHubGetter.getGlobalDeathsData()).rejects.toThrow(GitHubDataFetchError);
+    });
   });
 
   describe('getGlobalRecoveredData', () => {
@@ -83,6 +85,12 @@ describe('GitHubGetter', () => {
 
       expect(fetchMock).toBeCalledTimes(1);
       expect(result).toEqual(expectedFromMock);
+    });
+
+    it('throws an error when it cannot fetch the data', async () => {
+      mock404();
+
+      await expect(gitHubGetter.getGlobalRecoveredData()).rejects.toThrow(GitHubDataFetchError);
     });
   });
 
@@ -94,6 +102,12 @@ describe('GitHubGetter', () => {
       expect(fetchMock).toBeCalledTimes(1);
       expect(result).toEqual(expectedFromMock);
     });
+
+    it('throws an error when it cannot fetch the data', async () => {
+      mock404();
+
+      await expect(gitHubGetter.getUSConfirmedData()).rejects.toThrow(GitHubDataFetchError);
+    });
   });
 
   describe('getUSDeathsData', () => {
@@ -103,6 +117,12 @@ describe('GitHubGetter', () => {
 
       expect(fetchMock).toBeCalledTimes(1);
       expect(result).toEqual(expectedFromMock);
+    });
+
+    it('throws an error when it cannot fetch the data', async () => {
+      mock404();
+
+      await expect(gitHubGetter.getUSDeathsData()).rejects.toThrow(GitHubDataFetchError);
     });
   });
 
@@ -117,14 +137,7 @@ describe('GitHubGetter', () => {
     it('throws an error when it cannot fetch the commit date', async () => {
       mock404();
 
-      let error: DataGetterError | undefined;
-      try {
-        await gitHubGetter.getLastUpdatedAt();
-      } catch (e) {
-        error = e;
-      }
-
-      expect(error?.name).toEqual('GitHubCommitFetchError');
+      await expect(gitHubGetter.getLastUpdatedAt()).rejects.toThrow(GitHubCommitFetchError);
     });
   });
 
