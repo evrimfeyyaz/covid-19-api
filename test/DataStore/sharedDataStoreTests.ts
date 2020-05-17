@@ -38,52 +38,100 @@ export async function sharedDataStoreTests<T extends DataStore>(
       locations = await addTestDataToStore(store);
     });
 
-    it('allows putting and getting internal location data', async () => {
-      const result = await store.getLocationData(locations);
-
-      expect(result).toHaveLength(internalLocationDataArray.length);
-      expect(result).toEqual(expect.arrayContaining(internalLocationDataArray));
-    });
-
-    it('allows setting and getting the saved at info', async () => {
-      const oneMinuteAgo = Date.now() - 1000 * 60;
-
-      const result = (await store.getSavedAt()) as Date;
-
-      // savedAt is set to less than one minute ago.
-      expect(result.getTime()).toBeGreaterThan(oneMinuteAgo);
-    });
-
-    it('allows setting and getting the last updated at info', async () => {
-      const sourceLastUpdatedAt = new Date();
-
-      await store.setSourceLastUpdatedAt(sourceLastUpdatedAt);
-      const result = (await store.getSourceLastUpdatedAt()) as Date;
-
-      expect(result.getTime()).toEqual(sourceLastUpdatedAt.getTime());
-    });
-
-    it('replaces existing locations when putting locations', async () => {
-      const existingData: InternalLocationData = {
-        ...internalLocationDataArray.filter(({ location }) => location === 'Turkey')[0],
-        values: [],
-      };
-      await store.putLocationData([existingData]);
-
-      const [turkeyData] = await store.getLocationData(['Turkey']);
-      const locations = await store.getLocationsList();
-
-      expect(turkeyData.values).toEqual([]);
-      expect(locations.filter(location => location === 'Turkey')).toHaveLength(1);
-    });
-
     describe('getLocationData', () => {
-      it('throws an error when the given location cannot be found', async () => {
+      it('returns the data for the given location names', async () => {
+        const result = await store.getLocationData(locations);
+
+        expect(result).toHaveLength(internalLocationDataArray.length);
+        expect(result).toEqual(expect.arrayContaining(internalLocationDataArray));
+      });
+
+      it('throws an error when a given location cannot be found', async () => {
         const unknownLocation = 'Unknown Location';
 
         await expect(store.getLocationData([unknownLocation])).rejects.toThrow(
           DataStoreInvalidLocationError
         );
+      });
+
+      it('returns a clone of the original data', async () => {
+        const location = locations[0];
+        const [locationData] = await store.getLocationData([location]);
+
+        const expectedValue = locationData.values[0].confirmed;
+        locationData.values[0].confirmed = 100;
+
+        const expectedCountry = locationData.countryOrRegion;
+        locationData.countryOrRegion = 'New Country';
+
+        const [result] = await store.getLocationData([location]);
+
+        expect(result.values[0].confirmed).toEqual(expectedValue);
+        expect(result.countryOrRegion).toEqual(expectedCountry);
+      });
+    });
+
+    describe('getSavedAt', () => {
+      it('returns the date and time that the last time a location data was saved in the store', async () => {
+        const oneMinuteAgo = Date.now() - 1000 * 60;
+
+        const result = (await store.getSavedAt()) as Date;
+
+        // savedAt is set to less than one minute ago.
+        expect(result.getTime()).toBeGreaterThan(oneMinuteAgo);
+      });
+
+      it('returns a clone of the original data', async () => {
+        const savedAt = (await store.getSavedAt()) as Date;
+
+        const expected = savedAt.getTime();
+        savedAt.setTime(expected + 1);
+
+        const result = (await store.getSavedAt()) as Date;
+
+        expect(result.getTime()).toEqual(expected);
+      });
+    });
+
+    describe('setSourceLastUpdatedAt', () => {
+      it('sets the date that the source data was last updated at to the given date', async () => {
+        const sourceLastUpdatedAt = new Date();
+
+        await store.setSourceLastUpdatedAt(sourceLastUpdatedAt);
+        const result = (await store.getSourceLastUpdatedAt()) as Date;
+
+        expect(result.getTime()).toEqual(sourceLastUpdatedAt.getTime());
+      });
+    });
+
+    describe('getSourceLastUpdatedAt', () => {
+      it('returns a clone of the original data', async () => {
+        const sourceLastUpdatedAt = new Date();
+        const expected = sourceLastUpdatedAt.getTime();
+
+        await store.setSourceLastUpdatedAt(sourceLastUpdatedAt);
+        const lastUpdatedAt = (await store.getSourceLastUpdatedAt()) as Date;
+        lastUpdatedAt.setTime(expected + 1);
+
+        const result = (await store.getSourceLastUpdatedAt()) as Date;
+
+        expect(result.getTime()).toEqual(expected);
+      });
+    });
+
+    describe('putLocationData', () => {
+      it('overwrites existing data when saving', async () => {
+        const existingData: InternalLocationData = {
+          ...internalLocationDataArray.filter(({ location }) => location === 'Turkey')[0],
+          values: [],
+        };
+        await store.putLocationData([existingData]);
+
+        const [turkeyData] = await store.getLocationData(['Turkey']);
+        const locations = await store.getLocationsList();
+
+        expect(turkeyData.values).toEqual([]);
+        expect(locations.filter(location => location === 'Turkey')).toHaveLength(1);
       });
     });
 
@@ -103,6 +151,21 @@ export async function sharedDataStoreTests<T extends DataStore>(
 
         expect(result).toHaveLength(0);
       });
+
+      it('returns a clone of the original data', async () => {
+        const [stateData] = await store.getStatesData('US');
+
+        const expectedValue = stateData.values[0].confirmed;
+        stateData.values[0].confirmed = 100;
+
+        const expectedCounty = stateData.provinceOrState;
+        stateData.provinceOrState = 'New State';
+
+        const [result] = await store.getStatesData('US');
+
+        expect(result.values[0].confirmed).toEqual(expectedValue);
+        expect(result.provinceOrState).toEqual(expectedCounty);
+      });
     });
 
     describe('getCountiesData', () => {
@@ -121,6 +184,21 @@ export async function sharedDataStoreTests<T extends DataStore>(
 
         expect(result).toHaveLength(0);
       });
+
+      it('returns a clone of the original data', async () => {
+        const [countyData] = await store.getCountiesData('US', 'Alabama');
+
+        const expectedValue = countyData.values[0].confirmed;
+        countyData.values[0].confirmed = 100;
+
+        const expectedCounty = countyData.county;
+        countyData.county = 'New County';
+
+        const [result] = await store.getCountiesData('US', 'Alabama');
+
+        expect(result.values[0].confirmed).toEqual(expectedValue);
+        expect(result.county).toEqual(expectedCounty);
+      });
     });
 
     describe('getLocationList', () => {
@@ -130,6 +208,16 @@ export async function sharedDataStoreTests<T extends DataStore>(
 
         expect(result).toHaveLength(expected.length);
         expect(result).toEqual(expect.arrayContaining(expected));
+      });
+
+      it('returns a clone of the original data', async () => {
+        const locations = await store.getLocationsList();
+        const expected = locations[0];
+        locations[0] = 'New Location';
+
+        const [result] = await store.getLocationsList();
+
+        expect(result).toEqual(expected);
       });
     });
 

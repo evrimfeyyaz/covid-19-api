@@ -51,7 +51,7 @@ export default class IndexedDBStore implements DataStore {
     await tx.objectStore('settings').clear();
   }
 
-  async getLocationData(locations: string[]): Promise<readonly Readonly<InternalLocationData>[]> {
+  async getLocationData(locations: string[]): Promise<InternalLocationData[]> {
     const dataStore = this.db.transaction('data').objectStore('data');
 
     const data: InternalLocationData[] = [];
@@ -68,7 +68,7 @@ export default class IndexedDBStore implements DataStore {
     return data;
   }
 
-  async getStatesData(countryOrRegion: string): Promise<readonly Readonly<InternalLocationData>[]> {
+  async getStatesData(countryOrRegion: string): Promise<InternalLocationData[]> {
     const countiesAndStates = await this.db.getAllFromIndex(
       'data',
       'byCountryOrRegion',
@@ -81,7 +81,7 @@ export default class IndexedDBStore implements DataStore {
   async getCountiesData(
     countryOrRegion: string,
     provinceOrState: string
-  ): Promise<readonly Readonly<InternalLocationData>[]> {
+  ): Promise<InternalLocationData[]> {
     const countiesAndState = await this.db.getAllFromIndex(
       'data',
       'byProvinceOrState',
@@ -93,7 +93,7 @@ export default class IndexedDBStore implements DataStore {
     );
   }
 
-  async getLocationsList(): Promise<readonly string[]> {
+  async getLocationsList(): Promise<string[]> {
     return await this.db.getAllKeys('data');
   }
 
@@ -101,11 +101,11 @@ export default class IndexedDBStore implements DataStore {
     return await this.db.count('data');
   }
 
-  async getSavedAt(): Promise<Readonly<Date> | undefined> {
+  async getSavedAt(): Promise<Date | undefined> {
     return (await this.db.get('settings', this.savedAtKey)) as Date | undefined;
   }
 
-  async getSourceLastUpdatedAt(): Promise<Readonly<Date> | undefined> {
+  async getSourceLastUpdatedAt(): Promise<Date | undefined> {
     return (await this.db.get('settings', this.sourceLastUpdatedAtKey)) as Date | undefined;
   }
 

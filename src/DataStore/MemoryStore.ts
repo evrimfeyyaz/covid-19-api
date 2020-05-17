@@ -5,6 +5,7 @@ import {
 } from 'DataStore/DataStore';
 import { InternalLocationData } from 'types';
 import { pushUnique } from 'utils';
+import cloneDeep from 'lodash.clonedeep';
 
 /**
  * A data store that saves to and loads from the memory.
@@ -62,50 +63,52 @@ export default class MemoryStore implements DataStore {
     return;
   }
 
-  async getLocationData(locations: string[]): Promise<readonly Readonly<InternalLocationData>[]> {
+  async getLocationData(locations: string[]): Promise<InternalLocationData[]> {
     if (this.data == null) {
       throw new DataStoreNotInitializedError();
     }
 
-    return locations.map(location => {
-      const data = this.data?.[location];
+    return cloneDeep(
+      locations.map(location => {
+        const data = this.data?.[location];
 
-      if (data == null) {
-        throw new DataStoreInvalidLocationError(location);
-      }
+        if (data == null) {
+          throw new DataStoreInvalidLocationError(location);
+        }
 
-      return data;
-    });
+        return data;
+      })
+    );
   }
 
   async getLocationCount(): Promise<number> {
     return (await this.getLocationsList()).length;
   }
 
-  async getStatesData(countryOrRegion: string): Promise<readonly Readonly<InternalLocationData>[]> {
+  async getStatesData(countryOrRegion: string): Promise<InternalLocationData[]> {
     if (this.data == null || this.states == null) {
       throw new DataStoreNotInitializedError();
     }
 
     const states = this.states[countryOrRegion] ?? [];
 
-    return states.map(location => (this.data as never)[location]);
+    return cloneDeep(states.map(location => (this.data as never)[location]));
   }
 
   async getCountiesData(
     countryOrRegion: string,
     provinceOrState: string
-  ): Promise<readonly Readonly<InternalLocationData>[]> {
+  ): Promise<InternalLocationData[]> {
     if (this.data == null || this.counties == null) {
       throw new DataStoreNotInitializedError();
     }
 
     const counties = this.counties[countryOrRegion]?.[provinceOrState] ?? [];
 
-    return counties.map(location => (this.data as never)[location]);
+    return cloneDeep(counties.map(location => (this.data as never)[location]));
   }
 
-  async getLocationsList(): Promise<readonly string[]> {
+  async getLocationsList(): Promise<string[]> {
     if (this.data == null) {
       throw new DataStoreNotInitializedError();
     }
@@ -113,12 +116,12 @@ export default class MemoryStore implements DataStore {
     return Object.keys(this.data);
   }
 
-  async getSavedAt(): Promise<Readonly<Date> | undefined> {
+  async getSavedAt(): Promise<Date | undefined> {
     if (this.data == null) {
       throw new DataStoreNotInitializedError();
     }
 
-    return this.savedAt;
+    return cloneDeep(this.savedAt);
   }
 
   async setSourceLastUpdatedAt(sourceLastUpdatedAt: Date): Promise<void> {
@@ -131,12 +134,12 @@ export default class MemoryStore implements DataStore {
     return;
   }
 
-  async getSourceLastUpdatedAt(): Promise<Readonly<Date> | undefined> {
+  async getSourceLastUpdatedAt(): Promise<Date | undefined> {
     if (this.data == null) {
       throw new DataStoreNotInitializedError();
     }
 
-    return this.sourceLastUpdatedAt;
+    return cloneDeep(this.sourceLastUpdatedAt);
   }
 
   async clearData(): Promise<void> {

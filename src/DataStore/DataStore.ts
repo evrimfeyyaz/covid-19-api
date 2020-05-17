@@ -75,7 +75,7 @@ export interface DataStore {
   setSourceLastUpdatedAt(sourceLastUpdatedAt: Date | undefined): Promise<void>;
 
   /**
-   * Returns the data for the given locations.
+   * Returns a clone of the data for the given locations.
    *
    * @param locations An array containing full location names.
    * @throws {@link DataStoreInvalidLocationError} Thrown when one of the given locations cannot be
@@ -83,19 +83,19 @@ export interface DataStore {
    * @throws {@link DataStoreNotInitializedError} Thrown when the data store instance has not been
    *   initialized.
    */
-  getLocationData(locations: string[]): Promise<readonly Readonly<InternalLocationData>[]>;
+  getLocationData(locations: string[]): Promise<InternalLocationData[]>;
 
   /**
-   * Returns the data for all of the states of the given country.
+   * Returns a cloen of the data for all of the states of the given country.
    *
    * @param countryOrRegion
    * @throws {@link DataStoreNotInitializedError} Thrown when the data store instance has not been
    *   initialized.
    */
-  getStatesData(countryOrRegion: string): Promise<readonly Readonly<InternalLocationData>[]>;
+  getStatesData(countryOrRegion: string): Promise<InternalLocationData[]>;
 
   /**
-   * Returns the data for all of the counties of the given country/state combination.
+   * Returns a clone of the data for all of the counties of the given country/state combination.
    *
    * @param countryOrRegion
    * @param provinceOrState
@@ -105,15 +105,15 @@ export interface DataStore {
   getCountiesData(
     countryOrRegion: string,
     provinceOrState: string
-  ): Promise<readonly Readonly<InternalLocationData>[]>;
+  ): Promise<InternalLocationData[]>;
 
   /**
-   * Returns the list of locations in the store.
+   * Returns a clone of the list of locations in the store.
    *
    * @throws {@link DataStoreNotInitializedError} Thrown when the data store instance has not been
    *   initialized.
    */
-  getLocationsList(): Promise<readonly string[]>;
+  getLocationsList(): Promise<string[]>;
 
   /**
    * Returns the number of locations in the store.
@@ -124,19 +124,19 @@ export interface DataStore {
   getLocationCount(): Promise<number>;
 
   /**
-   * Returns the date that a location data was last saved in the store.
+   * Returns a clone of the date that a location data was last saved in the store.
    *
    * @returns `undefined` if nothing has been saved in the store yet.
    * @throws {@link DataStoreNotInitializedError} Thrown when the data store instance has not been
    *   initialized.
    */
-  getSavedAt(): Promise<Readonly<Date> | undefined>;
+  getSavedAt(): Promise<Date | undefined>;
 
   /**
-   * Returns the date that the source of the data was last updated.
+   * Returns a clone of the date that the source of the data was last updated.
    *
    * @throws {@link DataStoreNotInitializedError} Thrown when the data store instance has not been
    *   initialized.
    */
-  getSourceLastUpdatedAt(): Promise<Readonly<Date> | undefined>;
+  getSourceLastUpdatedAt(): Promise<Date | undefined>;
 }
