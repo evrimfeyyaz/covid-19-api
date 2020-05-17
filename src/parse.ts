@@ -1,5 +1,5 @@
 import parse from 'csv-parse';
-import { InternalLocationInfo } from 'types';
+import { LocationInfo } from 'types';
 import { getFullLocationName } from 'utils';
 
 export interface ParsedCSV {
@@ -10,24 +10,45 @@ export interface ParsedCSVRow {
   [column: string]: string | number | undefined;
 }
 
-const columnTitles = {
+/**
+ * The column names in global data CSV files.
+ */
+const globalCSVColumnTitles = {
   countryOrRegion: 'Country/Region',
   provinceOrState: 'Province/State',
   latitude: 'Lat',
   longitude: 'Long',
-  county: 'County',
-  population: 'Population',
 };
 
-const usCsvColumnTitles = {
+/**
+ * The column names in US data CSV files.
+ */
+const usCSVColumnTitles = {
   countryOrRegion: 'Country_Region',
   provinceOrState: 'Province_State',
   county: 'Admin2',
   longitude: 'Long_',
 };
 
+/**
+ * The column names to use in parsed data objects.
+ */
+const columnTitles = {
+  ...globalCSVColumnTitles,
+  county: 'County',
+  population: 'Population',
+};
+
+/**
+ * The format of the date columns in the CSV files is "month/day/year", e.g. "1/2/20" for
+ * January 2, 2020. This is the regular expression for parsing them.
+ */
 const dateKeyRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{2})$/;
 
+/**
+ * Parses the contents of a CSV file from the JHU CSSE time series data.
+ * @param csv
+ */
 export async function parseCSV(csv: string): Promise<ParsedCSV> {
   return new Promise<ParsedCSV>((resolve, reject) => {
     const parser = parse(csv, {
@@ -38,13 +59,13 @@ export async function parseCSV(csv: string): Promise<ParsedCSV> {
           // The CSV files containing the US county data have different column names than the
           // files containing the global data, so we match the US data column names to the
           // global data column names.
-          if (value === usCsvColumnTitles.provinceOrState) {
+          if (value === usCSVColumnTitles.provinceOrState) {
             return columnTitles.provinceOrState;
-          } else if (value === usCsvColumnTitles.countryOrRegion) {
+          } else if (value === usCSVColumnTitles.countryOrRegion) {
             return columnTitles.countryOrRegion;
-          } else if (value === usCsvColumnTitles.longitude) {
+          } else if (value === usCSVColumnTitles.longitude) {
             return columnTitles.longitude;
-          } else if (value === usCsvColumnTitles.county) {
+          } else if (value === usCSVColumnTitles.county) {
             return columnTitles.county;
           }
 
@@ -94,7 +115,11 @@ export async function parseCSV(csv: string): Promise<ParsedCSV> {
   });
 }
 
-export function getLocationInfoFromRow(row: ParsedCSVRow): InternalLocationInfo {
+/**
+ * Returns an object containing the location information in a {@link ParsedCSVRow}.
+ * @param row
+ */
+export function getLocationInfoFromRow(row: ParsedCSVRow): LocationInfo {
   const countryOrRegion = row[columnTitles.countryOrRegion] as string;
   const provinceOrState = row[columnTitles.provinceOrState] as string | undefined;
   const county = row[columnTitles.county] as string | undefined;
@@ -112,6 +137,10 @@ export function getLocationInfoFromRow(row: ParsedCSVRow): InternalLocationInfo 
   };
 }
 
+/**
+ * Returns the keys of a {@link ParsedCSV} that are dates.
+ * @param parsedCSV
+ */
 export function getDateKeys(parsedCSV: ParsedCSV): string[] {
   const firstLocation = Object.keys(parsedCSV)[0];
   const rowKeys = Object.keys(parsedCSV[firstLocation]);
@@ -119,8 +148,13 @@ export function getDateKeys(parsedCSV: ParsedCSV): string[] {
   return rowKeys.filter(columnName => isDateKey(columnName));
 }
 
-export function dateKeyToDate(dateStr: string): Date | undefined {
-  const dateParts = dateStr.match(dateKeyRegex);
+/**
+ * Converts a string containing a date to a Date object, if it is in the right format,
+ * such as "1/2/20".
+ * @param dateKey A string containing a date in the format "month/date/year", e.g. "1/2/20".
+ */
+export function dateKeyToDate(dateKey: string): Date | undefined {
+  const dateParts = dateKey.match(dateKeyRegex);
 
   if (dateParts == null || dateParts.length < 3) {
     return undefined;
@@ -133,6 +167,10 @@ export function dateKeyToDate(dateStr: string): Date | undefined {
   return new Date(year, month, day);
 }
 
+/**
+ * Converts the given Date object to a string in "month/day/year" format, e.g. "1/2/20".
+ * @param date
+ */
 export function dateToDateKey(date: Date): string {
   const year = date
     .getFullYear()
@@ -144,6 +182,10 @@ export function dateToDateKey(date: Date): string {
   return `${month}/${day}/${year}`;
 }
 
+/**
+ * Returns `true` if the given column name is a date.
+ * @param columnName
+ */
 function isDateKey(columnName: string): boolean {
   return dateKeyRegex.test(columnName);
 }

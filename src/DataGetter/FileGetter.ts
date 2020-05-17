@@ -1,6 +1,14 @@
 import { DataGetter, DataGetterError } from 'DataGetter/DataGetter';
 import { promises as fs } from 'fs';
 
+/**
+ * A data getter that loads the time series data from CSV files.
+ *
+ * *Returns `undefined` for the "source last updated at" date, as there is no way to determine this
+ * without connecting to the GitHub repo.
+ *
+ * For more information about its methods see {@link DataGetter}.
+ */
 export class FileGetter implements DataGetter {
   constructor(
     private globalConfirmedCSVPath: string,

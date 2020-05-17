@@ -10,7 +10,7 @@ import { globalConfirmedDataCSV } from './testData/globalDataCSV';
 import { parsedGlobalConfirmedCSV } from './testData/globalParsedCSV';
 import { usConfirmedDataCSV } from './testData/usDataCSV';
 import { parsedUSConfirmedCSV } from './testData/usParsedCSV';
-import { InternalLocationInfo } from '../src/types';
+import { LocationInfo } from '../src/types';
 
 describe('parse', () => {
   describe('parseCSV', () => {
@@ -78,7 +78,7 @@ describe('parse', () => {
       const parsedCSVRow: ParsedCSVRow = parsedUSConfirmedCSV[location];
 
       const result = getLocationInfoFromRow(parsedCSVRow);
-      const expected: InternalLocationInfo = {
+      const expected: LocationInfo = {
         location,
         countryOrRegion: 'US',
         provinceOrState: 'Alabama',

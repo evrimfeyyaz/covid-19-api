@@ -3,6 +3,14 @@ import { InternalLocationData, InternalLocationDataValues } from 'types';
 import { US_STATES } from 'usStates';
 import { getFullLocationName } from 'utils';
 
+/**
+ * Converts parsed CSV objects that contain global COVID-19 time series into an easier to consume
+ * format.
+ *
+ * @param parsedGlobalConfirmedData
+ * @param parsedGlobalDeathsData
+ * @param parsedGlobalRecoveredData
+ */
 export function formatGlobalParsedData(
   parsedGlobalConfirmedData: ParsedCSV,
   parsedGlobalDeathsData: ParsedCSV,
@@ -41,6 +49,13 @@ export function formatGlobalParsedData(
   return data;
 }
 
+/**
+ * Converts parsed CSV objects that contain US COVID-19 time series into an easier to consume
+ * format.
+ *
+ * @param parsedUSConfirmedData
+ * @param parsedUsDeathsData
+ */
 export function formatUSParsedData(
   parsedUSConfirmedData: ParsedCSV,
   parsedUsDeathsData: ParsedCSV
@@ -51,6 +66,13 @@ export function formatUSParsedData(
   return [...data, ...usStateTotalsData];
 }
 
+/**
+ * Converts parsed CSV objects into an easier to consume format.
+ *
+ * @param parsedConfirmedData
+ * @param parsedDeathsData
+ * @param parsedRecoveredData
+ */
 function formatParsedData(
   parsedConfirmedData: ParsedCSV,
   parsedDeathsData: ParsedCSV,
@@ -103,6 +125,18 @@ function formatParsedData(
   return data;
 }
 
+/**
+ * Extracts values (confirmed cases, deaths and recoveries) from the given CSV rows.
+ *
+ * @param dateKeys All keys of the given {@link ParsedCSVRow} objects that contain a value for a
+ *   certain day.
+ * @param confirmedData A {@link ParsedCSVRow} object containing the confirmed cases data for a
+ *   location.
+ * @param deathsData A {@link ParsedCSVRow} object containing the deaths data for a certain
+ *   location.
+ * @param recoveredData A {@link ParsedCSVRow} object containing the recoveries data for a
+ *   location.
+ */
 function getValuesFromParsedRows(
   dateKeys: string[],
   confirmedData: ParsedCSVRow,
@@ -131,6 +165,15 @@ function getValuesFromParsedRows(
   });
 }
 
+/**
+ * Calculates the data for Australia.
+ *
+ * *The values for Australia are represented separately for each state in the JHU CSSE data. This
+ * function calculates the country totals by summing the data for all the states in Australia.*
+ *
+ * @param australiaStateData {@link InternalLocationData} array containing the data for all the
+ *   states of Australia.
+ */
 function getAustraliaTotalData(australiaStateData: InternalLocationData[]): InternalLocationData {
   const australiaTotalValues = sumMultipleLocationValues(australiaStateData);
 
@@ -144,13 +187,28 @@ function getAustraliaTotalData(australiaStateData: InternalLocationData[]): Inte
   };
 }
 
+/**
+ * Calculates the data for Canada.
+ *
+ * *The values for Canada are represented separately for each state in the JHU CSSE data. This
+ * function calculates the country totals by summing the data for all the provinces in Canada.*
+ *
+ * *Also, there is no recoveries data for any of the provinces of Canada in the JHU CSSE data, but
+ * there is recoveries data for Canada as a whole. This function incorporates this recoveries data
+ * into the returned {@link InternalLocationData} object.
+ *
+ * @param globalParsedRecoveredDataCSV The {@link ParsedCSV} object containing the global
+ *   recoveries time series data.
+ * @param canadaProvinceData {@link InternalLocationData} array containing the data for all the
+ *   provinces of Canada.
+ */
 function getCanadaTotalData(
-  parsedRecoveredData: ParsedCSV,
+  globalParsedRecoveredDataCSV: ParsedCSV,
   canadaProvinceData: InternalLocationData[]
 ): InternalLocationData {
   const canadaTotalValues = sumMultipleLocationValues(canadaProvinceData);
-  const parsedCanadaRecoveredValues = parsedRecoveredData['Canada'];
-  const dateKeys = getDateKeys(parsedRecoveredData);
+  const parsedCanadaRecoveredValues = globalParsedRecoveredDataCSV['Canada'];
+  const dateKeys = getDateKeys(globalParsedRecoveredDataCSV);
 
   // The JHU data doesn't include the recovered data for the provinces of Canada,
   // but includes the recovered data for the whole country.
@@ -168,6 +226,15 @@ function getCanadaTotalData(
   };
 }
 
+/**
+ * Calculates the data for China.
+ *
+ * *The values for China are represented separately for each province in the JHU CSSE data. This
+ * function calculates the country totals by summing the data for all the provinces in China.*
+ *
+ * @param chinaProvinceData {@link InternalLocationData} array containing the data for all the
+ *   provinces of China.
+ */
 function getChinaTotalData(chinaProvinceData: InternalLocationData[]): InternalLocationData {
   const chinaTotalValues = sumMultipleLocationValues(chinaProvinceData);
 
@@ -181,6 +248,17 @@ function getChinaTotalData(chinaProvinceData: InternalLocationData[]): InternalL
   };
 }
 
+/**
+ * Calculates the data for all US states.
+ *
+ * *The values in the US data files only include data at the county level. This function calculates
+ * state totals by summing the data for all counties of a given state.*
+ *
+ * @param usCountyData {@link InternalLocationData} array containing the data for all of the
+ *   counties in the USA.
+ * @returns An array of {@link InternalLocationData} with each element containing the data for a US
+ *   state.
+ */
 function getUSStateTotalsData(usCountyData: InternalLocationData[]): InternalLocationData[] {
   const data: InternalLocationData[] = [];
 
@@ -206,6 +284,11 @@ function getUSStateTotalsData(usCountyData: InternalLocationData[]): InternalLoc
   return data;
 }
 
+/**
+ * Sums confirmed cases, deaths and recoveries in the given {@link InternalLocationData} objects.
+ *
+ * @param data
+ */
 function sumMultipleLocationValues(data: InternalLocationData[]): InternalLocationDataValues {
   let sum: InternalLocationDataValues = [];
 

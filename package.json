@@ -27,7 +27,8 @@
     "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prepare": "tsdx build"
+    "prepare": "tsdx build",
+    "docs": "typedoc --out docs --name \"COVID-19 API\" --includeVersion --readme none --theme minimal"
   },
   "peerDependencies": {},
   "husky": {
@@ -47,6 +48,7 @@
     "jest-fetch-mock": "^3.0.3",
     "tsdx": "^0.13.2",
     "tslib": "^1.11.2",
+    "typedoc": "^0.17.6",
     "typescript": "^3.8.3"
   },
   "dependencies": {

@@ -1,3 +1,16 @@
+/**
+ * A list of all the full location names in the JHU CSSE USA data.
+ *
+ * The US data files are relatively large, as they contain data at the county level. For this
+ * reason, the API class can be set up to lazy load the US data when the user requests the data of
+ * a US location. But for the user to know that the US locations are available, we need to return
+ * these location names in the location list.
+ *
+ * We can't fetch these names from GitHub, as that would mean downloading the whole US data, which
+ * would defeat the purpose of lazy loading in the first place.
+ *
+ * The "not so great but working" solution is to keep these location names as a static array.
+ */
 export const US_LOCATIONS = [
   'US (Alabama)',
   'US (Autauga, Alabama)',

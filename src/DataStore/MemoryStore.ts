@@ -6,6 +6,11 @@ import {
 import { InternalLocationData } from 'types';
 import { pushUnique } from 'utils';
 
+/**
+ * A data store that saves to and loads from the memory.
+ *
+ * For more information about its methods see {@link DataStore}.
+ */
 export default class MemoryStore implements DataStore {
   private data: { [location: string]: InternalLocationData } | undefined;
   private states: { [country: string]: string[] } | undefined;

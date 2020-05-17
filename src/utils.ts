@@ -1,3 +1,11 @@
+/**
+ * Returns the full location name based on the arguments. For example, "Turkey", "Canada (British
+ * Columbia)", "US (Autauga, Alabama)".
+ *
+ * @param countryOrRegion
+ * @param provinceOrState
+ * @param county
+ */
 export function getFullLocationName(
   countryOrRegion: string,
   provinceOrState?: string,
@@ -17,6 +25,12 @@ export function getFullLocationName(
   return location;
 }
 
+/**
+ * Pushes an element into an array if the element doesn't already exist in the array.
+ *
+ * @param arr
+ * @param el
+ */
 export function pushUnique<T>(arr: T[], el: T): void {
   if (arr.indexOf(el) === -1) {
     arr.push(el);

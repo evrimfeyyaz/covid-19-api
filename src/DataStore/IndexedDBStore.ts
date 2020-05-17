@@ -21,8 +21,13 @@ interface COVID19TimeSeriesDBSchema extends DBSchema {
   };
 }
 
+/**
+ * A data store that saves to and loads from an IndexedDB database.
+ *
+ * For more information about its methods see {@link DataStore}.
+ */
 export default class IndexedDBStore implements DataStore {
-  readonly savedAtKey = 'DataExpiresAt';
+  readonly savedAtKey = 'DataSavedAt';
   readonly sourceLastUpdatedAtKey = 'DataSourceLastUpdatedAt';
   readonly dbName = 'COVID19TimeSeriesDB';
   readonly dbVersion = 1;
@@ -120,6 +125,12 @@ export default class IndexedDBStore implements DataStore {
     await this.db.put('settings', lastUpdatedAt, this.sourceLastUpdatedAtKey);
   }
 
+  /**
+   * Opens an IndexedDB connection.
+   *
+   * If the database is not yet created, it also creates it. If the database exists but is an older
+   * version, it upgrades it.
+   */
   private async setDB(): Promise<void> {
     this._db = await openDB<COVID19TimeSeriesDBSchema>(this.dbName, this.dbVersion, {
       upgrade(db, _oldVersion, _newVersion, transaction) {

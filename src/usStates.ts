@@ -1,5 +1,11 @@
-// Latitudes and longitudes are from:
-// https://www.latlong.net/category/states-236-14.html
+/**
+ * The names and coordinates of all US states.
+ *
+ * The US data in the JHU CSSE files are represented at the county level. This is a list that we
+ * use when we are summing the county level data to create state level data.
+ *
+ * The coordinates are from https://www.latlong.net/category/states-236-14.html.
+ */
 export const US_STATES = [
   {
     name: 'Alabama',
