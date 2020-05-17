@@ -58,6 +58,18 @@ describe('COVID19API', () => {
       });
     });
 
+    describe('locations', () => {
+      it('returns a clone of the locations list', () => {
+        const { locations } = covid19API;
+        const expected = locations[0];
+        locations[0] = 'New Location';
+
+        const [result] = covid19API.locations;
+
+        expect(result).toEqual(expected);
+      });
+    });
+
     describe('getDataByLocation(s)', () => {
       it('returns the data with added calculated information for a given global location', async () => {
         const result1 = await covid19API.getDataByLocation('Turkey');
@@ -138,13 +150,29 @@ describe('COVID19API', () => {
         expect(result1).toEqual(expected);
         expect(result2).toEqual([expected]);
       });
+
+      it('returns a clone of the stored data', async () => {
+        const locationData1 = await covid19API.getDataByLocation('Turkey');
+        const [locationData2] = await covid19API.getDataByLocations(['Turkey']);
+        const expected = locationData1.values[0].confirmed;
+        locationData1.values[0].confirmed = expected + 1;
+        locationData2.values[0].confirmed = expected + 1;
+
+        const reloadedData1 = await covid19API.getDataByLocation('Turkey');
+        const result1 = reloadedData1.values[0].confirmed;
+        const [reloadedData2] = await covid19API.getDataByLocations(['Turkey']);
+        const result2 = reloadedData2.values[0].confirmed;
+
+        expect(result1).toEqual(expected);
+        expect(result2).toEqual(expected);
+      });
     });
 
     describe('getDataByLocationAndDate', () => {
-      it('returns the data with added calculated values for the given location and date', async () => {
-        const secondDate = new Date(2020, 0, 23);
+      const secondDay = new Date(2020, 0, 23);
 
-        const result = await covid19API.getDataByLocationAndDate('Turkey', secondDate);
+      it('returns the data with added calculated values for the given location and date', async () => {
+        const result = await covid19API.getDataByLocationAndDate('Turkey', secondDay);
         const expected: ValuesOnDate = {
           date: '1/23/20',
           confirmed: 4,
@@ -167,6 +195,24 @@ describe('COVID19API', () => {
 
         expect(result).toBeUndefined();
       });
+
+      it('returns a clone of the stored data', async () => {
+        const dateValues = (await covid19API.getDataByLocationAndDate(
+          'Turkey',
+          secondDay
+        )) as ValuesOnDate;
+        const expected = dateValues.confirmed;
+        dateValues.confirmed = expected + 1;
+
+        const reloadedDateValues = (await covid19API.getDataByLocationAndDate(
+          'Turkey',
+          secondDay
+        )) as ValuesOnDate;
+        const result = reloadedDateValues.confirmed;
+
+        expect(result).toBeDefined();
+        expect(result).toEqual(expected);
+      });
     });
 
     describe('sourceLastUpdatedAt', () => {
@@ -174,6 +220,17 @@ describe('COVID19API', () => {
         const result = covid19API.sourceLastUpdatedAt;
 
         expect(result).toEqual(sourceLastUpdatedAt);
+      });
+
+      it('returns a clone of the date', async () => {
+        const lastUpdatedAt = covid19API.sourceLastUpdatedAt as Date;
+        const expected = lastUpdatedAt.getTime();
+        lastUpdatedAt.setTime(expected + 1);
+
+        const result = covid19API.sourceLastUpdatedAt as Date;
+
+        expect(result).toBeDefined();
+        expect(result.getTime()).toEqual(expected);
       });
     });
 
@@ -184,6 +241,16 @@ describe('COVID19API', () => {
 
         expect(result).toBeSameDay(result as Date, expected);
       });
+
+      it('returns a clone of the date', async () => {
+        const firstDate = covid19API.firstDate;
+        const expected = firstDate.getTime();
+        firstDate.setTime(expected + 1);
+
+        const result = covid19API.firstDate;
+
+        expect(result.getTime()).toEqual(expected);
+      });
     });
 
     describe('lastDate', () => {
@@ -192,6 +259,16 @@ describe('COVID19API', () => {
         const expected = new Date(2020, 0, 23);
 
         expect(result).toBeSameDay(result as Date, expected);
+      });
+
+      it('returns a clone of the date', async () => {
+        const lastDate = covid19API.lastDate;
+        const expected = lastDate.getTime();
+        lastDate.setTime(expected + 1);
+
+        const result = covid19API.lastDate;
+
+        expect(result.getTime()).toEqual(expected);
       });
     });
   });

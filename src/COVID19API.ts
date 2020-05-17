@@ -54,64 +54,67 @@ export default class COVID19API {
     }
   ) {}
 
-  private _locations: Readonly<string[]> | undefined;
+  private _locations: string[] | undefined;
   /**
    * Returns the list of locations.
    *
    * @throws {@link COVID19APINotInitializedError} Thrown when the API instance is not initialized
    *   by calling the `init` method first.
    */
-  get locations(): Readonly<string[]> {
+  get locations(): string[] {
     if (this._locations == null) {
       throw new COVID19APINotInitializedError();
     }
 
-    return this._locations;
+    return [...this._locations];
   }
 
-  private _sourceLastUpdatedAt: Readonly<Date> | undefined;
+  private _sourceLastUpdatedAt: Date | undefined;
   /**
    * Returns the date and time the source of the data was last updated at.
+   *
+   * If the data getter is not able to get the date that the source was last updated on, it might
+   * return `undefined`.
    *
    * @throws {@link COVID19APINotInitializedError} Thrown when the API instance is not initialized
    *   by calling the `init` method first.
    */
-  get sourceLastUpdatedAt(): Readonly<Date> {
-    if (this._sourceLastUpdatedAt == null) {
+  get sourceLastUpdatedAt(): Date | undefined {
+    if (!this.isInitialized) {
       throw new COVID19APINotInitializedError();
     }
 
-    return this._sourceLastUpdatedAt;
+    return this._sourceLastUpdatedAt ? new Date(this._sourceLastUpdatedAt.getTime()) : undefined;
   }
 
-  private _firstDate: Readonly<Date> | undefined;
+  private _firstDate: Date | undefined;
   /**
    * Returns the first day of the time series data.
    *
    * @throws {@link COVID19APINotInitializedError} Thrown when the API instance is not initialized
    *   by calling the `init` method first.
    */
-  get firstDate(): Readonly<Date> {
+  get firstDate(): Date {
     if (this._firstDate == null) {
       throw new COVID19APINotInitializedError();
     }
 
-    return this._firstDate;
+    return new Date(this._firstDate.getTime());
   }
 
-  private _lastDate: Readonly<Date> | undefined;
+  private _lastDate: Date | undefined;
   /**
    * Returns the last day of the time series data.
    *
    * @throws {@link COVID19APINotInitializedError} Thrown when the API instance is not initialized
    *   by calling the `init` method first.
    */
-  get lastDate(): Readonly<Date> {
+  get lastDate(): Date {
     if (this._lastDate == null) {
       throw new COVID19APINotInitializedError();
     }
 
-    return this._lastDate;
+    return new Date(this._lastDate.getTime());
   }
 
   /**
