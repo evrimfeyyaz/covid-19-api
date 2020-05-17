@@ -54,7 +54,6 @@
   },
   "dependencies": {
     "csv-parse": "^4.9.0",
-    "idb": "^5.0.2",
-    "lodash.clonedeep": "^4.5.0"
+    "idb": "^5.0.2"
   }
 }

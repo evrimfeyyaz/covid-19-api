@@ -1,4 +1,5 @@
-import { getFullLocationName, pushUnique } from '../src/utils';
+import { cloneInternalLocationData, getFullLocationName, pushUnique } from '../src/utils';
+import { internalLocationDataArray } from './testData/internalLocationData';
 
 describe('utils', () => {
   describe('getFullLocationName', () => {
@@ -42,6 +43,31 @@ describe('utils', () => {
       pushUnique(arr, 3);
 
       expect(arr).toEqual([1, 2, 3]);
+    });
+  });
+
+  describe('cloneInternalLocationData', () => {
+    it('clones the given internal location data object', () => {
+      const data = internalLocationDataArray[0];
+
+      const clone = cloneInternalLocationData(data);
+      clone.location = 'Unknown';
+      clone.provinceOrState = 'Unknown';
+      clone.countryOrRegion = 'Unknown';
+      clone.county = 'Unknown';
+      clone.latitude = 'Unknown';
+      clone.longitude = 'Unknown';
+      clone.values[0].confirmed = data.values[0].confirmed + 1;
+      clone.values.pop();
+
+      expect(data.location).not.toEqual(clone.location);
+      expect(data.provinceOrState).not.toEqual(clone.provinceOrState);
+      expect(data.countryOrRegion).not.toEqual(clone.countryOrRegion);
+      expect(data.county).not.toEqual(clone.county);
+      expect(data.longitude).not.toEqual(clone.longitude);
+      expect(data.latitude).not.toEqual(clone.latitude);
+      expect(data.values[0].confirmed).not.toEqual(clone.values[0].confirmed);
+      expect(data.values).not.toHaveLength(clone.values.length);
     });
   });
 });

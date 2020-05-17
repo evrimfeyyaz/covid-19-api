@@ -4,8 +4,7 @@ import {
   DataStoreNotInitializedError,
 } from 'DataStore/DataStore';
 import { InternalLocationData } from 'types';
-import { pushUnique } from 'utils';
-import cloneDeep from 'lodash.clonedeep';
+import { cloneInternalLocationData, pushUnique } from 'utils';
 
 /**
  * A data store that saves to and loads from the memory.
@@ -68,17 +67,15 @@ export default class MemoryStore implements DataStore {
       throw new DataStoreNotInitializedError();
     }
 
-    return cloneDeep(
-      locations.map(location => {
-        const data = this.data?.[location];
+    return locations.map(location => {
+      const data = this.data?.[location];
 
-        if (data == null) {
-          throw new DataStoreInvalidLocationError(location);
-        }
+      if (data == null) {
+        throw new DataStoreInvalidLocationError(location);
+      }
 
-        return data;
-      })
-    );
+      return cloneInternalLocationData(data);
+    });
   }
 
   async getLocationCount(): Promise<number> {
@@ -92,7 +89,7 @@ export default class MemoryStore implements DataStore {
 
     const states = this.states[countryOrRegion] ?? [];
 
-    return cloneDeep(states.map(location => (this.data as never)[location]));
+    return states.map(location => cloneInternalLocationData((this.data as never)[location]));
   }
 
   async getCountiesData(
@@ -105,7 +102,7 @@ export default class MemoryStore implements DataStore {
 
     const counties = this.counties[countryOrRegion]?.[provinceOrState] ?? [];
 
-    return cloneDeep(counties.map(location => (this.data as never)[location]));
+    return counties.map(location => cloneInternalLocationData((this.data as never)[location]));
   }
 
   async getLocationsList(): Promise<string[]> {
@@ -121,7 +118,7 @@ export default class MemoryStore implements DataStore {
       throw new DataStoreNotInitializedError();
     }
 
-    return cloneDeep(this.savedAt);
+    return this.savedAt ? new Date(this.savedAt.getTime()) : undefined;
   }
 
   async setSourceLastUpdatedAt(sourceLastUpdatedAt: Date): Promise<void> {
@@ -139,7 +136,7 @@ export default class MemoryStore implements DataStore {
       throw new DataStoreNotInitializedError();
     }
 
-    return cloneDeep(this.sourceLastUpdatedAt);
+    return this.sourceLastUpdatedAt ? new Date(this.sourceLastUpdatedAt.getTime()) : undefined;
   }
 
   async clearData(): Promise<void> {

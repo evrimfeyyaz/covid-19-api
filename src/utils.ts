@@ -6,6 +6,8 @@
  * @param provinceOrState
  * @param county
  */
+import { InternalLocationData } from 'types';
+
 export function getFullLocationName(
   countryOrRegion: string,
   provinceOrState?: string,
@@ -35,4 +37,15 @@ export function pushUnique<T>(arr: T[], el: T): void {
   if (arr.indexOf(el) === -1) {
     arr.push(el);
   }
+}
+
+export function cloneInternalLocationData(data: InternalLocationData): InternalLocationData {
+  const clonedValues = data.values.map(valuesOnDate => ({
+    ...valuesOnDate,
+  }));
+
+  return {
+    ...data,
+    values: clonedValues,
+  };
 }
