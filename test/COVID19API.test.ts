@@ -1,4 +1,4 @@
-import COVID19API, { APINotInitializedError } from '../src/COVID19API';
+import COVID19API, { COVID19APINotInitializedError } from '../src/COVID19API';
 import { FileGetter } from '../src/DataGetter/FileGetter';
 import MemoryStore from '../src/DataStore/MemoryStore';
 import { LocationData, ValuesOnDate } from '../src/types';
@@ -294,44 +294,48 @@ describe('COVID19API', () => {
 
     describe('locations', () => {
       it('throws an error', async () => {
-        expect(() => covid19API.locations).toThrow(APINotInitializedError);
+        expect(() => covid19API.locations).toThrow(COVID19APINotInitializedError);
       });
     });
 
     describe('firstDate', () => {
       it('throws an error', async () => {
-        expect(() => covid19API.firstDate).toThrow(APINotInitializedError);
+        expect(() => covid19API.firstDate).toThrow(COVID19APINotInitializedError);
       });
     });
 
     describe('lastDate', () => {
       it('throws an error', async () => {
-        expect(() => covid19API.lastDate).toThrow(APINotInitializedError);
+        expect(() => covid19API.lastDate).toThrow(COVID19APINotInitializedError);
       });
     });
 
     describe('sourceLastUpdatedAt', () => {
       it('throws an error', async () => {
-        expect(() => covid19API.sourceLastUpdatedAt).toThrow(APINotInitializedError);
+        expect(() => covid19API.sourceLastUpdatedAt).toThrow(COVID19APINotInitializedError);
       });
     });
 
     describe('getDataByLocation', () => {
       it('throws an error', async () => {
-        await expect(covid19API.getDataByLocation('')).rejects.toThrow(APINotInitializedError);
+        await expect(covid19API.getDataByLocation('')).rejects.toThrow(
+          COVID19APINotInitializedError
+        );
       });
     });
 
     describe('getDataByLocations', () => {
       it('throws an error', async () => {
-        await expect(covid19API.getDataByLocations([''])).rejects.toThrow(APINotInitializedError);
+        await expect(covid19API.getDataByLocations([''])).rejects.toThrow(
+          COVID19APINotInitializedError
+        );
       });
     });
 
     describe('getDataByLocationAndDate', () => {
       it('throws an error', async () => {
         await expect(covid19API.getDataByLocationAndDate('', new Date())).rejects.toThrow(
-          APINotInitializedError
+          COVID19APINotInitializedError
         );
       });
     });

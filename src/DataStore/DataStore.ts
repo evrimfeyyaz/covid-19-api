@@ -1,9 +1,10 @@
+import { COVID19APIError } from 'COVID19APIError';
 import { InternalLocationData } from 'types';
 
 /**
  * The super class of data store specific errors.
  */
-export class DataStoreError extends Error {
+export class DataStoreError extends COVID19APIError {
   constructor(message: string) {
     super(message);
     this.name = 'DataStoreError';

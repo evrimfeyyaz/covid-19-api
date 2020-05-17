@@ -1,7 +1,9 @@
+import { COVID19APIError } from 'COVID19APIError';
+
 /**
  * The super class of data getter specific errors.
  */
-export class DataGetterError extends Error {
+export class DataGetterError extends COVID19APIError {
   constructor(message: string) {
     super(message);
     this.name = 'DataGetterError';

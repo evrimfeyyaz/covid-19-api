@@ -1,3 +1,4 @@
+import { COVID19APIError } from 'COVID19APIError';
 import { DataGetter } from 'DataGetter/DataGetter';
 import { DataStore } from 'DataStore/DataStore';
 import { formatGlobalParsedData, formatUSParsedData } from 'format';
@@ -24,28 +25,14 @@ interface COVID19APIOptions {
 }
 
 /**
- * The super class for all the errors thrown by the API.
- */
-export class COVID19APIError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'COVID19APIError';
-
-    // This is needed because of:
-    // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
-    Object.setPrototypeOf(this, COVID19APIError.prototype);
-  }
-}
-
-/**
  * Thrown when a method of an instance of {@link COVID19API} is called without it being initialized
  * first.
  */
-export class APINotInitializedError extends COVID19APIError {
+export class COVID19APINotInitializedError extends COVID19APIError {
   constructor() {
-    super('The API is not initialized. Make sure to first call the `init` method.');
-    this.name = 'APINotInitializedError';
-    Object.setPrototypeOf(this, APINotInitializedError.prototype);
+    super('The COVID-19 API is not initialized. Make sure to first call the `init` method.');
+    this.name = 'COVID19APINotInitializedError';
+    Object.setPrototypeOf(this, COVID19APINotInitializedError.prototype);
   }
 }
 
@@ -71,12 +58,12 @@ export default class COVID19API {
   /**
    * Returns the list of locations.
    *
-   * @throws {@link APINotInitializedError} Thrown when the API instance is not initialized by
-   *   calling the `init` method first.
+   * @throws {@link COVID19APINotInitializedError} Thrown when the API instance is not initialized
+   *   by calling the `init` method first.
    */
   get locations(): Readonly<string[]> {
     if (this._locations == null) {
-      throw new APINotInitializedError();
+      throw new COVID19APINotInitializedError();
     }
 
     return this._locations;
@@ -86,12 +73,12 @@ export default class COVID19API {
   /**
    * Returns the date and time the source of the data was last updated at.
    *
-   * @throws {@link APINotInitializedError} Thrown when the API instance is not initialized by
-   *   calling the `init` method first.
+   * @throws {@link COVID19APINotInitializedError} Thrown when the API instance is not initialized
+   *   by calling the `init` method first.
    */
   get sourceLastUpdatedAt(): Readonly<Date> {
     if (this._sourceLastUpdatedAt == null) {
-      throw new APINotInitializedError();
+      throw new COVID19APINotInitializedError();
     }
 
     return this._sourceLastUpdatedAt;
@@ -101,12 +88,12 @@ export default class COVID19API {
   /**
    * Returns the first day of the time series data.
    *
-   * @throws {@link APINotInitializedError} Thrown when the API instance is not initialized by
-   *   calling the `init` method first.
+   * @throws {@link COVID19APINotInitializedError} Thrown when the API instance is not initialized
+   *   by calling the `init` method first.
    */
   get firstDate(): Readonly<Date> {
     if (this._firstDate == null) {
-      throw new APINotInitializedError();
+      throw new COVID19APINotInitializedError();
     }
 
     return this._firstDate;
@@ -116,12 +103,12 @@ export default class COVID19API {
   /**
    * Returns the last day of the time series data.
    *
-   * @throws {@link APINotInitializedError} Thrown when the API instance is not initialized by
-   *   calling the `init` method first.
+   * @throws {@link COVID19APINotInitializedError} Thrown when the API instance is not initialized
+   *   by calling the `init` method first.
    */
   get lastDate(): Readonly<Date> {
     if (this._lastDate == null) {
-      throw new APINotInitializedError();
+      throw new COVID19APINotInitializedError();
     }
 
     return this._lastDate;
@@ -140,6 +127,8 @@ export default class COVID19API {
 
   /**
    * Initializes the API. This must be called before calling other methods.
+   *
+   * @throws {@link DataGetterError} Thrown when there is an error getting the data.
    */
   async init(): Promise<void> {
     if (this.isInitialized) {
@@ -163,10 +152,11 @@ export default class COVID19API {
    * the US data if the given location name is of a US county or state.*
    *
    * @param location The full name of the location, e.g. `"US (Autauga, Alabama)"`.
-   * @throws {@link APINotInitializedError} Thrown when the API instance is not initialized by
-   *   calling the `init` method first.
+   * @throws {@link COVID19APINotInitializedError} Thrown when the API instance is not initialized
+   *   by calling the `init` method first.
    * @throws {@link DataStoreInvalidLocationError} Thrown when the given location cannot be found
    *   in the store.
+   * @throws {@link DataGetterError} Thrown when there is an error getting the data.
    */
   async getDataByLocation(location: string): Promise<LocationData> {
     return (await this.getDataByLocations([location]))[0];
@@ -180,14 +170,15 @@ export default class COVID19API {
    *
    * @param locations An array containing the full names of the locations, e.g. `["US (Autauga,
    *   Alabama)", "Turkey"]`.
-   * @throws {@link APINotInitializedError} Thrown when the API instance is not initialized by
-   *   calling the `init` method first.
+   * @throws {@link COVID19APINotInitializedError} Thrown when the API instance is not initialized
+   *   by calling the `init` method first.
    * @throws {@link DataStoreInvalidLocationError} Thrown when the given location cannot be found
    *   in the store.
+   * @throws {@link DataGetterError} Thrown when there is an error getting the data.
    */
   async getDataByLocations(locations: string[]): Promise<LocationData[]> {
     if (!this.isInitialized) {
-      throw new APINotInitializedError();
+      throw new COVID19APINotInitializedError();
     }
 
     // Check if the user is requesting US state or county data data.
@@ -209,10 +200,11 @@ export default class COVID19API {
    * @param date
    * @returns A Promise that will resolve to a {@link ValuesOnDate} object, of `undefined` if there
    *   is no data available for the given date.
-   * @throws {@link APINotInitializedError} Thrown when the API instance is not initialized by
-   *   calling the `init` method first.
+   * @throws {@link COVID19APINotInitializedError} Thrown when the API instance is not initialized
+   *   by calling the `init` method first.
    * @throws {@link DataStoreInvalidLocationError} Thrown when the given location cannot be found
    *   in the store.
+   * @throws {@link DataGetterError} Thrown when there is an error getting the data.
    */
   async getDataByLocationAndDate(location: string, date: Date): Promise<ValuesOnDate | undefined> {
     const locationData = await this.getDataByLocation(location);
@@ -333,11 +325,12 @@ export default class COVID19API {
   }
 
   /**
-   * Loads data is the store does not have data or the data in the store is expired, while still
-   * respecting the `lazyLoadUSData` option (unless force over-ridden).
+   * Loads data if the store does not have data or the data in the store is expired, while still
+   * respecting the `lazyLoadUSData` option (unless force overridden).
    *
    * @param forceLoadUSData Load the US state and county data, even if the `lazyLoadUSData` option
    *   is set to `true`.
+   * @throws {@link DataGetterError} Thrown when there is an error getting the data.
    */
   private async loadDataIfStoreHasNoFreshData(forceLoadUSData = false): Promise<void> {
     const hasFreshData = await this.hasFreshDataInStore();
@@ -374,6 +367,8 @@ export default class COVID19API {
 
   /**
    * Loads the data global confirmed cases, deaths and recoveries data from the data store.
+   *
+   * @throws {@link DataGetterError} Thrown when there is an error getting the data.
    */
   private async loadGlobalData(): Promise<void> {
     const parsedGlobalConfirmedData = await this.getParsedGlobalConfirmedData();
@@ -390,6 +385,8 @@ export default class COVID19API {
 
   /**
    * Loads the US state and county data for confirmed cases and deaths from the data store.
+   *
+   * @throws {@link DataGetterError} Thrown when there is an error getting the data.
    */
   private async loadUSStateAndCountyData(): Promise<void> {
     const parsedUSConfirmedData = await this.getParsedUSConfirmedData();
@@ -401,18 +398,33 @@ export default class COVID19API {
     this.isUSDataLoaded = true;
   }
 
+  /**
+   * @throws {@link DataGetterError} Thrown when there is an error getting the data.
+   */
   private getParsedGlobalConfirmedData = (): Promise<ParsedCSV> =>
     COVID19API.getParsedData(this.dataGetter.getGlobalConfirmedData());
 
+  /**
+   * @throws {@link DataGetterError} Thrown when there is an error getting the data.
+   */
   private getParsedGlobalDeathsData = (): Promise<ParsedCSV> =>
     COVID19API.getParsedData(this.dataGetter.getGlobalDeathsData());
 
+  /**
+   * @throws {@link DataGetterError} Thrown when there is an error getting the data.
+   */
   private getParsedGlobalRecoveredData = (): Promise<ParsedCSV> =>
     COVID19API.getParsedData(this.dataGetter.getGlobalRecoveredData());
 
+  /**
+   * @throws {@link DataGetterError} Thrown when there is an error getting the data.
+   */
   private getParsedUSConfirmedData = (): Promise<ParsedCSV> =>
     COVID19API.getParsedData(this.dataGetter.getUSConfirmedData());
 
+  /**
+   * @throws {@link DataGetterError} Thrown when there is an error getting the data.
+   */
   private getParsedUSDeathsData = (): Promise<ParsedCSV> =>
     COVID19API.getParsedData(this.dataGetter.getUSDeathsData());
 }
