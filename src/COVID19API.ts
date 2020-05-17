@@ -46,7 +46,15 @@ export default class COVID19API {
   private isInitialized = false;
 
   constructor(
+    /**
+     * An object that implements the {@link DataGetter} interface. It is used to load the data from
+     * its source, e.g. GitHub or local CSV files.
+     */
     private dataGetter: DataGetter,
+    /**
+     * An object that implements the {@link DataStore} interface. It is used to store and query the
+     * parsed and formatted data.
+     */
     private dataStore: DataStore,
     private options: COVID19APIOptions = {
       lazyLoadUSData: true,

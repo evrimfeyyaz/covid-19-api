@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ValuesOnDate | COVID-19 API - v0.1.0</title>
+	<title>COVID19APIError | COVID-19 API - v0.1.0</title>
 	<meta name="description" content="Documentation for COVID-19 API - v0.1.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
@@ -2722,55 +2722,25 @@ img {
 </header>
 <nav class="tsd-navigation secondary">
 	<ul>
-		<li class=" tsd-kind-interface tsd-parent-kind-module">
-			<a href="_types_.internallocationdata.html" class="tsd-kind-icon">Internal<wbr>Location<wbr>Data</a>
-		</li>
-		<li class=" tsd-kind-interface tsd-parent-kind-module">
-			<a href="_types_.internalvaluesondate.html" class="tsd-kind-icon">Internal<wbr>Values<wbr>OnDate</a>
-		</li>
-		<li class=" tsd-kind-interface tsd-parent-kind-module">
-			<a href="_types_.locationdata.html" class="tsd-kind-icon">Location<wbr>Data</a>
-		</li>
-		<li class=" tsd-kind-interface tsd-parent-kind-module">
-			<a href="_types_.locationinfo.html" class="tsd-kind-icon">Location<wbr>Info</a>
-		</li>
-		<li class="current tsd-kind-interface tsd-parent-kind-module">
-			<a href="_types_.valuesondate.html" class="tsd-kind-icon">Values<wbr>OnDate</a>
+		<li class="current tsd-kind-class tsd-parent-kind-module">
+			<a href="_covid19apierror_.covid19apierror.html" class="tsd-kind-icon">COVID19APIError</a>
 			<ul>
-				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a href="_types_.valuesondate.html#confirmed" class="tsd-kind-icon">confirmed</a>
+				<li class=" tsd-kind-constructor tsd-parent-kind-class">
+					<a href="_covid19apierror_.covid19apierror.html#constructor" class="tsd-kind-icon">constructor</a>
 				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a href="_types_.valuesondate.html#date" class="tsd-kind-icon">date</a>
+				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a href="_covid19apierror_.covid19apierror.html#message" class="tsd-kind-icon">message</a>
 				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a href="_types_.valuesondate.html#deaths" class="tsd-kind-icon">deaths</a>
+				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a href="_covid19apierror_.covid19apierror.html#name" class="tsd-kind-icon">name</a>
 				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="_types_.valuesondate.html#mortalityrate" class="tsd-kind-icon">mortality<wbr>Rate</a>
+				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a href="_covid19apierror_.covid19apierror.html#stack" class="tsd-kind-icon">stack</a>
 				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="_types_.valuesondate.html#newconfirmed" class="tsd-kind-icon">new<wbr>Confirmed</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="_types_.valuesondate.html#newdeaths" class="tsd-kind-icon">new<wbr>Deaths</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="_types_.valuesondate.html#newrecovered" class="tsd-kind-icon">new<wbr>Recovered</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a href="_types_.valuesondate.html#recovered" class="tsd-kind-icon">recovered</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="_types_.valuesondate.html#recoveryrate" class="tsd-kind-icon">recovery<wbr>Rate</a>
+				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a href="_covid19apierror_.covid19apierror.html#error" class="tsd-kind-icon">Error</a>
 				</li>
 			</ul>
-		</li>
-		<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-			<a href="../modules/_types_.html#internallocationdatavalues" class="tsd-kind-icon">Internal<wbr>Location<wbr>Data<wbr>Values</a>
-		</li>
-		<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-			<a href="../modules/_types_.html#locationdatavalues" class="tsd-kind-icon">Location<wbr>Data<wbr>Values</a>
 		</li>
 	</ul>
 </nav>
@@ -2779,7 +2749,7 @@ img {
 		<section class="tsd-panel tsd-comment">
 			<div class="tsd-comment tsd-typography">
 				<div class="lead">
-					<p>Defines the structure of an object which contains all the data on a certain date.</p>
+					<p>The super class of all the errors in this library.</p>
 				</div>
 			</div>
 		</section>
@@ -2787,10 +2757,21 @@ img {
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
 				<li>
-					<a href="_types_.internalvaluesondate.html" class="tsd-signature-type">InternalValuesOnDate</a>
+					<a href="_covid19apierror_.covid19apierror.html#error" class="tsd-signature-type">Error</a>
 					<ul class="tsd-hierarchy">
 						<li>
-							<span class="target">ValuesOnDate</span>
+							<span class="target">COVID19APIError</span>
+							<ul class="tsd-hierarchy">
+								<li>
+									<a href="_datagetter_datagetter_.datagettererror.html" class="tsd-signature-type">DataGetterError</a>
+								</li>
+								<li>
+									<a href="_datastore_datastore_.datastoreerror.html" class="tsd-signature-type">DataStoreError</a>
+								</li>
+								<li>
+									<a href="_covid19api_.covid19apinotinitializederror.html" class="tsd-signature-type">COVID19APINotInitializedError</a>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</li>
@@ -2801,115 +2782,91 @@ img {
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
 					<section class="tsd-index-section ">
+						<h3>Constructors</h3>
+						<ul class="tsd-index-list">
+							<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_covid19apierror_.covid19apierror.html#constructor" class="tsd-kind-icon">constructor</a></li>
+						</ul>
+					</section>
+					<section class="tsd-index-section ">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_types_.valuesondate.html#confirmed" class="tsd-kind-icon">confirmed</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_types_.valuesondate.html#date" class="tsd-kind-icon">date</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_types_.valuesondate.html#deaths" class="tsd-kind-icon">deaths</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.valuesondate.html#mortalityrate" class="tsd-kind-icon">mortality<wbr>Rate</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.valuesondate.html#newconfirmed" class="tsd-kind-icon">new<wbr>Confirmed</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.valuesondate.html#newdeaths" class="tsd-kind-icon">new<wbr>Deaths</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.valuesondate.html#newrecovered" class="tsd-kind-icon">new<wbr>Recovered</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_types_.valuesondate.html#recovered" class="tsd-kind-icon">recovered</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.valuesondate.html#recoveryrate" class="tsd-kind-icon">recovery<wbr>Rate</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_covid19apierror_.covid19apierror.html#message" class="tsd-kind-icon">message</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_covid19apierror_.covid19apierror.html#name" class="tsd-kind-icon">name</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_covid19apierror_.covid19apierror.html#stack" class="tsd-kind-icon">stack</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_covid19apierror_.covid19apierror.html#error" class="tsd-kind-icon">Error</a></li>
 						</ul>
 					</section>
 				</div>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
+			<h2>Constructors</h2>
+			<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<a name="constructor" class="tsd-anchor"></a>
+				<h3>constructor</h3>
+				<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">new COVID19APIError<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_covid19apierror_.covid19apierror.html" class="tsd-signature-type">COVID19APIError</a></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19APIError.ts#L4">src/COVID19APIError.ts:4</a></li>
+							</ul>
+						</aside>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>message: <span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <a href="_covid19apierror_.covid19apierror.html" class="tsd-signature-type">COVID19APIError</a></h4>
+					</li>
+				</ul>
+			</section>
+		</section>
+		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Properties</h2>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-				<a name="confirmed" class="tsd-anchor"></a>
-				<h3>confirmed</h3>
-				<div class="tsd-signature tsd-kind-icon">confirmed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<a name="message" class="tsd-anchor"></a>
+				<h3>message</h3>
+				<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
-					<p>Inherited from <a href="_types_.internalvaluesondate.html">InternalValuesOnDate</a>.<a href="_types_.internalvaluesondate.html#confirmed">confirmed</a></p>
+					<p>Inherited from <a href="_covid19apierror_.covid19apierror.html">COVID19APIError</a>.<a href="_covid19apierror_.covid19apierror.html#message">message</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/types.ts#L6">src/types.ts:6</a></li>
+						<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:974</li>
 					</ul>
 				</aside>
 			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-				<a name="date" class="tsd-anchor"></a>
-				<h3>date</h3>
-				<div class="tsd-signature tsd-kind-icon">date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<a name="name" class="tsd-anchor"></a>
+				<h3>name</h3>
+				<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
-					<p>Inherited from <a href="_types_.internalvaluesondate.html">InternalValuesOnDate</a>.<a href="_types_.internalvaluesondate.html#date">date</a></p>
+					<p>Inherited from <a href="_covid19apierror_.covid19apierror.html">COVID19APIError</a>.<a href="_covid19apierror_.covid19apierror.html#name">name</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/types.ts#L5">src/types.ts:5</a></li>
+						<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:973</li>
 					</ul>
 				</aside>
 			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-				<a name="deaths" class="tsd-anchor"></a>
-				<h3>deaths</h3>
-				<div class="tsd-signature tsd-kind-icon">deaths<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<a name="stack" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> stack</h3>
+				<div class="tsd-signature tsd-kind-icon">stack<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
-					<p>Inherited from <a href="_types_.internalvaluesondate.html">InternalValuesOnDate</a>.<a href="_types_.internalvaluesondate.html#deaths">deaths</a></p>
+					<p>Inherited from <a href="_covid19apierror_.covid19apierror.html">COVID19APIError</a>.<a href="_covid19apierror_.covid19apierror.html#stack">stack</a></p>
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/types.ts#L7">src/types.ts:7</a></li>
+						<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:975</li>
 					</ul>
 				</aside>
 			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="mortalityrate" class="tsd-anchor"></a>
-				<h3>mortality<wbr>Rate</h3>
-				<div class="tsd-signature tsd-kind-icon">mortality<wbr>Rate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+				<a name="error" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagStatic">Static</span> Error</h3>
+				<div class="tsd-signature tsd-kind-icon">Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ErrorConstructor</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/types.ts#L42">src/types.ts:42</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="newconfirmed" class="tsd-anchor"></a>
-				<h3>new<wbr>Confirmed</h3>
-				<div class="tsd-signature tsd-kind-icon">new<wbr>Confirmed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/types.ts#L40">src/types.ts:40</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="newdeaths" class="tsd-anchor"></a>
-				<h3>new<wbr>Deaths</h3>
-				<div class="tsd-signature tsd-kind-icon">new<wbr>Deaths<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/types.ts#L41">src/types.ts:41</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="newrecovered" class="tsd-anchor"></a>
-				<h3>new<wbr>Recovered</h3>
-				<div class="tsd-signature tsd-kind-icon">new<wbr>Recovered<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/types.ts#L43">src/types.ts:43</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-				<a name="recovered" class="tsd-anchor"></a>
-				<h3>recovered</h3>
-				<div class="tsd-signature tsd-kind-icon">recovered<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
-				<aside class="tsd-sources">
-					<p>Inherited from <a href="_types_.internalvaluesondate.html">InternalValuesOnDate</a>.<a href="_types_.internalvaluesondate.html#recovered">recovered</a></p>
-					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/types.ts#L8">src/types.ts:8</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="recoveryrate" class="tsd-anchor"></a>
-				<h3>recovery<wbr>Rate</h3>
-				<div class="tsd-signature tsd-kind-icon">recovery<wbr>Rate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/types.ts#L44">src/types.ts:44</a></li>
+						<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:984</li>
 					</ul>
 				</aside>
 			</section>
@@ -2926,11 +2883,17 @@ img {
 						<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 					</ul>
 					<ul class="tsd-legend">
-						<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-						<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+						<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+						<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 					</ul>
 					<ul class="tsd-legend">
-						<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+						<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+					</ul>
+					<ul class="tsd-legend">
+						<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+					</ul>
+					<ul class="tsd-legend">
+						<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
 					</ul>
 				</div>
 			</div>
