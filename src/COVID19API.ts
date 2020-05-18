@@ -1,21 +1,65 @@
 import { COVID19APIError } from 'COVID19APIError';
 import { DataGetter } from 'DataGetter/DataGetter';
+import { FileGetter } from 'DataGetter/FileGetter';
+import { GitHubGetter } from 'DataGetter/GitHubGetter';
 import { DataStore } from 'DataStore/DataStore';
+import IndexedDBStore from 'DataStore/IndexedDBStore';
+import MemoryStore from 'DataStore/MemoryStore';
 import { formatGlobalParsedData, formatUSParsedData } from 'format';
 import { dateKeyToDate, dateToDateKey, parseCSV, ParsedCSV } from 'parse';
 import { InternalLocationData, LocationData, ValuesOnDate } from 'types';
 import { US_LOCATIONS } from 'usLocations';
 
+type LoadFromOptions = 'github' | 'files';
+type StoreOptions = 'memory' | 'indexeddb';
+type FilePaths = {
+  globalConfirmedCSVPath: string;
+  globalDeathsCSVPath: string;
+  globalRecoveredCSVPath: string;
+  usConfirmedCSVPath: string;
+  usDeathsCSVPath: string;
+};
+
 interface COVID19APIOptions {
+  /**
+   * Where to load the data from. Either the JHU CSSE GitHub repository or from CSV files.
+   *
+   * The default is `'github'`.
+   */
+  loadFrom?: LoadFromOptions;
+  /**
+   * Where to store and query the data. Either memory or IndexedDB.
+   *
+   * The default is `'memory'`.
+   */
+  store?: StoreOptions;
+  /**
+   * If `files` is selected for the `loadFrom` option, you can optionally enter the paths to the
+   * CSV files.
+   *
+   * If this is omitted, it is assumed that the files are in the same folder, and have the
+   * following default names:
+   *
+   * - time_series_covid19_confirmed_global.csv
+   * - time_series_covid19_deaths_global.csv
+   * - time_series_covid19_recovered_global.csv
+   * - time_series_covid19_confirmed_US.csv
+   * - time_series_covid19_deaths_US.csv
+   */
+  filePaths?: FilePaths;
   /**
    * Whether to only load the US state and county data when it is requested.
    *
    * The US state and county data is much bigger than the global data, so it usually makes sense to
    * lazy load it for a better user experience.
+   *
+   * The default is `true`.
    */
   lazyLoadUSData?: boolean;
   /**
    * The duration in milliseconds that the data in the data store should be valid for.
+   *
+   * The default is 1 hour.
    */
   dataValidityInMS?: number;
   /**
@@ -37,30 +81,69 @@ export class COVID19APINotInitializedError extends COVID19APIError {
 }
 
 /**
+ * Thrown when `init` is called more than once.
+ */
+export class COVID19APIAlreadyInitializedError extends COVID19APIError {
+  constructor() {
+    super('The COVID-19 API is already initialized.');
+    this.name = 'COVID19APIAlreadyInitializedError';
+    Object.setPrototypeOf(this, COVID19APIAlreadyInitializedError.prototype);
+  }
+}
+
+/**
  * A class that provides a simple API for interacting with the JHU CSSE COVID-19 time series data.
  */
 export default class COVID19API {
-  private static defaultDataValidityInMS = 60 * 60 * 1000; // 1 hour
+  private readonly dataValidityInMS: number;
+  private readonly lazyLoadUSData: boolean;
 
   private isUSDataLoaded = false;
   private isInitialized = false;
 
-  constructor(
-    /**
-     * An object that implements the {@link DataGetter} interface. It is used to load the data from
-     * its source, e.g. GitHub or local CSV files.
-     */
-    private dataGetter: DataGetter,
-    /**
-     * An object that implements the {@link DataStore} interface. It is used to store and query the
-     * parsed and formatted data.
-     */
-    private dataStore: DataStore,
-    private options: COVID19APIOptions = {
-      lazyLoadUSData: true,
-      dataValidityInMS: COVID19API.defaultDataValidityInMS,
+  private readonly dataStore: DataStore;
+  private readonly dataGetter: DataGetter;
+
+  constructor(options: COVID19APIOptions) {
+    const { lazyLoadUSData, dataValidityInMS } = options;
+
+    this.lazyLoadUSData = lazyLoadUSData ?? true;
+    this.dataValidityInMS = dataValidityInMS ?? 60 * 60 * 1000; // 1 hour
+
+    let { store, loadFrom, filePaths } = options;
+
+    store = store ?? 'memory';
+    loadFrom = loadFrom ?? 'github';
+    filePaths = filePaths ?? {
+      globalConfirmedCSVPath: 'time_series_covid19_confirmed_global.csv',
+      globalDeathsCSVPath: 'time_series_covid19_deaths_global.csv',
+      globalRecoveredCSVPath: 'time_series_covid19_recovered_global.csv',
+      usConfirmedCSVPath: 'time_series_covid19_confirmed_US.csv',
+      usDeathsCSVPath: 'time_series_covid19_deaths_US.csv',
+    };
+
+    switch (store) {
+      case 'indexeddb':
+        this.dataStore = new IndexedDBStore();
+        break;
+      case 'memory':
+        this.dataStore = new MemoryStore();
     }
-  ) {}
+
+    switch (loadFrom) {
+      case 'files':
+        this.dataGetter = new FileGetter(
+          filePaths.globalConfirmedCSVPath,
+          filePaths.globalDeathsCSVPath,
+          filePaths.globalRecoveredCSVPath,
+          filePaths.usConfirmedCSVPath,
+          filePaths.usDeathsCSVPath
+        );
+        break;
+      case 'github':
+        this.dataGetter = new GitHubGetter();
+    }
+  }
 
   private _locations: string[] | undefined;
   /**
@@ -140,15 +223,17 @@ export default class COVID19API {
    * Initializes the API. This must be called before calling other methods.
    *
    * @throws {@link DataGetterError} Thrown when there is an error getting the data.
+   * @throws {@link COVID19APIAlreadyInitializedError} Thrown when this method is called more than
+   *   once.
    */
   async init(): Promise<void> {
     if (this.isInitialized) {
-      return;
+      throw new COVID19APIAlreadyInitializedError();
     }
 
     await this.dataStore.init();
 
-    await this.loadDataIfStoreHasNoFreshData(!this.options.lazyLoadUSData);
+    await this.loadDataIfStoreHasNoFreshData(!this.lazyLoadUSData);
     await this.setSourceLastUpdatedAt();
     await this.setLocations();
     await this.setFirstAndLastDates();
@@ -237,7 +322,7 @@ export default class COVID19API {
       return false;
     }
 
-    const dataValidity = this.options.dataValidityInMS ?? COVID19API.defaultDataValidityInMS;
+    const dataValidity = this.dataValidityInMS;
     const expirationTime = savedAt.getTime() + dataValidity;
 
     return Date.now() < expirationTime;

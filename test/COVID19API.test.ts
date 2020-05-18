@@ -1,40 +1,51 @@
-import COVID19API, { COVID19APINotInitializedError } from '../src/COVID19API';
+import COVID19API, {
+  COVID19APIAlreadyInitializedError,
+  COVID19APINotInitializedError,
+} from '../src/COVID19API';
+import { DataGetter } from '../src/DataGetter/DataGetter';
 import { FileGetter } from '../src/DataGetter/FileGetter';
-import MemoryStore from '../src/DataStore/MemoryStore';
 import { LocationData, ValuesOnDate } from '../src/types';
 import './customMatchers';
+import {
+  globalConfirmedDataCSV,
+  globalDeathsDataCSV,
+  globalRecoveredDataCSV,
+} from './testData/globalDataCSV';
+import { usConfirmedDataCSV, usDeathsDataCSV } from './testData/usDataCSV';
+
+jest.mock('../src/DataGetter/FileGetter');
 
 describe('COVID19API', () => {
-  const testDataPath = 'test/testData/csv/';
-  const globalConfirmedCSVPath = testDataPath + 'globalConfirmed.csv';
-  const globalDeathsCSVPath = testDataPath + 'globalDeaths.csv';
-  const globalRecoveredCSVPath = testDataPath + 'globalRecovered.csv';
-  const usConfirmedCSVPath = testDataPath + 'usConfirmed.csv';
-  const usDeathsCSVPath = testDataPath + 'usDeaths.csv';
-  const fileGetter = new FileGetter(
-    globalConfirmedCSVPath,
-    globalDeathsCSVPath,
-    globalRecoveredCSVPath,
-    usConfirmedCSVPath,
-    usDeathsCSVPath
-  );
-  const sourceLastUpdatedAt = new Date();
-  // As the file getter does not look up the last updated date
-  // of the GitHub source, and as this information is not included
-  // in the global data files, the file getter returns `undefined`
-  // as the last updated at date. We mock that method so that we
-  // can still test that the API returns the date from the getter.
-  jest
-    .spyOn(fileGetter, 'getSourceLastUpdatedAt')
-    .mockImplementation(() => Promise.resolve(sourceLastUpdatedAt));
-  const getGlobalConfirmedDataSpy = jest.spyOn(fileGetter, 'getGlobalConfirmedData');
-  const getGlobalDeathsDataSpy = jest.spyOn(fileGetter, 'getGlobalDeathsData');
-  const getGlobalRecoveredDataSpy = jest.spyOn(fileGetter, 'getGlobalRecoveredData');
-  const getUSConfirmedDataSpy = jest.spyOn(fileGetter, 'getUSConfirmedData');
-  const getUSDeathsDataSpy = jest.spyOn(fileGetter, 'getUSDeathsData');
+  const mockSourceLastUpdatedAt = new Date();
+  const mockGetGlobalConfirmedData = jest.fn().mockImplementation(() => {
+    return Promise.resolve(globalConfirmedDataCSV);
+  });
+  const mockGetGlobalDeathsData = jest.fn().mockImplementation(() => {
+    return Promise.resolve(globalDeathsDataCSV);
+  });
+  const mockGetGlobalRecoveredData = jest.fn().mockImplementation(() => {
+    return Promise.resolve(globalRecoveredDataCSV);
+  });
+  const mockGetUSConfirmedData = jest.fn().mockImplementation(() => {
+    return Promise.resolve(usConfirmedDataCSV);
+  });
+  const mockGetUSDeathsData = jest.fn().mockImplementation(() => {
+    return Promise.resolve(usDeathsDataCSV);
+  });
+  const mockGetSourceLastUpdatedAt = jest.fn().mockImplementation(() => {
+    return Promise.resolve(mockSourceLastUpdatedAt);
+  });
 
-  const memoryStore = new MemoryStore();
-  const dataStoreInitSpy = jest.spyOn(memoryStore, 'init');
+  const MockFileGetter = (FileGetter as unknown) as jest.Mock<DataGetter>;
+  const mockFileGetterImplementation = {
+    getGlobalConfirmedData: mockGetGlobalConfirmedData,
+    getGlobalDeathsData: mockGetGlobalDeathsData,
+    getGlobalRecoveredData: mockGetGlobalRecoveredData,
+    getUSConfirmedData: mockGetUSConfirmedData,
+    getUSDeathsData: mockGetUSDeathsData,
+    getSourceLastUpdatedAt: mockGetSourceLastUpdatedAt,
+  };
+  MockFileGetter.mockImplementation(() => mockFileGetterImplementation);
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -44,17 +55,13 @@ describe('COVID19API', () => {
     let covid19API: COVID19API;
 
     beforeAll(async () => {
-      covid19API = new COVID19API(fileGetter, memoryStore);
+      covid19API = new COVID19API({ loadFrom: 'files' });
       await covid19API.init();
     });
 
     describe('init', () => {
-      it('does not re-initialize the instance', async () => {
-        expect(dataStoreInitSpy).toBeCalledTimes(1);
-
-        await covid19API.init();
-
-        expect(dataStoreInitSpy).toBeCalledTimes(1);
+      it('throws an error when it is called more than once', async () => {
+        await expect(covid19API.init()).rejects.toThrow(COVID19APIAlreadyInitializedError);
       });
     });
 
@@ -219,7 +226,7 @@ describe('COVID19API', () => {
       it('returns the date that the source data was last updated', () => {
         const result = covid19API.sourceLastUpdatedAt;
 
-        expect(result).toEqual(sourceLastUpdatedAt);
+        expect(result).toEqual(mockSourceLastUpdatedAt);
       });
 
       it('returns a clone of the date', async () => {
@@ -275,36 +282,37 @@ describe('COVID19API', () => {
 
   describe('getDataByLocation', () => {
     it('does not reload the data when it is not expired', async () => {
-      const covid19API = new COVID19API(fileGetter, memoryStore);
+      const covid19API = new COVID19API({ loadFrom: 'files' });
       await covid19API.init();
 
-      getGlobalConfirmedDataSpy.mockClear();
-      getGlobalDeathsDataSpy.mockClear();
-      getGlobalRecoveredDataSpy.mockClear();
+      mockGetGlobalConfirmedData.mockClear();
+      mockGetGlobalDeathsData.mockClear();
+      mockGetGlobalRecoveredData.mockClear();
 
       await covid19API.getDataByLocation('Turkey');
 
-      expect(getGlobalConfirmedDataSpy).not.toBeCalled();
-      expect(getGlobalDeathsDataSpy).not.toBeCalled();
-      expect(getGlobalRecoveredDataSpy).not.toBeCalled();
+      expect(mockGetGlobalConfirmedData).not.toBeCalled();
+      expect(mockGetGlobalDeathsData).not.toBeCalled();
+      expect(mockGetGlobalRecoveredData).not.toBeCalled();
     });
 
     it('reloads the data when it is expired', async () => {
-      const covid19API = new COVID19API(fileGetter, memoryStore, {
+      const covid19API = new COVID19API({
+        loadFrom: 'files',
         dataValidityInMS: 10,
       });
       await covid19API.init();
 
       await new Promise(r => setTimeout(r, 100));
-      getGlobalConfirmedDataSpy.mockClear();
-      getGlobalDeathsDataSpy.mockClear();
-      getGlobalRecoveredDataSpy.mockClear();
+      mockGetGlobalConfirmedData.mockClear();
+      mockGetGlobalDeathsData.mockClear();
+      mockGetGlobalRecoveredData.mockClear();
 
       await covid19API.getDataByLocation('Turkey');
 
-      expect(getGlobalConfirmedDataSpy).toBeCalledTimes(1);
-      expect(getGlobalDeathsDataSpy).toBeCalledTimes(1);
-      expect(getGlobalRecoveredDataSpy).toBeCalledTimes(1);
+      expect(mockGetGlobalConfirmedData).toBeCalledTimes(1);
+      expect(mockGetGlobalDeathsData).toBeCalledTimes(1);
+      expect(mockGetGlobalRecoveredData).toBeCalledTimes(1);
     });
   });
 
@@ -313,7 +321,8 @@ describe('COVID19API', () => {
 
     describe('lazy loading US data on', () => {
       beforeEach(async () => {
-        covid19API = new COVID19API(fileGetter, memoryStore, {
+        covid19API = new COVID19API({
+          loadFrom: 'files',
           lazyLoadUSData: true,
         });
         await covid19API.init();
@@ -322,21 +331,21 @@ describe('COVID19API', () => {
       it('does not load the US state and county data before they are requested', async () => {
         await covid19API.getDataByLocation('Turkey');
 
-        expect(getUSConfirmedDataSpy).not.toBeCalled();
-        expect(getUSDeathsDataSpy).not.toBeCalled();
+        expect(mockGetUSConfirmedData).not.toBeCalled();
+        expect(mockGetUSDeathsData).not.toBeCalled();
       });
 
       it('loads the US state and county data when they are requested', async () => {
         await covid19API.getDataByLocation('US (Alabama)');
 
-        expect(getUSConfirmedDataSpy).toBeCalledTimes(1);
-        expect(getUSDeathsDataSpy).toBeCalledTimes(1);
+        expect(mockGetUSConfirmedData).toBeCalledTimes(1);
+        expect(mockGetUSDeathsData).toBeCalledTimes(1);
       });
 
       describe('locations', () => {
         it('includes all the US state and county names in the locations list even before the US data is requested', () => {
-          expect(getUSConfirmedDataSpy).not.toBeCalled();
-          expect(getUSDeathsDataSpy).not.toBeCalled();
+          expect(mockGetUSConfirmedData).not.toBeCalled();
+          expect(mockGetUSDeathsData).not.toBeCalled();
 
           const result = covid19API.locations;
 
@@ -347,7 +356,8 @@ describe('COVID19API', () => {
 
     describe('lazy loading US data off', () => {
       beforeEach(async () => {
-        covid19API = new COVID19API(fileGetter, memoryStore, {
+        covid19API = new COVID19API({
+          loadFrom: 'files',
           lazyLoadUSData: false,
         });
         await covid19API.init();
@@ -355,8 +365,8 @@ describe('COVID19API', () => {
 
       describe('with lazy loading US data off', () => {
         it('loads the US state and county data before they are requested', async () => {
-          expect(getUSConfirmedDataSpy).toBeCalledTimes(1);
-          expect(getUSDeathsDataSpy).toBeCalledTimes(1);
+          expect(mockGetUSConfirmedData).toBeCalledTimes(1);
+          expect(mockGetUSDeathsData).toBeCalledTimes(1);
         });
       });
     });
@@ -366,7 +376,7 @@ describe('COVID19API', () => {
     let covid19API: COVID19API;
 
     beforeAll(async () => {
-      covid19API = new COVID19API(fileGetter, memoryStore);
+      covid19API = new COVID19API({ loadFrom: 'files' });
     });
 
     describe('locations', () => {
