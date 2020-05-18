@@ -97,6 +97,9 @@ export class COVID19APIAlreadyInitializedError extends COVID19APIError {
 export default class COVID19API {
   private readonly dataValidityInMS: number;
   private readonly lazyLoadUSData: boolean;
+  private readonly onLoadingStatusChange:
+    | ((isLoading: boolean, loadingMessage?: string) => void)
+    | undefined;
 
   private isUSDataLoaded = false;
   private isInitialized = false;
@@ -104,11 +107,12 @@ export default class COVID19API {
   private readonly dataStore: DataStore;
   private readonly dataGetter: DataGetter;
 
-  constructor(options: COVID19APIOptions) {
-    const { lazyLoadUSData, dataValidityInMS } = options;
+  constructor(options: COVID19APIOptions = {}) {
+    const { lazyLoadUSData, dataValidityInMS, onLoadingStatusChange } = options;
 
     this.lazyLoadUSData = lazyLoadUSData ?? true;
     this.dataValidityInMS = dataValidityInMS ?? 60 * 60 * 1000; // 1 hour
+    this.onLoadingStatusChange = onLoadingStatusChange;
 
     let { store, loadFrom, filePaths } = options;
 
@@ -227,10 +231,13 @@ export default class COVID19API {
    *   once.
    */
   async init(): Promise<void> {
+    this.onLoadingStatusChange?.(true, 'Initializing the API.');
+
     if (this.isInitialized) {
       throw new COVID19APIAlreadyInitializedError();
     }
 
+    this.onLoadingStatusChange?.(true, 'Initializing the data store.');
     await this.dataStore.init();
 
     await this.loadDataIfStoreHasNoFreshData(!this.lazyLoadUSData);
@@ -239,6 +246,7 @@ export default class COVID19API {
     await this.setFirstAndLastDates();
 
     this.isInitialized = true;
+    this.onLoadingStatusChange?.(false);
   }
 
   /**
@@ -283,6 +291,8 @@ export default class COVID19API {
 
     const data = await this.dataStore.getLocationData(locations);
 
+    this.onLoadingStatusChange?.(false);
+
     return data.map(this.addCalculatedValues);
   }
 
@@ -314,6 +324,7 @@ export default class COVID19API {
    * the `dataValidityInMS` option.
    */
   private async hasFreshDataInStore(): Promise<boolean> {
+    this.onLoadingStatusChange?.(true, 'Checking if the data is already loaded and fresh.');
     const savedAt = await this.dataStore.getSavedAt();
     const locationCount = await this.dataStore.getLocationCount();
 
@@ -455,6 +466,7 @@ export default class COVID19API {
         await this.loadUSStateAndCountyData();
       }
 
+      this.onLoadingStatusChange?.(true, 'Finding out the last source update.');
       sourceLastUpdatedAt = await this.dataGetter.getSourceLastUpdatedAt();
       await this.dataStore.setSourceLastUpdatedAt(sourceLastUpdatedAt);
     }
@@ -466,6 +478,7 @@ export default class COVID19API {
    * @throws {@link DataGetterError} Thrown when there is an error getting the data.
    */
   private async loadGlobalData(): Promise<void> {
+    this.onLoadingStatusChange?.(true, 'Loading the global data.');
     const parsedGlobalConfirmedData = await this.getParsedGlobalConfirmedData();
     const parsedGlobalDeathsData = await this.getParsedGlobalDeathsData();
     const parsedGlobalRecoveredData = await this.getParsedGlobalRecoveredData();
@@ -484,6 +497,7 @@ export default class COVID19API {
    * @throws {@link DataGetterError} Thrown when there is an error getting the data.
    */
   private async loadUSStateAndCountyData(): Promise<void> {
+    this.onLoadingStatusChange?.(true, 'Loading the US data.');
     const parsedUSConfirmedData = await this.getParsedUSConfirmedData();
     const parsedUSDeathsData = await this.getParsedUSDeathsData();
 

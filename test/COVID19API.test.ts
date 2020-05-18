@@ -3,7 +3,7 @@ import COVID19API, {
   COVID19APINotInitializedError,
 } from '../src/COVID19API';
 import { DataGetter } from '../src/DataGetter/DataGetter';
-import { FileGetter } from '../src/DataGetter/FileGetter';
+import { GitHubGetter } from '../src/DataGetter/GitHubGetter';
 import { LocationData, ValuesOnDate } from '../src/types';
 import './customMatchers';
 import {
@@ -13,7 +13,7 @@ import {
 } from './testData/globalDataCSV';
 import { usConfirmedDataCSV, usDeathsDataCSV } from './testData/usDataCSV';
 
-jest.mock('../src/DataGetter/FileGetter');
+jest.mock('../src/DataGetter/GitHubGetter');
 
 describe('COVID19API', () => {
   const mockSourceLastUpdatedAt = new Date();
@@ -36,8 +36,8 @@ describe('COVID19API', () => {
     return Promise.resolve(mockSourceLastUpdatedAt);
   });
 
-  const MockFileGetter = (FileGetter as unknown) as jest.Mock<DataGetter>;
-  const mockFileGetterImplementation = {
+  const MockGitHubGetter = (GitHubGetter as unknown) as jest.Mock<DataGetter>;
+  const mockGitHubGetterImplementation = {
     getGlobalConfirmedData: mockGetGlobalConfirmedData,
     getGlobalDeathsData: mockGetGlobalDeathsData,
     getGlobalRecoveredData: mockGetGlobalRecoveredData,
@@ -45,7 +45,7 @@ describe('COVID19API', () => {
     getUSDeathsData: mockGetUSDeathsData,
     getSourceLastUpdatedAt: mockGetSourceLastUpdatedAt,
   };
-  MockFileGetter.mockImplementation(() => mockFileGetterImplementation);
+  MockGitHubGetter.mockImplementation(() => mockGitHubGetterImplementation);
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -55,7 +55,7 @@ describe('COVID19API', () => {
     let covid19API: COVID19API;
 
     beforeAll(async () => {
-      covid19API = new COVID19API({ loadFrom: 'files' });
+      covid19API = new COVID19API();
       await covid19API.init();
     });
 
@@ -285,7 +285,7 @@ describe('COVID19API', () => {
       let covid19API: COVID19API;
 
       beforeEach(async () => {
-        covid19API = new COVID19API({ loadFrom: 'files' });
+        covid19API = new COVID19API();
         await covid19API.init();
 
         mockGetGlobalConfirmedData.mockClear();
@@ -302,8 +302,8 @@ describe('COVID19API', () => {
       });
 
       it('and the source last updated info is `undefined`, the data is not reloaded', async () => {
-        MockFileGetter.mockImplementationOnce(() => ({
-          ...mockFileGetterImplementation,
+        MockGitHubGetter.mockImplementationOnce(() => ({
+          ...mockGitHubGetterImplementation,
           getSourceLastUpdatedAt: (): Promise<Date | undefined> => Promise.resolve(undefined),
         }));
 
@@ -316,10 +316,7 @@ describe('COVID19API', () => {
     });
 
     it('reloads the data when it is expired', async () => {
-      const covid19API = new COVID19API({
-        loadFrom: 'files',
-        dataValidityInMS: 10,
-      });
+      const covid19API = new COVID19API({ dataValidityInMS: 10 });
       await covid19API.init();
 
       await new Promise(r => setTimeout(r, 100));
@@ -340,10 +337,7 @@ describe('COVID19API', () => {
 
     describe('lazy loading US data on', () => {
       beforeEach(async () => {
-        covid19API = new COVID19API({
-          loadFrom: 'files',
-          lazyLoadUSData: true,
-        });
+        covid19API = new COVID19API({ lazyLoadUSData: true });
         await covid19API.init();
       });
 
@@ -375,10 +369,7 @@ describe('COVID19API', () => {
 
     describe('lazy loading US data off', () => {
       beforeEach(async () => {
-        covid19API = new COVID19API({
-          loadFrom: 'files',
-          lazyLoadUSData: false,
-        });
+        covid19API = new COVID19API({ lazyLoadUSData: false });
         await covid19API.init();
       });
 
@@ -389,13 +380,100 @@ describe('COVID19API', () => {
         });
       });
     });
+
+    describe('a loading status change callback', () => {
+      let covid19API: COVID19API;
+      const mockOnLoadingStatusChange = jest.fn();
+
+      beforeEach(async () => {
+        covid19API = new COVID19API({
+          onLoadingStatusChange: mockOnLoadingStatusChange,
+          dataValidityInMS: 0,
+        });
+
+        await covid19API.init();
+      });
+
+      describe('init', () => {
+        it('sends notifications', async () => {
+          expect(mockOnLoadingStatusChange).toHaveBeenNthCalledWith(1, true, expect.any(String));
+          expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
+        });
+      });
+
+      describe('getDataByLocation', () => {
+        it('sends notifications when the global data is loading', async () => {
+          await covid19API.getDataByLocation('Turkey');
+
+          expect(mockOnLoadingStatusChange).toHaveBeenCalledWith(
+            true,
+            expect.stringContaining('global')
+          );
+          expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
+        });
+
+        it('sends notifications when the US data is loading', async () => {
+          await covid19API.getDataByLocation('US (Autauga, Alabama)');
+
+          expect(mockOnLoadingStatusChange).toHaveBeenCalledWith(
+            true,
+            expect.stringContaining('US')
+          );
+          expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
+        });
+      });
+
+      describe('getDataByLocations', () => {
+        it('sends notifications when the global data is loading', async () => {
+          await covid19API.getDataByLocations(['Turkey']);
+
+          expect(mockOnLoadingStatusChange).toHaveBeenCalledWith(
+            true,
+            expect.stringContaining('global')
+          );
+          expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
+        });
+
+        it('sends notifications when the US data is loading', async () => {
+          await covid19API.getDataByLocations(['US (Autauga, Alabama)']);
+
+          expect(mockOnLoadingStatusChange).toHaveBeenCalledWith(
+            true,
+            expect.stringContaining('US')
+          );
+          expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
+        });
+      });
+
+      describe('getDataByLocationAndDate', () => {
+        it('sends notifications when the global data is loading', async () => {
+          await covid19API.getDataByLocationAndDate('Turkey', new Date());
+
+          expect(mockOnLoadingStatusChange).toHaveBeenCalledWith(
+            true,
+            expect.stringContaining('global')
+          );
+          expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
+        });
+
+        it('sends notifications when the US data is loading', async () => {
+          await covid19API.getDataByLocationAndDate('US (Autauga, Alabama)', new Date());
+
+          expect(mockOnLoadingStatusChange).toHaveBeenCalledWith(
+            true,
+            expect.stringContaining('US')
+          );
+          expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
+        });
+      });
+    });
   });
 
   describe('when not initialized', () => {
     let covid19API: COVID19API;
 
     beforeAll(async () => {
-      covid19API = new COVID19API({ loadFrom: 'files' });
+      covid19API = new COVID19API({});
     });
 
     describe('locations', () => {
