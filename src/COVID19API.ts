@@ -315,10 +315,9 @@ export default class COVID19API {
    */
   private async hasFreshDataInStore(): Promise<boolean> {
     const savedAt = await this.dataStore.getSavedAt();
-    const sourceLastUpdatedAt = await this.dataStore.getSourceLastUpdatedAt();
     const locationCount = await this.dataStore.getLocationCount();
 
-    if (savedAt == null || sourceLastUpdatedAt == null || locationCount === 0) {
+    if (savedAt == null || locationCount === 0) {
       return false;
     }
 

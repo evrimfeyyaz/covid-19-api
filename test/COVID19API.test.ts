@@ -314,6 +314,26 @@ describe('COVID19API', () => {
       expect(mockGetGlobalDeathsData).toBeCalledTimes(1);
       expect(mockGetGlobalRecoveredData).toBeCalledTimes(1);
     });
+
+    it('does not reload the data when it is not expired and the source last updated info is `undefined`', async () => {
+      MockFileGetter.mockImplementationOnce(() => ({
+        ...mockFileGetterImplementation,
+        getSourceLastUpdatedAt: (): Promise<Date | undefined> => Promise.resolve(undefined),
+      }));
+
+      const covid19API = new COVID19API({ loadFrom: 'files' });
+      await covid19API.init();
+
+      mockGetGlobalConfirmedData.mockClear();
+      mockGetGlobalDeathsData.mockClear();
+      mockGetGlobalRecoveredData.mockClear();
+
+      await covid19API.getDataByLocation('Turkey');
+
+      expect(mockGetGlobalConfirmedData).not.toBeCalled();
+      expect(mockGetGlobalDeathsData).not.toBeCalled();
+      expect(mockGetGlobalRecoveredData).not.toBeCalled();
+    });
   });
 
   describe('when initialized with', () => {
