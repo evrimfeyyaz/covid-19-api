@@ -2747,16 +2747,19 @@ img {
 					<a href="_covid19api_.covid19api.html#datastore" class="tsd-kind-icon">data<wbr>Store</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a href="_covid19api_.covid19api.html#datavalidityinms" class="tsd-kind-icon">data<wbr>Validity<wbr>InMS</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a href="_covid19api_.covid19api.html#isinitialized" class="tsd-kind-icon">is<wbr>Initialized</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a href="_covid19api_.covid19api.html#isusdataloaded" class="tsd-kind-icon">isUSData<wbr>Loaded</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a href="_covid19api_.covid19api.html#options" class="tsd-kind-icon">options</a>
+					<a href="_covid19api_.covid19api.html#lazyloadusdata" class="tsd-kind-icon">lazy<wbr>LoadUSData</a>
 				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
-					<a href="_covid19api_.covid19api.html#defaultdatavalidityinms" class="tsd-kind-icon">default<wbr>Data<wbr>Validity<wbr>InMS</a>
+				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a href="_covid19api_.covid19api.html#onloadingstatuschange" class="tsd-kind-icon">on<wbr>Loading<wbr>Status<wbr>Change</a>
 				</li>
 				<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 					<a href="_covid19api_.covid19api.html#firstdate" class="tsd-kind-icon">first<wbr>Date</a>
@@ -2827,10 +2830,22 @@ img {
 			</ul>
 		</li>
 		<li class=" tsd-kind-class tsd-parent-kind-module">
+			<a href="_covid19api_.covid19apialreadyinitializederror.html" class="tsd-kind-icon">COVID19APIAlready<wbr>Initialized<wbr>Error</a>
+		</li>
+		<li class=" tsd-kind-class tsd-parent-kind-module">
 			<a href="_covid19api_.covid19apinotinitializederror.html" class="tsd-kind-icon">COVID19APINot<wbr>Initialized<wbr>Error</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
 			<a href="../interfaces/_covid19api_.covid19apioptions.html" class="tsd-kind-icon">COVID19APIOptions</a>
+		</li>
+		<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+			<a href="../modules/_covid19api_.html#filepaths" class="tsd-kind-icon">File<wbr>Paths</a>
+		</li>
+		<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+			<a href="../modules/_covid19api_.html#loadfromoptions" class="tsd-kind-icon">Load<wbr>From<wbr>Options</a>
+		</li>
+		<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+			<a href="../modules/_covid19api_.html#storeoptions" class="tsd-kind-icon">Store<wbr>Options</a>
 		</li>
 	</ul>
 </nav>
@@ -2870,10 +2885,11 @@ img {
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#_sourcelastupdatedat" class="tsd-kind-icon">_source<wbr>Last<wbr>Updated<wbr>At</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#datagetter" class="tsd-kind-icon">data<wbr>Getter</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#datastore" class="tsd-kind-icon">data<wbr>Store</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#datavalidityinms" class="tsd-kind-icon">data<wbr>Validity<wbr>InMS</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#isinitialized" class="tsd-kind-icon">is<wbr>Initialized</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#isusdataloaded" class="tsd-kind-icon">isUSData<wbr>Loaded</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#options" class="tsd-kind-icon">options</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_covid19api_.covid19api.html#defaultdatavalidityinms" class="tsd-kind-icon">default<wbr>Data<wbr>Validity<wbr>InMS</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#lazyloadusdata" class="tsd-kind-icon">lazy<wbr>LoadUSData</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#onloadingstatuschange" class="tsd-kind-icon">on<wbr>Loading<wbr>Status<wbr>Change</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
@@ -2917,25 +2933,19 @@ img {
 				<a name="constructor" class="tsd-anchor"></a>
 				<h3>constructor</h3>
 				<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">new COVID19API<span class="tsd-signature-symbol">(</span>dataGetter<span class="tsd-signature-symbol">: </span><a href="../interfaces/_datagetter_datagetter_.datagetter.html" class="tsd-signature-type">DataGetter</a>, dataStore<span class="tsd-signature-symbol">: </span><a href="../interfaces/_datastore_datastore_.datastore.html" class="tsd-signature-type">DataStore</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_covid19api_.covid19apioptions.html" class="tsd-signature-type">COVID19APIOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_covid19api_.covid19api.html" class="tsd-signature-type">COVID19API</a></li>
+					<li class="tsd-signature tsd-kind-icon">new COVID19API<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_covid19api_.covid19apioptions.html" class="tsd-signature-type">COVID19APIOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_covid19api_.covid19api.html" class="tsd-signature-type">COVID19API</a></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L46">src/COVID19API.ts:46</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L108">src/COVID19API.ts:108</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>dataGetter: <a href="../interfaces/_datagetter_datagetter_.datagetter.html" class="tsd-signature-type">DataGetter</a></h5>
-							</li>
-							<li>
-								<h5>dataStore: <a href="../interfaces/_datastore_datastore_.datastore.html" class="tsd-signature-type">DataStore</a></h5>
-							</li>
-							<li>
-								<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/_covid19api_.covid19apioptions.html" class="tsd-signature-type">COVID19APIOptions</a><span class="tsd-signature-symbol"> = {lazyLoadUSData: true,dataValidityInMS: COVID19API.defaultDataValidityInMS,}</span></h5>
+								<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/_covid19api_.covid19apioptions.html" class="tsd-signature-type">COVID19APIOptions</a><span class="tsd-signature-symbol"> = {}</span></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="_covid19api_.covid19api.html" class="tsd-signature-type">COVID19API</a></h4>
@@ -2951,7 +2961,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">_first<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L98">src/COVID19API.ts:98</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L185">src/COVID19API.ts:185</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2961,7 +2971,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">_last<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L113">src/COVID19API.ts:113</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L200">src/COVID19API.ts:200</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2971,7 +2981,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">_locations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L65">src/COVID19API.ts:65</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L152">src/COVID19API.ts:152</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2981,41 +2991,39 @@ img {
 				<div class="tsd-signature tsd-kind-icon">_source<wbr>Last<wbr>Updated<wbr>At<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L80">src/COVID19API.ts:80</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L167">src/COVID19API.ts:167</a></li>
 					</ul>
 				</aside>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 				<a name="datagetter" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagPrivate">Private</span> data<wbr>Getter</h3>
+				<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> data<wbr>Getter</h3>
 				<div class="tsd-signature tsd-kind-icon">data<wbr>Getter<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_datagetter_datagetter_.datagetter.html" class="tsd-signature-type">DataGetter</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L53">src/COVID19API.ts:53</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L108">src/COVID19API.ts:108</a></li>
 					</ul>
 				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>An object that implements the <a href="../interfaces/_datagetter_datagetter_.datagetter.html">DataGetter</a> interface. It is used to load the data from
-						its source, e.g. GitHub or local CSV files.</p>
-					</div>
-				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 				<a name="datastore" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagPrivate">Private</span> data<wbr>Store</h3>
+				<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> data<wbr>Store</h3>
 				<div class="tsd-signature tsd-kind-icon">data<wbr>Store<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_datastore_datastore_.datastore.html" class="tsd-signature-type">DataStore</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L58">src/COVID19API.ts:58</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L107">src/COVID19API.ts:107</a></li>
 					</ul>
 				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>An object that implements the <a href="../interfaces/_datastore_datastore_.datastore.html">DataStore</a> interface. It is used to store and query the
-						parsed and formatted data.</p>
-					</div>
-				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<a name="datavalidityinms" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> data<wbr>Validity<wbr>InMS</h3>
+				<div class="tsd-signature tsd-kind-icon">data<wbr>Validity<wbr>InMS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L98">src/COVID19API.ts:98</a></li>
+					</ul>
+				</aside>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 				<a name="isinitialized" class="tsd-anchor"></a>
@@ -3023,7 +3031,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">is<wbr>Initialized<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L46">src/COVID19API.ts:46</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L105">src/COVID19API.ts:105</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3033,27 +3041,27 @@ img {
 				<div class="tsd-signature tsd-kind-icon">isUSData<wbr>Loaded<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L45">src/COVID19API.ts:45</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L104">src/COVID19API.ts:104</a></li>
 					</ul>
 				</aside>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-				<a name="options" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagPrivate">Private</span> options</h3>
-				<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_covid19api_.covid19apioptions.html" class="tsd-signature-type">COVID19APIOptions</a></div>
+				<a name="lazyloadusdata" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> lazy<wbr>LoadUSData</h3>
+				<div class="tsd-signature tsd-kind-icon">lazy<wbr>LoadUSData<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L59">src/COVID19API.ts:59</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L99">src/COVID19API.ts:99</a></li>
 					</ul>
 				</aside>
 			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
-				<a name="defaultdatavalidityinms" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> default<wbr>Data<wbr>Validity<wbr>InMS</h3>
-				<div class="tsd-signature tsd-kind-icon">default<wbr>Data<wbr>Validity<wbr>InMS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 60 * 60 * 1000</span></div>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<a name="onloadingstatuschange" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> on<wbr>Loading<wbr>Status<wbr>Change</h3>
+				<div class="tsd-signature tsd-kind-icon">on<wbr>Loading<wbr>Status<wbr>Change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>isLoading<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, loadingMessage<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L43">src/COVID19API.ts:43</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L100">src/COVID19API.ts:100</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3070,7 +3078,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L105">src/COVID19API.ts:105</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L192">src/COVID19API.ts:192</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3098,7 +3106,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L120">src/COVID19API.ts:120</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L207">src/COVID19API.ts:207</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3126,7 +3134,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L72">src/COVID19API.ts:72</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L159">src/COVID19API.ts:159</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3154,7 +3162,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L90">src/COVID19API.ts:90</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L177">src/COVID19API.ts:177</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3187,7 +3195,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L253">src/COVID19API.ts:253</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L348">src/COVID19API.ts:348</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3219,7 +3227,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L172">src/COVID19API.ts:172</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L265">src/COVID19API.ts:265</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3265,7 +3273,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L220">src/COVID19API.ts:220</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L315">src/COVID19API.ts:315</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3316,7 +3324,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L190">src/COVID19API.ts:190</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L283">src/COVID19API.ts:283</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3363,7 +3371,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L415">src/COVID19API.ts:415</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L513">src/COVID19API.ts:513</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3387,7 +3395,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L421">src/COVID19API.ts:421</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L519">src/COVID19API.ts:519</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3411,7 +3419,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L427">src/COVID19API.ts:427</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L525">src/COVID19API.ts:525</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3435,7 +3443,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L433">src/COVID19API.ts:433</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L531">src/COVID19API.ts:531</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3459,7 +3467,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L439">src/COVID19API.ts:439</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L537">src/COVID19API.ts:537</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3483,7 +3491,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L231">src/COVID19API.ts:231</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L326">src/COVID19API.ts:326</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3506,7 +3514,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L144">src/COVID19API.ts:144</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L233">src/COVID19API.ts:233</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3516,6 +3524,10 @@ img {
 							<dl class="tsd-comment-tags">
 								<dt>throws</dt>
 								<dd><p><a href="_datagetter_datagetter_.datagettererror.html">DataGetterError</a> Thrown when there is an error getting the data.</p>
+								</dd>
+								<dt>throws</dt>
+								<dd><p><a href="_covid19api_.covid19apialreadyinitializederror.html">COVID19APIAlreadyInitializedError</a> Thrown when this method is called more than
+									once.</p>
 								</dd>
 							</dl>
 						</div>
@@ -3533,7 +3545,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L346">src/COVID19API.ts:346</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L441">src/COVID19API.ts:441</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3571,7 +3583,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L384">src/COVID19API.ts:384</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L480">src/COVID19API.ts:480</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3598,7 +3610,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L402">src/COVID19API.ts:402</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L499">src/COVID19API.ts:499</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3625,7 +3637,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L328">src/COVID19API.ts:328</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L423">src/COVID19API.ts:423</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3647,7 +3659,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L313">src/COVID19API.ts:313</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L408">src/COVID19API.ts:408</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3671,7 +3683,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L304">src/COVID19API.ts:304</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L399">src/COVID19API.ts:399</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3694,7 +3706,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L133">src/COVID19API.ts:133</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L220">src/COVID19API.ts:220</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">

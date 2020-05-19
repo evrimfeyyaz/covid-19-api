@@ -2726,6 +2726,9 @@ img {
 			<a href="../classes/_covid19api_.covid19api.html" class="tsd-kind-icon">COVID19API</a>
 		</li>
 		<li class=" tsd-kind-class tsd-parent-kind-module">
+			<a href="../classes/_covid19api_.covid19apialreadyinitializederror.html" class="tsd-kind-icon">COVID19APIAlready<wbr>Initialized<wbr>Error</a>
+		</li>
+		<li class=" tsd-kind-class tsd-parent-kind-module">
 			<a href="../classes/_covid19api_.covid19apinotinitializederror.html" class="tsd-kind-icon">COVID19APINot<wbr>Initialized<wbr>Error</a>
 		</li>
 		<li class="current tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
@@ -2735,12 +2738,30 @@ img {
 					<a href="_covid19api_.covid19apioptions.html#datavalidityinms" class="tsd-kind-icon">data<wbr>Validity<wbr>InMS</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a href="_covid19api_.covid19apioptions.html#filepaths" class="tsd-kind-icon">file<wbr>Paths</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
 					<a href="_covid19api_.covid19apioptions.html#lazyloadusdata" class="tsd-kind-icon">lazy<wbr>LoadUSData</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a href="_covid19api_.covid19apioptions.html#loadfrom" class="tsd-kind-icon">load<wbr>From</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
 					<a href="_covid19api_.covid19apioptions.html#onloadingstatuschange" class="tsd-kind-icon">on<wbr>Loading<wbr>Status<wbr>Change</a>
 				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a href="_covid19api_.covid19apioptions.html#store" class="tsd-kind-icon">store</a>
+				</li>
 			</ul>
+		</li>
+		<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+			<a href="../modules/_covid19api_.html#filepaths" class="tsd-kind-icon">File<wbr>Paths</a>
+		</li>
+		<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+			<a href="../modules/_covid19api_.html#loadfromoptions" class="tsd-kind-icon">Load<wbr>From<wbr>Options</a>
+		</li>
+		<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+			<a href="../modules/_covid19api_.html#storeoptions" class="tsd-kind-icon">Store<wbr>Options</a>
 		</li>
 	</ul>
 </nav>
@@ -2762,8 +2783,11 @@ img {
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_covid19api_.covid19apioptions.html#datavalidityinms" class="tsd-kind-icon">data<wbr>Validity<wbr>InMS</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_covid19api_.covid19apioptions.html#filepaths" class="tsd-kind-icon">file<wbr>Paths</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_covid19api_.covid19apioptions.html#lazyloadusdata" class="tsd-kind-icon">lazy<wbr>LoadUSData</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_covid19api_.covid19apioptions.html#loadfrom" class="tsd-kind-icon">load<wbr>From</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_covid19api_.covid19apioptions.html#onloadingstatuschange" class="tsd-kind-icon">on<wbr>Loading<wbr>Status<wbr>Change</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_covid19api_.covid19apioptions.html#store" class="tsd-kind-icon">store</a></li>
 						</ul>
 					</section>
 				</div>
@@ -2777,13 +2801,39 @@ img {
 				<div class="tsd-signature tsd-kind-icon">data<wbr>Validity<wbr>InMS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L20">src/COVID19API.ts:20</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L64">src/COVID19API.ts:64</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>The duration in milliseconds that the data in the data store should be valid for.</p>
 					</div>
+					<p>The default is 1 hour.</p>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+				<a name="filepaths" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> file<wbr>Paths</h3>
+				<div class="tsd-signature tsd-kind-icon">file<wbr>Paths<span class="tsd-signature-symbol">:</span> <a href="../modules/_covid19api_.html#filepaths" class="tsd-signature-type">FilePaths</a></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L49">src/COVID19API.ts:49</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>If <code>files</code> is selected for the <code>loadFrom</code> option, you can optionally enter the paths to the
+						CSV files.</p>
+					</div>
+					<p>If this is omitted, it is assumed that the files are in the same folder, and have the
+					following default names:</p>
+					<ul>
+						<li>time_series_covid19_confirmed_global.csv</li>
+						<li>time_series_covid19_deaths_global.csv</li>
+						<li>time_series_covid19_recovered_global.csv</li>
+						<li>time_series_covid19_confirmed_US.csv</li>
+						<li>time_series_covid19_deaths_US.csv</li>
+					</ul>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
@@ -2792,7 +2842,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">lazy<wbr>LoadUSData<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L16">src/COVID19API.ts:16</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L58">src/COVID19API.ts:58</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2801,6 +2851,23 @@ img {
 					</div>
 					<p>The US state and county data is much bigger than the global data, so it usually makes sense to
 					lazy load it for a better user experience.</p>
+					<p>The default is <code>true</code>.</p>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+				<a name="loadfrom" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> load<wbr>From</h3>
+				<div class="tsd-signature tsd-kind-icon">load<wbr>From<span class="tsd-signature-symbol">:</span> <a href="../modules/_covid19api_.html#loadfromoptions" class="tsd-signature-type">LoadFromOptions</a></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L29">src/COVID19API.ts:29</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Where to load the data from. Either the JHU CSSE GitHub repository or from CSV files.</p>
+					</div>
+					<p>The default is <code>&#39;github&#39;</code>.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
@@ -2809,13 +2876,29 @@ img {
 				<div class="tsd-signature tsd-kind-icon">on<wbr>Loading<wbr>Status<wbr>Change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>isLoading<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, loadingMessage<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/e2cbb40/src/COVID19API.ts#L24">src/COVID19API.ts:24</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L68">src/COVID19API.ts:68</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>Provide a callback function to receive updates on the loading status of an API instance.</p>
 					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+				<a name="store" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> store</h3>
+				<div class="tsd-signature tsd-kind-icon">store<span class="tsd-signature-symbol">:</span> <a href="../modules/_covid19api_.html#storeoptions" class="tsd-signature-type">StoreOptions</a></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/56737af/src/COVID19API.ts#L35">src/COVID19API.ts:35</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Where to store and query the data. Either memory or IndexedDB.</p>
+					</div>
+					<p>The default is <code>&#39;memory&#39;</code>.</p>
 				</div>
 			</section>
 		</section>
