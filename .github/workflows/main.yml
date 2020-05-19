@@ -36,7 +36,7 @@ jobs:
       - name: Testing...
         uses: paambaati/codeclimate-action@v2.6.0
         env:
-          CC_TEST_REPORTER_ID: 92033c3ebd48d5d2d35e510c3f63b4caa0d1ee7d517e47c6be71cbd73eabf4c1
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
         with:
           coverageCommand: yarn test --ci --coverage --maxWorkers=2
 
