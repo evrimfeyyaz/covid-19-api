@@ -11,15 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checking out the repository...
+      - name: Check out repo
         uses: actions/checkout@v2
 
-      - name: Setting up Node.js environment...
+      - name: Set up Node.js environment
         uses: actions/setup-node@v1.4.2
         with:
           node-version: 12.x
 
-      - name: Loading cached node modules...
+      - name: Load cached node modules
         uses: actions/cache@v1.2.0
         with:
           path: node_modules
@@ -27,20 +27,20 @@ jobs:
           restore-keys: |
             nodeModules-
 
-      - name: Installing dependencies...
+      - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Linting...
+      - name: Lint
         run: yarn lint
 
-      - name: Testing...
+      - name: Test
         uses: paambaati/codeclimate-action@v2.6.0
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
         with:
           coverageCommand: yarn test --ci --coverage --maxWorkers=2
 
-      - name: Checking for vulnerabilities...
+      - name: Check for vulnerabilities
         uses: snyk/actions@0.1.1
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
