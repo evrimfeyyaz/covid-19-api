@@ -1,42 +1,44 @@
 name: CI
-on: [push]
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Begin CI...
-        uses: actions/checkout@v2
+      - name: Checking out the repository...
+      - uses: actions/checkout@v2
 
-      - name: Use Node 12
-        uses: actions/setup-node@v1
+      - name: Setting up Node.js environment...
+        uses: actions/setup-node@v1.4.2
         with:
           node-version: 12.x
 
-      - name: Use cached node_modules
-        uses: actions/cache@v1
+      - name: Loading cached node modules...
+        uses: actions/cache@v1.2.0
         with:
           path: node_modules
           key: nodeModules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             nodeModules-
 
-      - name: Install dependencies
+      - name: Installing dependencies...
         run: yarn install --frozen-lockfile
-        env:
-          CI: true
 
-      - name: Lint
+      - name: Linting...
         run: yarn lint
-        env:
-          CI: true
 
-      - name: Test
-        run: yarn test --ci --coverage --maxWorkers=2
+      - name: Testing...
+        uses: paambaati/codeclimate-action@v2.6.0
         env:
-          CI: true
+          CC_TEST_REPORTER_ID: 92033c3ebd48d5d2d35e510c3f63b4caa0d1ee7d517e47c6be71cbd73eabf4c1
+        with:
+          coverageCommand: yarn test --ci --coverage --maxWorkers=2
 
-      - name: Build
-        run: yarn build
-        env:
-          CI: true
+      - name: Checking for vulnerabilities...
+        uses: snyk/actions@0.1.1
