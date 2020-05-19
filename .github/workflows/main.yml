@@ -42,3 +42,5 @@ jobs:
 
       - name: Checking for vulnerabilities...
         uses: snyk/actions@0.1.1
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
