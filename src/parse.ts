@@ -47,6 +47,7 @@ const dateKeyRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{2})$/;
 
 /**
  * Parses the contents of a CSV file from the JHU CSSE time series data.
+ *
  * @param csv
  */
 export async function parseCSV(csv: string): Promise<ParsedCSV> {
@@ -54,58 +55,11 @@ export async function parseCSV(csv: string): Promise<ParsedCSV> {
     const parser = parse(csv, {
       columns: true,
       trim: true,
-      cast: (value, context) => {
-        if (context.header) {
-          // The CSV files containing the US county data have different column names than the
-          // files containing the global data, so we match the US data column names to the
-          // global data column names.
-          if (value === usCSVColumnTitles.provinceOrState) {
-            return columnTitles.provinceOrState;
-          } else if (value === usCSVColumnTitles.countryOrRegion) {
-            return columnTitles.countryOrRegion;
-          } else if (value === usCSVColumnTitles.longitude) {
-            return columnTitles.longitude;
-          } else if (value === usCSVColumnTitles.county) {
-            return columnTitles.county;
-          }
-
-          return value;
-        }
-
-        if (isDateKey(context.column as string)) {
-          return parseInt(value);
-        }
-
-        if (context.column === columnTitles.provinceOrState && value === '') {
-          return undefined;
-        }
-
-        if (context.column === columnTitles.county && value === '') {
-          return undefined;
-        }
-
-        return value;
-      },
+      cast: castCSVData,
     });
 
     const parsedCSV: ParsedCSV = {};
-    parser.on('readable', () => {
-      while (true) {
-        const record = parser.read();
-
-        if (record == null) {
-          break;
-        }
-
-        const countryOrRegion = record[columnTitles.countryOrRegion] as string;
-        const provinceOrState = record[columnTitles.provinceOrState] as string | undefined;
-        const county = record[columnTitles.county] as string | undefined;
-
-        const location = getFullLocationName(countryOrRegion, provinceOrState, county);
-
-        parsedCSV[location] = record;
-      }
-    });
+    parser.on('readable', getParserReadListener(parser, parsedCSV));
 
     parser.on('error', error => {
       reject(error);
@@ -117,6 +71,7 @@ export async function parseCSV(csv: string): Promise<ParsedCSV> {
 
 /**
  * Returns an object containing the location information in a {@link ParsedCSVRow}.
+ *
  * @param row
  */
 export function getLocationInfoFromRow(row: ParsedCSVRow): LocationInfo {
@@ -139,6 +94,7 @@ export function getLocationInfoFromRow(row: ParsedCSVRow): LocationInfo {
 
 /**
  * Returns the keys of a {@link ParsedCSV} that are dates.
+ *
  * @param parsedCSV
  */
 export function getDateKeys(parsedCSV: ParsedCSV): string[] {
@@ -151,6 +107,7 @@ export function getDateKeys(parsedCSV: ParsedCSV): string[] {
 /**
  * Converts a string containing a date to a Date object, if it is in the right format,
  * such as "1/2/20".
+ *
  * @param dateKey A string containing a date in the format "month/date/year", e.g. "1/2/20".
  */
 export function dateKeyToDate(dateKey: string): Date | undefined {
@@ -169,6 +126,7 @@ export function dateKeyToDate(dateKey: string): Date | undefined {
 
 /**
  * Converts the given Date object to a string in "month/day/year" format, e.g. "1/2/20".
+ *
  * @param date
  */
 export function dateToDateKey(date: Date): string {
@@ -184,8 +142,84 @@ export function dateToDateKey(date: Date): string {
 
 /**
  * Returns `true` if the given column name is a date.
+ *
  * @param columnName
  */
 function isDateKey(columnName: string): boolean {
   return dateKeyRegex.test(columnName);
+}
+
+/**
+ * Casts the values read by the CSV reader to the correct types, and unifies column names used in
+ * different files.
+ *
+ * @param value
+ * @param context
+ */
+function castCSVData(value: string, context: parse.CastingContext): unknown {
+  if (context.header) {
+    return getProperColumnName(value);
+  }
+
+  if (isDateKey(context.column as string)) {
+    return parseInt(value);
+  }
+
+  if (
+    value === '' &&
+    (context.column === columnTitles.provinceOrState || context.column === columnTitles.county)
+  ) {
+    return undefined;
+  }
+
+  return value;
+}
+
+/**
+ * The CSV files containing the US county data have different column names than the files
+ * containing the global data. This method converts the US data column names to the ones we
+ * internally use (see {@link columnTitles}.
+ *
+ * @param columnName
+ */
+function getProperColumnName(columnName: string): string {
+  switch (columnName) {
+    case usCSVColumnTitles.provinceOrState:
+      return columnTitles.provinceOrState;
+    case usCSVColumnTitles.countryOrRegion:
+      return columnTitles.countryOrRegion;
+    case usCSVColumnTitles.longitude:
+      return columnTitles.longitude;
+    case usCSVColumnTitles.county:
+      return columnTitles.county;
+    default:
+      return columnName;
+  }
+}
+
+/**
+ * Returns a function that the CSV parser can use to read each line of a CSV file and accumulate
+ * the read data in the given object.
+ *
+ * @param parser
+ * @param parsedCSV The {@link ParsedCSV} object that each read line is accumulated into.
+ */
+function getParserReadListener(parser: parse.Parser, parsedCSV: ParsedCSV): () => void {
+  return (): void => {
+    while (true) {
+      const record = parser.read();
+
+      if (record == null) {
+        break;
+      }
+
+      const countryOrRegion = record[columnTitles.countryOrRegion] as string;
+      const provinceOrState = record[columnTitles.provinceOrState] as string | undefined;
+      const county = record[columnTitles.county] as string | undefined;
+
+      const location = getFullLocationName(countryOrRegion, provinceOrState, county);
+
+      parsedCSV[location] = record;
+    }
+  };
 }
