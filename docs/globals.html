@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;COVID19API&quot; | COVID-19 API - v0.1.0</title>
+	<title>COVID-19 API - v0.1.0 | COVID-19 API - v0.1.0</title>
 	<meta name="description" content="Documentation for COVID-19 API - v0.1.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
@@ -2692,7 +2692,7 @@ img {
 		<div class="container">
 			<div class="table-wrap">
 				<div class="table-cell">
-					<strong><a href="../index.html">COVID-19 API - v0.1.0</a></strong>
+					<strong><a href="index.html">COVID-19 API - v0.1.0</a></strong>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -2722,111 +2722,88 @@ img {
 </header>
 <nav class="tsd-navigation secondary">
 	<ul>
-		<li class=" tsd-kind-class tsd-parent-kind-module">
-			<a href="../classes/_covid19api_.covid19api.html" class="tsd-kind-icon">COVID19API</a>
-		</li>
-		<li class=" tsd-kind-class tsd-parent-kind-module">
-			<a href="../classes/_covid19api_.covid19apialreadyinitializederror.html" class="tsd-kind-icon">COVID19APIAlready<wbr>Initialized<wbr>Error</a>
-		</li>
-		<li class=" tsd-kind-class tsd-parent-kind-module">
-			<a href="../classes/_covid19api_.covid19apinotinitializederror.html" class="tsd-kind-icon">COVID19APINot<wbr>Initialized<wbr>Error</a>
-		</li>
-		<li class=" tsd-kind-interface tsd-parent-kind-module">
-			<a href="../interfaces/_covid19api_.covid19apioptions.html" class="tsd-kind-icon">COVID19APIOptions</a>
-		</li>
-		<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-			<a href="_covid19api_.html#filepaths" class="tsd-kind-icon">File<wbr>Paths</a>
-		</li>
-		<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-			<a href="_covid19api_.html#loadfromoptions" class="tsd-kind-icon">Load<wbr>From<wbr>Options</a>
-		</li>
-		<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-			<a href="_covid19api_.html#storeoptions" class="tsd-kind-icon">Store<wbr>Options</a>
-		</li>
 	</ul>
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
+		<div class="tsd-panel tsd-typography">
+			<div align="center">
+				<h1>COVID-19 API</h1>
+				<p>A JavaScript library that provides a simple API for the JHU CSSE COVID-19 time series data.</p>
+				<p>
+					<img src="https://github.com/evrimfeyyaz/covid-19-api/workflows/CI/badge.svg?branch=master">
+					<a href="https://snyk.io/test/github/evrimfeyyaz/covid-19-api"><img src="https://snyk.io/test/github/evrimfeyyaz/covid-19-api/badge.svg" /></a>
+					<a href="https://codeclimate.com/github/evrimfeyyaz/covid-19-api/maintainability"><img src="https://api.codeclimate.com/v1/badges/3885a32d01e7c71066eb/maintainability" /></a>
+					<a href="https://codeclimate.com/github/evrimfeyyaz/covid-19-api/test_coverage"><img src="https://api.codeclimate.com/v1/badges/3885a32d01e7c71066eb/test_coverage" /></a>
+				</p>
+			</div>
+			<hr />
+			<a href="#what-is-covid-19-api" id="what-is-covid-19-api" style="color: inherit; text-decoration: none;">
+				<h1>What is COVID-19 API?</h1>
+			</a>
+			<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+				<h1>Installation</h1>
+			</a>
+			<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+				<h1>Usage</h1>
+			</a>
+			<a href="#initialization" id="initialization" style="color: inherit; text-decoration: none;">
+				<h2>Initialization</h2>
+			</a>
+			<a href="#fetching-the-data-from-github" id="fetching-the-data-from-github" style="color: inherit; text-decoration: none;">
+				<h2>Fetching the data from GitHub</h2>
+			</a>
+			<a href="#loading-the-data-from-local-files" id="loading-the-data-from-local-files" style="color: inherit; text-decoration: none;">
+				<h2>Loading the data from local files</h2>
+			</a>
+			<a href="#storing-the-data-in-indexeddb" id="storing-the-data-in-indexeddb" style="color: inherit; text-decoration: none;">
+				<h2>Storing the data in IndexedDB</h2>
+			</a>
+			<a href="#usage-1" id="usage-1" style="color: inherit; text-decoration: none;">
+				<h2>Usage</h2>
+			</a>
+			<a href="#locationdata" id="locationdata" style="color: inherit; text-decoration: none;">
+				<h2><code>LocationData</code></h2>
+			</a>
+			<a href="#errors" id="errors" style="color: inherit; text-decoration: none;">
+				<h2>Errors</h2>
+			</a>
+			<a href="#about-the-source-data" id="about-the-source-data" style="color: inherit; text-decoration: none;">
+				<h2>About the source data</h2>
+			</a>
+			<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+				<h1>Contributing</h1>
+			</a>
+			<a href="#author" id="author" style="color: inherit; text-decoration: none;">
+				<h1>Author</h1>
+			</a>
+			<p><a href="https://evrim.io">Evrim Persembe</a>: <a href="https://github.com/evrimfeyyaz">evrimfeyyaz</a></p>
+		</div>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
 					<section class="tsd-index-section ">
-						<h3>Classes</h3>
+						<h3>Modules</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_covid19api_.covid19api.html" class="tsd-kind-icon">COVID19API</a></li>
-							<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_covid19api_.covid19apialreadyinitializederror.html" class="tsd-kind-icon">COVID19APIAlready<wbr>Initialized<wbr>Error</a></li>
-							<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_covid19api_.covid19apinotinitializederror.html" class="tsd-kind-icon">COVID19APINot<wbr>Initialized<wbr>Error</a></li>
-						</ul>
-					</section>
-					<section class="tsd-index-section ">
-						<h3>Interfaces</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_covid19api_.covid19apioptions.html" class="tsd-kind-icon">COVID19APIOptions</a></li>
-						</ul>
-					</section>
-					<section class="tsd-index-section tsd-is-not-exported">
-						<h3>Type aliases</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported"><a href="_covid19api_.html#filepaths" class="tsd-kind-icon">File<wbr>Paths</a></li>
-							<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported"><a href="_covid19api_.html#loadfromoptions" class="tsd-kind-icon">Load<wbr>From<wbr>Options</a></li>
-							<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported"><a href="_covid19api_.html#storeoptions" class="tsd-kind-icon">Store<wbr>Options</a></li>
+							<li class="tsd-kind-module"><a href="modules/_covid19api_.html" class="tsd-kind-icon">&quot;COVID19API&quot;</a></li>
+							<li class="tsd-kind-module"><a href="modules/_covid19apierror_.html" class="tsd-kind-icon">&quot;COVID19APIError&quot;</a></li>
+							<li class="tsd-kind-module"><a href="modules/_datagetter_datagetter_.html" class="tsd-kind-icon">&quot;<wbr>Data<wbr>Getter/<wbr>Data<wbr>Getter&quot;</a></li>
+							<li class="tsd-kind-module"><a href="modules/_datagetter_filegetter_.html" class="tsd-kind-icon">&quot;<wbr>Data<wbr>Getter/<wbr>File<wbr>Getter&quot;</a></li>
+							<li class="tsd-kind-module"><a href="modules/_datagetter_githubgetter_.html" class="tsd-kind-icon">&quot;<wbr>Data<wbr>Getter/<wbr>Git<wbr>Hub<wbr>Getter&quot;</a></li>
+							<li class="tsd-kind-module"><a href="modules/_datastore_datastore_.html" class="tsd-kind-icon">&quot;<wbr>Data<wbr>Store/<wbr>Data<wbr>Store&quot;</a></li>
+							<li class="tsd-kind-module"><a href="modules/_datastore_indexeddbstore_.html" class="tsd-kind-icon">&quot;<wbr>Data<wbr>Store/<wbr>IndexedDBStore&quot;</a></li>
+							<li class="tsd-kind-module"><a href="modules/_datastore_memorystore_.html" class="tsd-kind-icon">&quot;<wbr>Data<wbr>Store/<wbr>Memory<wbr>Store&quot;</a></li>
+							<li class="tsd-kind-module"><a href="modules/_format_.html" class="tsd-kind-icon">&quot;format&quot;</a></li>
+							<li class="tsd-kind-module"><a href="modules/_index_.html" class="tsd-kind-icon">&quot;index&quot;</a></li>
+							<li class="tsd-kind-module"><a href="modules/_parse_.html" class="tsd-kind-icon">&quot;parse&quot;</a></li>
+							<li class="tsd-kind-module"><a href="modules/_types_.html" class="tsd-kind-icon">&quot;types&quot;</a></li>
+							<li class="tsd-kind-module"><a href="modules/_uslocations_.html" class="tsd-kind-icon">&quot;us<wbr>Locations&quot;</a></li>
+							<li class="tsd-kind-module"><a href="modules/_usstates_.html" class="tsd-kind-icon">&quot;us<wbr>States&quot;</a></li>
+							<li class="tsd-kind-module"><a href="modules/_utils_.html" class="tsd-kind-icon">&quot;utils&quot;</a></li>
 						</ul>
 					</section>
 				</div>
-			</section>
-		</section>
-		<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-			<h2>Type aliases</h2>
-			<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-				<a name="filepaths" class="tsd-anchor"></a>
-				<h3>File<wbr>Paths</h3>
-				<div class="tsd-signature tsd-kind-icon">File<wbr>Paths<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>globalConfirmedCSVPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>globalDeathsCSVPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>globalRecoveredCSVPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>usConfirmedCSVPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>usDeathsCSVPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/7e486a5/src/COVID19API.ts#L15">src/COVID19API.ts:15</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-type-declaration">
-					<h4>Type declaration</h4>
-					<ul class="tsd-parameters">
-						<li class="tsd-parameter">
-							<h5>global<wbr>ConfirmedCSVPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-						</li>
-						<li class="tsd-parameter">
-							<h5>global<wbr>DeathsCSVPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-						</li>
-						<li class="tsd-parameter">
-							<h5>global<wbr>RecoveredCSVPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-						</li>
-						<li class="tsd-parameter">
-							<h5>us<wbr>ConfirmedCSVPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-						</li>
-						<li class="tsd-parameter">
-							<h5>us<wbr>DeathsCSVPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-						</li>
-					</ul>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-				<a name="loadfromoptions" class="tsd-anchor"></a>
-				<h3>Load<wbr>From<wbr>Options</h3>
-				<div class="tsd-signature tsd-kind-icon">Load<wbr>From<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"github"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"files"</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/7e486a5/src/COVID19API.ts#L13">src/COVID19API.ts:13</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-				<a name="storeoptions" class="tsd-anchor"></a>
-				<h3>Store<wbr>Options</h3>
-				<div class="tsd-signature tsd-kind-icon">Store<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"memory"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"indexeddb"</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/7e486a5/src/COVID19API.ts#L14">src/COVID19API.ts:14</a></li>
-					</ul>
-				</aside>
 			</section>
 		</section>
 		<footer class="with-border-bottom">

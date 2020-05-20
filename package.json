@@ -26,7 +26,7 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "build": "rimraf lib lib-esm && tsc && tsc -m ES6 --outDir lib-esm",
-    "docs": "typedoc --out docs --name \"COVID-19 API\" --includeVersion --readme none --theme minimal",
+    "docs": "rimraf docs && typedoc --out docs --name \"COVID-19 API\" --includeVersion --theme minimal",
     "lint": "eslint . --ext .js,.ts,.tsx",
     "test": "jest",
     "test-watch": "jest --watch",
