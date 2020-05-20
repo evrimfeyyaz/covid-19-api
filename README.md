@@ -11,3 +11,29 @@
 </div>
 
 <hr />
+
+# What is COVID-19 API?
+
+# Installation
+
+# Usage
+## Initialization
+
+## Fetching the data from GitHub
+
+## Loading the data from local files
+
+## Storing the data in IndexedDB
+
+## Usage
+
+## `LocationData`
+
+## Errors
+
+## About the source data
+
+# Contributing
+
+# Author
+[Evrim Persembe](https://evrim.io): [evrimfeyyaz](https://github.com/evrimfeyyaz)

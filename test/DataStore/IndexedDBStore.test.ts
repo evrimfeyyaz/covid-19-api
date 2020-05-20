@@ -1,8 +1,8 @@
-import IndexedDBStore from '../../src/DataStore/IndexedDBStore';
-import { sharedDataStoreTests } from './sharedDataStoreTests';
+import IndexedDBStore from "../../src/DataStore/IndexedDBStore";
+import { sharedDataStoreTests } from "./sharedDataStoreTests";
 
-require('fake-indexeddb/auto');
+require("fake-indexeddb/auto");
 
-describe('IndexedDBStore', () => {
+describe("IndexedDBStore", () => {
   sharedDataStoreTests(IndexedDBStore);
 });

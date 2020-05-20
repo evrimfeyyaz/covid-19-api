@@ -2,15 +2,21 @@ import {
   DataStore,
   DataStoreInvalidLocationError,
   DataStoreNotInitializedError,
-} from '../../src/DataStore/DataStore';
-import { InternalLocationData } from '../../src/types';
-import { internalLocationDataArray } from '../testData/internalLocationData';
+} from "../../src/DataStore/DataStore";
+import { InternalLocationData } from "../../src/types";
+import { internalLocationDataArray } from "../testData/internalLocationData";
+
+async function addTestDataToStore(store: DataStore): Promise<string[]> {
+  await store.putLocationData(internalLocationDataArray);
+
+  return internalLocationDataArray.map((data) => data.location);
+}
 
 export async function sharedDataStoreTests<T extends DataStore>(
   dataStoreConstructor: new () => T
 ): Promise<void> {
-  describe('init', () => {
-    it('does not reinitialize', async () => {
+  describe("init", () => {
+    it("does not reinitialize", async () => {
       const locationData = internalLocationDataArray[0];
       const locationName = locationData.location;
       const store = new dataStoreConstructor();
@@ -28,7 +34,7 @@ export async function sharedDataStoreTests<T extends DataStore>(
     });
   });
 
-  describe('when initialized', () => {
+  describe("when initialized", () => {
     let locations: string[];
     let store: T;
 
@@ -38,23 +44,23 @@ export async function sharedDataStoreTests<T extends DataStore>(
       locations = await addTestDataToStore(store);
     });
 
-    describe('getLocationData', () => {
-      it('returns the data for the given location names', async () => {
+    describe("getLocationData", () => {
+      it("returns the data for the given location names", async () => {
         const result = await store.getLocationData(locations);
 
         expect(result).toHaveLength(internalLocationDataArray.length);
         expect(result).toEqual(expect.arrayContaining(internalLocationDataArray));
       });
 
-      it('throws an error when a given location cannot be found', async () => {
-        const unknownLocation = 'Unknown Location';
+      it("throws an error when a given location cannot be found", async () => {
+        const unknownLocation = "Unknown Location";
 
         await expect(store.getLocationData([unknownLocation])).rejects.toThrow(
           DataStoreInvalidLocationError
         );
       });
 
-      it('returns a clone of the original data', async () => {
+      it("returns a clone of the original data", async () => {
         const location = locations[0];
         const [locationData] = await store.getLocationData([location]);
 
@@ -62,7 +68,7 @@ export async function sharedDataStoreTests<T extends DataStore>(
         locationData.values[0].confirmed = 100;
 
         const expectedCountry = locationData.countryOrRegion;
-        locationData.countryOrRegion = 'New Country';
+        locationData.countryOrRegion = "New Country";
 
         const [result] = await store.getLocationData([location]);
 
@@ -71,8 +77,8 @@ export async function sharedDataStoreTests<T extends DataStore>(
       });
     });
 
-    describe('getSavedAt', () => {
-      it('returns the date and time that the last time a location data was saved in the store', async () => {
+    describe("getSavedAt", () => {
+      it("returns the date and time that the last time a location data was saved in the store", async () => {
         const oneMinuteAgo = Date.now() - 1000 * 60;
 
         const result = (await store.getSavedAt()) as Date;
@@ -81,7 +87,7 @@ export async function sharedDataStoreTests<T extends DataStore>(
         expect(result.getTime()).toBeGreaterThan(oneMinuteAgo);
       });
 
-      it('returns a clone of the original data', async () => {
+      it("returns a clone of the original data", async () => {
         const savedAt = (await store.getSavedAt()) as Date;
 
         const expected = savedAt.getTime();
@@ -93,8 +99,8 @@ export async function sharedDataStoreTests<T extends DataStore>(
       });
     });
 
-    describe('setSourceLastUpdatedAt', () => {
-      it('sets the date that the source data was last updated at to the given date', async () => {
+    describe("setSourceLastUpdatedAt", () => {
+      it("sets the date that the source data was last updated at to the given date", async () => {
         const sourceLastUpdatedAt = new Date();
 
         await store.setSourceLastUpdatedAt(sourceLastUpdatedAt);
@@ -104,8 +110,8 @@ export async function sharedDataStoreTests<T extends DataStore>(
       });
     });
 
-    describe('getSourceLastUpdatedAt', () => {
-      it('returns a clone of the original data', async () => {
+    describe("getSourceLastUpdatedAt", () => {
+      it("returns a clone of the original data", async () => {
         const sourceLastUpdatedAt = new Date();
         const expected = sourceLastUpdatedAt.getTime();
 
@@ -119,101 +125,101 @@ export async function sharedDataStoreTests<T extends DataStore>(
       });
     });
 
-    describe('putLocationData', () => {
-      it('overwrites existing data when saving', async () => {
+    describe("putLocationData", () => {
+      it("overwrites existing data when saving", async () => {
         const existingData: InternalLocationData = {
-          ...internalLocationDataArray.filter(({ location }) => location === 'Turkey')[0],
+          ...internalLocationDataArray.filter(({ location }) => location === "Turkey")[0],
           values: [],
         };
         await store.putLocationData([existingData]);
 
-        const [turkeyData] = await store.getLocationData(['Turkey']);
+        const [turkeyData] = await store.getLocationData(["Turkey"]);
         const locations = await store.getLocationsList();
 
         expect(turkeyData.values).toEqual([]);
-        expect(locations.filter(location => location === 'Turkey')).toHaveLength(1);
+        expect(locations.filter((location) => location === "Turkey")).toHaveLength(1);
       });
     });
 
-    describe('getStatesData', () => {
-      it('returns only the data for all the states of the given country, and not county data', async () => {
-        const result = await store.getStatesData('US');
+    describe("getStatesData", () => {
+      it("returns only the data for all the states of the given country, and not county data", async () => {
+        const result = await store.getStatesData("US");
         const expected = internalLocationDataArray.filter(
-          d => d.county == null && d.countryOrRegion === 'US'
+          (d) => d.county == null && d.countryOrRegion === "US"
         );
 
         expect(result).toHaveLength(expected.length);
         expect(result).toEqual(expect.arrayContaining(expected));
       });
 
-      it('returns an empty array when no state for the given country can be found', async () => {
-        const result = await store.getStatesData('Unknown');
+      it("returns an empty array when no state for the given country can be found", async () => {
+        const result = await store.getStatesData("Unknown");
 
         expect(result).toHaveLength(0);
       });
 
-      it('returns a clone of the original data', async () => {
-        const [stateData] = await store.getStatesData('US');
+      it("returns a clone of the original data", async () => {
+        const [stateData] = await store.getStatesData("US");
 
         const expectedValue = stateData.values[0].confirmed;
         stateData.values[0].confirmed = 100;
 
         const expectedCounty = stateData.provinceOrState;
-        stateData.provinceOrState = 'New State';
+        stateData.provinceOrState = "New State";
 
-        const [result] = await store.getStatesData('US');
+        const [result] = await store.getStatesData("US");
 
         expect(result.values[0].confirmed).toEqual(expectedValue);
         expect(result.provinceOrState).toEqual(expectedCounty);
       });
     });
 
-    describe('getCountiesData', () => {
-      it('returns only the data for all the counties of the given state and country, and no state data', async () => {
-        const result = await store.getCountiesData('US', 'Alabama');
+    describe("getCountiesData", () => {
+      it("returns only the data for all the counties of the given state and country, and no state data", async () => {
+        const result = await store.getCountiesData("US", "Alabama");
         const expected = internalLocationDataArray.filter(
-          d => d.county != null && d.countryOrRegion === 'US' && d.provinceOrState === 'Alabama'
+          (d) => d.county != null && d.countryOrRegion === "US" && d.provinceOrState === "Alabama"
         );
 
         expect(result).toHaveLength(expected.length);
         expect(result).toEqual(expect.arrayContaining(expected));
       });
 
-      it('returns an empty array when no county for the given country/state combination can be found', async () => {
-        const result = await store.getCountiesData('Unknown', 'Unknown');
+      it("returns an empty array when no county for the given country/state combination can be found", async () => {
+        const result = await store.getCountiesData("Unknown", "Unknown");
 
         expect(result).toHaveLength(0);
       });
 
-      it('returns a clone of the original data', async () => {
-        const [countyData] = await store.getCountiesData('US', 'Alabama');
+      it("returns a clone of the original data", async () => {
+        const [countyData] = await store.getCountiesData("US", "Alabama");
 
         const expectedValue = countyData.values[0].confirmed;
         countyData.values[0].confirmed = 100;
 
         const expectedCounty = countyData.county;
-        countyData.county = 'New County';
+        countyData.county = "New County";
 
-        const [result] = await store.getCountiesData('US', 'Alabama');
+        const [result] = await store.getCountiesData("US", "Alabama");
 
         expect(result.values[0].confirmed).toEqual(expectedValue);
         expect(result.county).toEqual(expectedCounty);
       });
     });
 
-    describe('getLocationList', () => {
-      it('returns the list of all locations', async () => {
+    describe("getLocationList", () => {
+      it("returns the list of all locations", async () => {
         const result = await store.getLocationsList();
-        const expected = internalLocationDataArray.map(d => d.location);
+        const expected = internalLocationDataArray.map((d) => d.location);
 
         expect(result).toHaveLength(expected.length);
         expect(result).toEqual(expect.arrayContaining(expected));
       });
 
-      it('returns a clone of the original data', async () => {
+      it("returns a clone of the original data", async () => {
         const locations = await store.getLocationsList();
         const expected = locations[0];
-        locations[0] = 'New Location';
+        locations[0] = "New Location";
 
         const [result] = await store.getLocationsList();
 
@@ -221,8 +227,8 @@ export async function sharedDataStoreTests<T extends DataStore>(
       });
     });
 
-    describe('getLocationCount', () => {
-      it('returns the number of locations', async () => {
+    describe("getLocationCount", () => {
+      it("returns the number of locations", async () => {
         const result = await store.getLocationCount();
         const expected = internalLocationDataArray.length;
 
@@ -230,8 +236,8 @@ export async function sharedDataStoreTests<T extends DataStore>(
       });
     });
 
-    describe('clearData', () => {
-      it('clears all the location data and settings', async () => {
+    describe("clearData", () => {
+      it("clears all the location data and settings", async () => {
         await store.clearData();
 
         const sourceLastUpdatedAt = await store.getSourceLastUpdatedAt();
@@ -239,7 +245,7 @@ export async function sharedDataStoreTests<T extends DataStore>(
         const locationsList = await store.getLocationsList();
         const locationCount = await store.getLocationCount();
 
-        await expect(store.getLocationData(['Turkey'])).rejects.toThrow(
+        await expect(store.getLocationData(["Turkey"])).rejects.toThrow(
           DataStoreInvalidLocationError
         );
         expect(sourceLastUpdatedAt).toBeUndefined();
@@ -250,71 +256,65 @@ export async function sharedDataStoreTests<T extends DataStore>(
     });
   });
 
-  describe('when not initialized', () => {
+  describe("when not initialized", () => {
     let store: T;
 
     beforeAll(async () => {
       store = new dataStoreConstructor();
     });
 
-    describe('putLocationData', () => {
-      it('throws not initialized error', async () => {
+    describe("putLocationData", () => {
+      it("throws not initialized error", async () => {
         await expect(store.putLocationData([])).rejects.toThrow(DataStoreNotInitializedError);
       });
     });
 
-    describe('getLocationData', () => {
-      it('throws not initialized error', async () => {
+    describe("getLocationData", () => {
+      it("throws not initialized error", async () => {
         await expect(store.getLocationData([])).rejects.toThrow(DataStoreNotInitializedError);
       });
     });
 
-    describe('getStatesData', () => {
-      it('throws not initialized error', async () => {
-        await expect(store.getStatesData('')).rejects.toThrow(DataStoreNotInitializedError);
+    describe("getStatesData", () => {
+      it("throws not initialized error", async () => {
+        await expect(store.getStatesData("")).rejects.toThrow(DataStoreNotInitializedError);
       });
     });
 
-    describe('getCountiesData', () => {
-      it('throws not initialized error', async () => {
-        await expect(store.getCountiesData('', '')).rejects.toThrow(DataStoreNotInitializedError);
+    describe("getCountiesData", () => {
+      it("throws not initialized error", async () => {
+        await expect(store.getCountiesData("", "")).rejects.toThrow(DataStoreNotInitializedError);
       });
     });
 
-    describe('getLocationsList', () => {
-      it('throws not initialized error', async () => {
+    describe("getLocationsList", () => {
+      it("throws not initialized error", async () => {
         await expect(store.getLocationsList()).rejects.toThrow(DataStoreNotInitializedError);
       });
     });
 
-    describe('getLocationCount', () => {
-      it('throws not initialized error', async () => {
+    describe("getLocationCount", () => {
+      it("throws not initialized error", async () => {
         await expect(store.getLocationCount()).rejects.toThrow(DataStoreNotInitializedError);
       });
     });
 
-    describe('getSourceLastUpdatedAt', () => {
-      it('throws not initialized error', async () => {
+    describe("getSourceLastUpdatedAt", () => {
+      it("throws not initialized error", async () => {
         await expect(store.getSourceLastUpdatedAt()).rejects.toThrow(DataStoreNotInitializedError);
       });
     });
 
-    describe('getSavedAt', () => {
-      it('throws not initialized error', async () => {
+    describe("getSavedAt", () => {
+      it("throws not initialized error", async () => {
         await expect(store.getSavedAt()).rejects.toThrow(DataStoreNotInitializedError);
       });
     });
 
-    describe('clearData', () => {
-      it('throws not initialized error', async () => {
+    describe("clearData", () => {
+      it("throws not initialized error", async () => {
         await expect(store.clearData()).rejects.toThrow(DataStoreNotInitializedError);
       });
     });
   });
-
-  async function addTestDataToStore(store: DataStore): Promise<string[]> {
-    await store.putLocationData(internalLocationDataArray);
-
-    return internalLocationDataArray.map(data => data.location);
-  }
 }

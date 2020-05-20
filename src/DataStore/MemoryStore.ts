@@ -2,9 +2,9 @@ import {
   DataStore,
   DataStoreInvalidLocationError,
   DataStoreNotInitializedError,
-} from 'DataStore/DataStore';
-import { InternalLocationData } from 'types';
-import { cloneInternalLocationData, pushUnique } from 'utils';
+} from "DataStore/DataStore";
+import { InternalLocationData } from "types";
+import { cloneInternalLocationData, pushUnique } from "utils";
 
 /**
  * A data store that saves to and loads from the memory.
@@ -67,7 +67,7 @@ export default class MemoryStore implements DataStore {
       throw new DataStoreNotInitializedError();
     }
 
-    return locations.map(location => {
+    return locations.map((location) => {
       const data = this.data?.[location];
 
       if (data == null) {
@@ -89,7 +89,7 @@ export default class MemoryStore implements DataStore {
 
     const states = this.states[countryOrRegion] ?? [];
 
-    return states.map(location => cloneInternalLocationData((this.data as never)[location]));
+    return states.map((location) => cloneInternalLocationData((this.data as never)[location]));
   }
 
   async getCountiesData(
@@ -102,7 +102,7 @@ export default class MemoryStore implements DataStore {
 
     const counties = this.counties[countryOrRegion]?.[provinceOrState] ?? [];
 
-    return counties.map(location => cloneInternalLocationData((this.data as never)[location]));
+    return counties.map((location) => cloneInternalLocationData((this.data as never)[location]));
   }
 
   async getLocationsList(): Promise<string[]> {

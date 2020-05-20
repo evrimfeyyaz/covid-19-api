@@ -1,21 +1,21 @@
 import COVID19API, {
   COVID19APIAlreadyInitializedError,
   COVID19APINotInitializedError,
-} from '../src/COVID19API';
-import { DataGetter } from '../src/DataGetter/DataGetter';
-import { GitHubGetter } from '../src/DataGetter/GitHubGetter';
-import { LocationData, ValuesOnDate } from '../src/types';
-import './customMatchers';
+} from "../src/COVID19API";
+import { DataGetter } from "../src/DataGetter/DataGetter";
+import { GitHubGetter } from "../src/DataGetter/GitHubGetter";
+import { LocationData, ValuesOnDate } from "../src/types";
+import "./customMatchers";
 import {
   globalConfirmedDataCSV,
   globalDeathsDataCSV,
   globalRecoveredDataCSV,
-} from './testData/globalDataCSV';
-import { usConfirmedDataCSV, usDeathsDataCSV } from './testData/usDataCSV';
+} from "./testData/globalDataCSV";
+import { usConfirmedDataCSV, usDeathsDataCSV } from "./testData/usDataCSV";
 
-jest.mock('../src/DataGetter/GitHubGetter');
+jest.mock("../src/DataGetter/GitHubGetter");
 
-describe('COVID19API', () => {
+describe("COVID19API", () => {
   const mockSourceLastUpdatedAt = new Date();
   const mockGetGlobalConfirmedData = jest.fn().mockImplementation(() => {
     return Promise.resolve(globalConfirmedDataCSV);
@@ -51,7 +51,7 @@ describe('COVID19API', () => {
     jest.clearAllMocks();
   });
 
-  describe('when initialized', () => {
+  describe("when initialized", () => {
     let covid19API: COVID19API;
 
     beforeAll(async () => {
@@ -59,17 +59,17 @@ describe('COVID19API', () => {
       await covid19API.init();
     });
 
-    describe('init', () => {
-      it('throws an error when it is called more than once', async () => {
+    describe("init", () => {
+      it("throws an error when it is called more than once", async () => {
         await expect(covid19API.init()).rejects.toThrow(COVID19APIAlreadyInitializedError);
       });
     });
 
-    describe('locations', () => {
-      it('returns a clone of the locations list', () => {
+    describe("locations", () => {
+      it("returns a clone of the locations list", () => {
         const { locations } = covid19API;
         const expected = locations[0];
-        locations[0] = 'New Location';
+        locations[0] = "New Location";
 
         const [result] = covid19API.locations;
 
@@ -77,20 +77,20 @@ describe('COVID19API', () => {
       });
     });
 
-    describe('getDataByLocation(s)', () => {
-      it('returns the data with added calculated information for a given global location', async () => {
-        const result1 = await covid19API.getDataByLocation('Turkey');
-        const result2 = await covid19API.getDataByLocations(['Turkey']);
+    describe("getDataByLocation(s)", () => {
+      it("returns the data with added calculated information for a given global location", async () => {
+        const result1 = await covid19API.getDataByLocation("Turkey");
+        const result2 = await covid19API.getDataByLocations(["Turkey"]);
         const expected: LocationData = {
-          location: 'Turkey',
-          countryOrRegion: 'Turkey',
-          latitude: '38.9637',
-          longitude: '35.2433',
+          location: "Turkey",
+          countryOrRegion: "Turkey",
+          latitude: "38.9637",
+          longitude: "35.2433",
           county: undefined,
           provinceOrState: undefined,
           values: [
             {
-              date: '1/22/20',
+              date: "1/22/20",
               confirmed: 0,
               deaths: 0,
               recovered: 0,
@@ -101,7 +101,7 @@ describe('COVID19API', () => {
               recoveryRate: 0,
             },
             {
-              date: '1/23/20',
+              date: "1/23/20",
               confirmed: 4,
               deaths: 1,
               recovered: 2,
@@ -118,19 +118,19 @@ describe('COVID19API', () => {
         expect(result2).toEqual([expected]);
       });
 
-      it('returns the data with added calculated information for a given US county', async () => {
-        const result1 = await covid19API.getDataByLocation('US (Autauga, Alabama)');
-        const result2 = await covid19API.getDataByLocations(['US (Autauga, Alabama)']);
+      it("returns the data with added calculated information for a given US county", async () => {
+        const result1 = await covid19API.getDataByLocation("US (Autauga, Alabama)");
+        const result2 = await covid19API.getDataByLocations(["US (Autauga, Alabama)"]);
         const expected: LocationData = {
-          location: 'US (Autauga, Alabama)',
-          countryOrRegion: 'US',
-          provinceOrState: 'Alabama',
-          county: 'Autauga',
-          latitude: '32.53952745',
-          longitude: '-86.64408227',
+          location: "US (Autauga, Alabama)",
+          countryOrRegion: "US",
+          provinceOrState: "Alabama",
+          county: "Autauga",
+          latitude: "32.53952745",
+          longitude: "-86.64408227",
           values: [
             {
-              date: '1/22/20',
+              date: "1/22/20",
               confirmed: 0,
               deaths: 0,
               recovered: null,
@@ -141,7 +141,7 @@ describe('COVID19API', () => {
               mortalityRate: 0,
             },
             {
-              date: '1/23/20',
+              date: "1/23/20",
               confirmed: 4,
               deaths: 1,
               recovered: null,
@@ -158,16 +158,16 @@ describe('COVID19API', () => {
         expect(result2).toEqual([expected]);
       });
 
-      it('returns a clone of the stored data', async () => {
-        const locationData1 = await covid19API.getDataByLocation('Turkey');
-        const [locationData2] = await covid19API.getDataByLocations(['Turkey']);
+      it("returns a clone of the stored data", async () => {
+        const locationData1 = await covid19API.getDataByLocation("Turkey");
+        const [locationData2] = await covid19API.getDataByLocations(["Turkey"]);
         const expected = locationData1.values[0].confirmed;
         locationData1.values[0].confirmed = expected + 1;
         locationData2.values[0].confirmed = expected + 1;
 
-        const reloadedData1 = await covid19API.getDataByLocation('Turkey');
+        const reloadedData1 = await covid19API.getDataByLocation("Turkey");
         const result1 = reloadedData1.values[0].confirmed;
-        const [reloadedData2] = await covid19API.getDataByLocations(['Turkey']);
+        const [reloadedData2] = await covid19API.getDataByLocations(["Turkey"]);
         const result2 = reloadedData2.values[0].confirmed;
 
         expect(result1).toEqual(expected);
@@ -175,13 +175,13 @@ describe('COVID19API', () => {
       });
     });
 
-    describe('getDataByLocationAndDate', () => {
+    describe("getDataByLocationAndDate", () => {
       const secondDay = new Date(2020, 0, 23);
 
-      it('returns the data with added calculated values for the given location and date', async () => {
-        const result = await covid19API.getDataByLocationAndDate('Turkey', secondDay);
+      it("returns the data with added calculated values for the given location and date", async () => {
+        const result = await covid19API.getDataByLocationAndDate("Turkey", secondDay);
         const expected: ValuesOnDate = {
-          date: '1/23/20',
+          date: "1/23/20",
           confirmed: 4,
           deaths: 1,
           recovered: 2,
@@ -195,24 +195,24 @@ describe('COVID19API', () => {
         expect(result).toEqual(expected);
       });
 
-      it('returns `undefined` when no data can be found for the given date', async () => {
+      it("returns `undefined` when no data can be found for the given date", async () => {
         const dateWithNoData = new Date(2020, 0, 20);
 
-        const result = await covid19API.getDataByLocationAndDate('Turkey', dateWithNoData);
+        const result = await covid19API.getDataByLocationAndDate("Turkey", dateWithNoData);
 
         expect(result).toBeUndefined();
       });
 
-      it('returns a clone of the stored data', async () => {
+      it("returns a clone of the stored data", async () => {
         const dateValues = (await covid19API.getDataByLocationAndDate(
-          'Turkey',
+          "Turkey",
           secondDay
         )) as ValuesOnDate;
         const expected = dateValues.confirmed;
         dateValues.confirmed = expected + 1;
 
         const reloadedDateValues = (await covid19API.getDataByLocationAndDate(
-          'Turkey',
+          "Turkey",
           secondDay
         )) as ValuesOnDate;
         const result = reloadedDateValues.confirmed;
@@ -222,14 +222,14 @@ describe('COVID19API', () => {
       });
     });
 
-    describe('sourceLastUpdatedAt', () => {
-      it('returns the date that the source data was last updated', () => {
+    describe("sourceLastUpdatedAt", () => {
+      it("returns the date that the source data was last updated", () => {
         const result = covid19API.sourceLastUpdatedAt;
 
         expect(result).toEqual(mockSourceLastUpdatedAt);
       });
 
-      it('returns a clone of the date', async () => {
+      it("returns a clone of the date", async () => {
         const lastUpdatedAt = covid19API.sourceLastUpdatedAt as Date;
         const expected = lastUpdatedAt.getTime();
         lastUpdatedAt.setTime(expected + 1);
@@ -241,15 +241,15 @@ describe('COVID19API', () => {
       });
     });
 
-    describe('firstDate', () => {
-      it('returns the first date of the time series', () => {
+    describe("firstDate", () => {
+      it("returns the first date of the time series", () => {
         const result = covid19API.firstDate;
         const expected = new Date(2020, 0, 22);
 
         expect(result).toBeSameDay(result as Date, expected);
       });
 
-      it('returns a clone of the date', async () => {
+      it("returns a clone of the date", async () => {
         const firstDate = covid19API.firstDate;
         const expected = firstDate.getTime();
         firstDate.setTime(expected + 1);
@@ -260,15 +260,15 @@ describe('COVID19API', () => {
       });
     });
 
-    describe('lastDate', () => {
-      it('returns the last date of the time series', () => {
+    describe("lastDate", () => {
+      it("returns the last date of the time series", () => {
         const result = covid19API.lastDate;
         const expected = new Date(2020, 0, 23);
 
         expect(result).toBeSameDay(result as Date, expected);
       });
 
-      it('returns a clone of the date', async () => {
+      it("returns a clone of the date", async () => {
         const lastDate = covid19API.lastDate;
         const expected = lastDate.getTime();
         lastDate.setTime(expected + 1);
@@ -280,8 +280,8 @@ describe('COVID19API', () => {
     });
   });
 
-  describe('getDataByLocation', () => {
-    describe('when the data is not expired', () => {
+  describe("getDataByLocation", () => {
+    describe("when the data is not expired", () => {
       let covid19API: COVID19API;
 
       beforeEach(async () => {
@@ -293,21 +293,21 @@ describe('COVID19API', () => {
         mockGetGlobalRecoveredData.mockClear();
       });
 
-      it('it is not reloaded', async () => {
-        await covid19API.getDataByLocation('Turkey');
+      it("it is not reloaded", async () => {
+        await covid19API.getDataByLocation("Turkey");
 
         expect(mockGetGlobalConfirmedData).not.toBeCalled();
         expect(mockGetGlobalDeathsData).not.toBeCalled();
         expect(mockGetGlobalRecoveredData).not.toBeCalled();
       });
 
-      it('and the source last updated info is `undefined`, the data is not reloaded', async () => {
+      it("and the source last updated info is `undefined`, the data is not reloaded", async () => {
         MockGitHubGetter.mockImplementationOnce(() => ({
           ...mockGitHubGetterImplementation,
           getSourceLastUpdatedAt: (): Promise<Date | undefined> => Promise.resolve(undefined),
         }));
 
-        await covid19API.getDataByLocation('Turkey');
+        await covid19API.getDataByLocation("Turkey");
 
         expect(mockGetGlobalConfirmedData).not.toBeCalled();
         expect(mockGetGlobalDeathsData).not.toBeCalled();
@@ -315,16 +315,16 @@ describe('COVID19API', () => {
       });
     });
 
-    it('reloads the data when it is expired', async () => {
+    it("reloads the data when it is expired", async () => {
       const covid19API = new COVID19API({ dataValidityInMS: 10 });
       await covid19API.init();
 
-      await new Promise(r => setTimeout(r, 100));
+      await new Promise((r) => setTimeout(r, 100));
       mockGetGlobalConfirmedData.mockClear();
       mockGetGlobalDeathsData.mockClear();
       mockGetGlobalRecoveredData.mockClear();
 
-      await covid19API.getDataByLocation('Turkey');
+      await covid19API.getDataByLocation("Turkey");
 
       expect(mockGetGlobalConfirmedData).toBeCalledTimes(1);
       expect(mockGetGlobalDeathsData).toBeCalledTimes(1);
@@ -332,56 +332,56 @@ describe('COVID19API', () => {
     });
   });
 
-  describe('when initialized with', () => {
+  describe("when initialized with", () => {
     let covid19API: COVID19API;
 
-    describe('lazy loading US data on', () => {
+    describe("lazy loading US data on", () => {
       beforeEach(async () => {
         covid19API = new COVID19API({ lazyLoadUSData: true });
         await covid19API.init();
       });
 
-      it('does not load the US state and county data before they are requested', async () => {
-        await covid19API.getDataByLocation('Turkey');
+      it("does not load the US state and county data before they are requested", async () => {
+        await covid19API.getDataByLocation("Turkey");
 
         expect(mockGetUSConfirmedData).not.toBeCalled();
         expect(mockGetUSDeathsData).not.toBeCalled();
       });
 
-      it('loads the US state and county data when they are requested', async () => {
-        await covid19API.getDataByLocation('US (Alabama)');
+      it("loads the US state and county data when they are requested", async () => {
+        await covid19API.getDataByLocation("US (Alabama)");
 
         expect(mockGetUSConfirmedData).toBeCalledTimes(1);
         expect(mockGetUSDeathsData).toBeCalledTimes(1);
       });
 
-      describe('locations', () => {
-        it('includes all the US state and county names in the locations list even before the US data is requested', () => {
+      describe("locations", () => {
+        it("includes all the US state and county names in the locations list even before the US data is requested", () => {
           expect(mockGetUSConfirmedData).not.toBeCalled();
           expect(mockGetUSDeathsData).not.toBeCalled();
 
           const result = covid19API.locations;
 
-          expect(result).toContain('US (Alabama)');
+          expect(result).toContain("US (Alabama)");
         });
       });
     });
 
-    describe('lazy loading US data off', () => {
+    describe("lazy loading US data off", () => {
       beforeEach(async () => {
         covid19API = new COVID19API({ lazyLoadUSData: false });
         await covid19API.init();
       });
 
-      describe('with lazy loading US data off', () => {
-        it('loads the US state and county data before they are requested', async () => {
+      describe("with lazy loading US data off", () => {
+        it("loads the US state and county data before they are requested", async () => {
           expect(mockGetUSConfirmedData).toBeCalledTimes(1);
           expect(mockGetUSDeathsData).toBeCalledTimes(1);
         });
       });
     });
 
-    describe('a loading status change callback', () => {
+    describe("a loading status change callback", () => {
       let covid19API: COVID19API;
       const mockOnLoadingStatusChange = jest.fn();
 
@@ -394,74 +394,74 @@ describe('COVID19API', () => {
         await covid19API.init();
       });
 
-      describe('init', () => {
-        it('sends notifications', async () => {
+      describe("init", () => {
+        it("sends notifications", async () => {
           expect(mockOnLoadingStatusChange).toHaveBeenNthCalledWith(1, true, expect.any(String));
           expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
         });
       });
 
-      describe('getDataByLocation', () => {
-        it('sends notifications when the global data is loading', async () => {
-          await covid19API.getDataByLocation('Turkey');
+      describe("getDataByLocation", () => {
+        it("sends notifications when the global data is loading", async () => {
+          await covid19API.getDataByLocation("Turkey");
 
           expect(mockOnLoadingStatusChange).toHaveBeenCalledWith(
             true,
-            expect.stringContaining('global')
+            expect.stringContaining("global")
           );
           expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
         });
 
-        it('sends notifications when the US data is loading', async () => {
-          await covid19API.getDataByLocation('US (Autauga, Alabama)');
+        it("sends notifications when the US data is loading", async () => {
+          await covid19API.getDataByLocation("US (Autauga, Alabama)");
 
           expect(mockOnLoadingStatusChange).toHaveBeenCalledWith(
             true,
-            expect.stringContaining('US')
-          );
-          expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
-        });
-      });
-
-      describe('getDataByLocations', () => {
-        it('sends notifications when the global data is loading', async () => {
-          await covid19API.getDataByLocations(['Turkey']);
-
-          expect(mockOnLoadingStatusChange).toHaveBeenCalledWith(
-            true,
-            expect.stringContaining('global')
-          );
-          expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
-        });
-
-        it('sends notifications when the US data is loading', async () => {
-          await covid19API.getDataByLocations(['US (Autauga, Alabama)']);
-
-          expect(mockOnLoadingStatusChange).toHaveBeenCalledWith(
-            true,
-            expect.stringContaining('US')
+            expect.stringContaining("US")
           );
           expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
         });
       });
 
-      describe('getDataByLocationAndDate', () => {
-        it('sends notifications when the global data is loading', async () => {
-          await covid19API.getDataByLocationAndDate('Turkey', new Date());
+      describe("getDataByLocations", () => {
+        it("sends notifications when the global data is loading", async () => {
+          await covid19API.getDataByLocations(["Turkey"]);
 
           expect(mockOnLoadingStatusChange).toHaveBeenCalledWith(
             true,
-            expect.stringContaining('global')
+            expect.stringContaining("global")
           );
           expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
         });
 
-        it('sends notifications when the US data is loading', async () => {
-          await covid19API.getDataByLocationAndDate('US (Autauga, Alabama)', new Date());
+        it("sends notifications when the US data is loading", async () => {
+          await covid19API.getDataByLocations(["US (Autauga, Alabama)"]);
 
           expect(mockOnLoadingStatusChange).toHaveBeenCalledWith(
             true,
-            expect.stringContaining('US')
+            expect.stringContaining("US")
+          );
+          expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
+        });
+      });
+
+      describe("getDataByLocationAndDate", () => {
+        it("sends notifications when the global data is loading", async () => {
+          await covid19API.getDataByLocationAndDate("Turkey", new Date());
+
+          expect(mockOnLoadingStatusChange).toHaveBeenCalledWith(
+            true,
+            expect.stringContaining("global")
+          );
+          expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
+        });
+
+        it("sends notifications when the US data is loading", async () => {
+          await covid19API.getDataByLocationAndDate("US (Autauga, Alabama)", new Date());
+
+          expect(mockOnLoadingStatusChange).toHaveBeenCalledWith(
+            true,
+            expect.stringContaining("US")
           );
           expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
         });
@@ -469,56 +469,56 @@ describe('COVID19API', () => {
     });
   });
 
-  describe('when not initialized', () => {
+  describe("when not initialized", () => {
     let covid19API: COVID19API;
 
     beforeAll(async () => {
       covid19API = new COVID19API({});
     });
 
-    describe('locations', () => {
-      it('throws an error', async () => {
+    describe("locations", () => {
+      it("throws an error", async () => {
         expect(() => covid19API.locations).toThrow(COVID19APINotInitializedError);
       });
     });
 
-    describe('firstDate', () => {
-      it('throws an error', async () => {
+    describe("firstDate", () => {
+      it("throws an error", async () => {
         expect(() => covid19API.firstDate).toThrow(COVID19APINotInitializedError);
       });
     });
 
-    describe('lastDate', () => {
-      it('throws an error', async () => {
+    describe("lastDate", () => {
+      it("throws an error", async () => {
         expect(() => covid19API.lastDate).toThrow(COVID19APINotInitializedError);
       });
     });
 
-    describe('sourceLastUpdatedAt', () => {
-      it('throws an error', async () => {
+    describe("sourceLastUpdatedAt", () => {
+      it("throws an error", async () => {
         expect(() => covid19API.sourceLastUpdatedAt).toThrow(COVID19APINotInitializedError);
       });
     });
 
-    describe('getDataByLocation', () => {
-      it('throws an error', async () => {
-        await expect(covid19API.getDataByLocation('')).rejects.toThrow(
+    describe("getDataByLocation", () => {
+      it("throws an error", async () => {
+        await expect(covid19API.getDataByLocation("")).rejects.toThrow(
           COVID19APINotInitializedError
         );
       });
     });
 
-    describe('getDataByLocations', () => {
-      it('throws an error', async () => {
-        await expect(covid19API.getDataByLocations([''])).rejects.toThrow(
+    describe("getDataByLocations", () => {
+      it("throws an error", async () => {
+        await expect(covid19API.getDataByLocations([""])).rejects.toThrow(
           COVID19APINotInitializedError
         );
       });
     });
 
-    describe('getDataByLocationAndDate', () => {
-      it('throws an error', async () => {
-        await expect(covid19API.getDataByLocationAndDate('', new Date())).rejects.toThrow(
+    describe("getDataByLocationAndDate", () => {
+      it("throws an error", async () => {
+        await expect(covid19API.getDataByLocationAndDate("", new Date())).rejects.toThrow(
           COVID19APINotInitializedError
         );
       });

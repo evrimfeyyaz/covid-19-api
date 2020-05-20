@@ -1,17 +1,17 @@
-import { COVID19APIError } from 'COVID19APIError';
-import { DataGetter } from 'DataGetter/DataGetter';
-import { FileGetter } from 'DataGetter/FileGetter';
-import { GitHubGetter } from 'DataGetter/GitHubGetter';
-import { DataStore } from 'DataStore/DataStore';
-import IndexedDBStore from 'DataStore/IndexedDBStore';
-import MemoryStore from 'DataStore/MemoryStore';
-import { formatGlobalParsedData, formatUSParsedData } from 'format';
-import { dateKeyToDate, dateToDateKey, parseCSV, ParsedCSV } from 'parse';
-import { InternalLocationData, LocationData, ValuesOnDate } from 'types';
-import { US_LOCATIONS } from 'usLocations';
+import { COVID19APIError } from "COVID19APIError";
+import { DataGetter } from "DataGetter/DataGetter";
+import { FileGetter } from "DataGetter/FileGetter";
+import { GitHubGetter } from "DataGetter/GitHubGetter";
+import { DataStore } from "DataStore/DataStore";
+import IndexedDBStore from "DataStore/IndexedDBStore";
+import MemoryStore from "DataStore/MemoryStore";
+import { formatGlobalParsedData, formatUSParsedData } from "format";
+import { dateKeyToDate, dateToDateKey, parseCSV, ParsedCSV } from "parse";
+import { InternalLocationData, LocationData, ValuesOnDate } from "types";
+import { US_LOCATIONS } from "usLocations";
 
-type LoadFromOptions = 'github' | 'files';
-type StoreOptions = 'memory' | 'indexeddb';
+type LoadFromOptions = "github" | "files";
+type StoreOptions = "memory" | "indexeddb";
 type FilePaths = {
   globalConfirmedCSVPath: string;
   globalDeathsCSVPath: string;
@@ -20,7 +20,7 @@ type FilePaths = {
   usDeathsCSVPath: string;
 };
 
-interface COVID19APIOptions {
+export interface COVID19APIOptions {
   /**
    * Where to load the data from. Either the JHU CSSE GitHub repository or from CSV files.
    *
@@ -74,8 +74,8 @@ interface COVID19APIOptions {
  */
 export class COVID19APINotInitializedError extends COVID19APIError {
   constructor() {
-    super('The COVID-19 API is not initialized. Make sure to first call the `init` method.');
-    this.name = 'COVID19APINotInitializedError';
+    super("The COVID-19 API is not initialized. Make sure to first call the `init` method.");
+    this.name = "COVID19APINotInitializedError";
     Object.setPrototypeOf(this, COVID19APINotInitializedError.prototype);
   }
 }
@@ -85,8 +85,8 @@ export class COVID19APINotInitializedError extends COVID19APIError {
  */
 export class COVID19APIAlreadyInitializedError extends COVID19APIError {
   constructor() {
-    super('The COVID-19 API is already initialized.');
-    this.name = 'COVID19APIAlreadyInitializedError';
+    super("The COVID-19 API is already initialized.");
+    this.name = "COVID19APIAlreadyInitializedError";
     Object.setPrototypeOf(this, COVID19APIAlreadyInitializedError.prototype);
   }
 }
@@ -116,26 +116,26 @@ export default class COVID19API {
 
     let { store, loadFrom, filePaths } = options;
 
-    store = store ?? 'memory';
-    loadFrom = loadFrom ?? 'github';
+    store = store ?? "memory";
+    loadFrom = loadFrom ?? "github";
     filePaths = filePaths ?? {
-      globalConfirmedCSVPath: 'time_series_covid19_confirmed_global.csv',
-      globalDeathsCSVPath: 'time_series_covid19_deaths_global.csv',
-      globalRecoveredCSVPath: 'time_series_covid19_recovered_global.csv',
-      usConfirmedCSVPath: 'time_series_covid19_confirmed_US.csv',
-      usDeathsCSVPath: 'time_series_covid19_deaths_US.csv',
+      globalConfirmedCSVPath: "time_series_covid19_confirmed_global.csv",
+      globalDeathsCSVPath: "time_series_covid19_deaths_global.csv",
+      globalRecoveredCSVPath: "time_series_covid19_recovered_global.csv",
+      usConfirmedCSVPath: "time_series_covid19_confirmed_US.csv",
+      usDeathsCSVPath: "time_series_covid19_deaths_US.csv",
     };
 
     switch (store) {
-      case 'indexeddb':
+      case "indexeddb":
         this.dataStore = new IndexedDBStore();
         break;
-      case 'memory':
+      case "memory":
         this.dataStore = new MemoryStore();
     }
 
     switch (loadFrom) {
-      case 'files':
+      case "files":
         this.dataGetter = new FileGetter(
           filePaths.globalConfirmedCSVPath,
           filePaths.globalDeathsCSVPath,
@@ -144,7 +144,7 @@ export default class COVID19API {
           filePaths.usDeathsCSVPath
         );
         break;
-      case 'github':
+      case "github":
         this.dataGetter = new GitHubGetter();
     }
   }
@@ -231,13 +231,13 @@ export default class COVID19API {
    *   once.
    */
   async init(): Promise<void> {
-    this.onLoadingStatusChange?.(true, 'Initializing the API.');
+    this.onLoadingStatusChange?.(true, "Initializing the API.");
 
     if (this.isInitialized) {
       throw new COVID19APIAlreadyInitializedError();
     }
 
-    this.onLoadingStatusChange?.(true, 'Initializing the data store.');
+    this.onLoadingStatusChange?.(true, "Initializing the data store.");
     await this.dataStore.init();
 
     await this.loadDataIfStoreHasNoFreshData(!this.lazyLoadUSData);
@@ -286,7 +286,7 @@ export default class COVID19API {
     }
 
     // Check if the user is requesting US state or county data data.
-    const loadUSData = locations.some(location => location !== 'US' && location.includes('US'));
+    const loadUSData = locations.some((location) => location !== "US" && location.includes("US"));
     await this.loadDataIfStoreHasNoFreshData(loadUSData);
 
     const data = await this.dataStore.getLocationData(locations);
@@ -316,7 +316,7 @@ export default class COVID19API {
     const locationData = await this.getDataByLocation(location);
     const dateStr = dateToDateKey(date);
 
-    return locationData.values.find(dateValues => dateValues.date === dateStr);
+    return locationData.values.find((dateValues) => dateValues.date === dateStr);
   }
 
   /**
@@ -324,7 +324,7 @@ export default class COVID19API {
    * the `dataValidityInMS` option.
    */
   private async hasFreshDataInStore(): Promise<boolean> {
-    this.onLoadingStatusChange?.(true, 'Checking if the data is already loaded and fresh.');
+    this.onLoadingStatusChange?.(true, "Checking if the data is already loaded and fresh.");
     const savedAt = await this.dataStore.getSavedAt();
     const locationCount = await this.dataStore.getLocationCount();
 
@@ -408,7 +408,7 @@ export default class COVID19API {
   private async setLocations(): Promise<void> {
     this._locations = await this.dataStore.getLocationsList();
 
-    const someStateIndex = this._locations.indexOf('US (Alabama)');
+    const someStateIndex = this._locations.indexOf("US (Alabama)");
     // If we haven't yet loaded the US state and county data,
     // add the US location names to the locations list, so that
     // the user can request them.
@@ -421,7 +421,7 @@ export default class COVID19API {
    * Internally sets the first and the last date that the data store has data for.
    */
   private async setFirstAndLastDates(): Promise<void> {
-    const someGlobalLocation = 'Australia';
+    const someGlobalLocation = "Australia";
     const [someGlobalLocationData] = await this.dataStore.getLocationData([someGlobalLocation]);
     const someGlobalLocationValues = someGlobalLocationData.values;
 
@@ -466,7 +466,7 @@ export default class COVID19API {
         await this.loadUSStateAndCountyData();
       }
 
-      this.onLoadingStatusChange?.(true, 'Finding out the last source update.');
+      this.onLoadingStatusChange?.(true, "Finding out the last source update.");
       sourceLastUpdatedAt = await this.dataGetter.getSourceLastUpdatedAt();
       await this.dataStore.setSourceLastUpdatedAt(sourceLastUpdatedAt);
     }
@@ -478,7 +478,7 @@ export default class COVID19API {
    * @throws {@link DataGetterError} Thrown when there is an error getting the data.
    */
   private async loadGlobalData(): Promise<void> {
-    this.onLoadingStatusChange?.(true, 'Loading the global data.');
+    this.onLoadingStatusChange?.(true, "Loading the global data.");
     const parsedGlobalConfirmedData = await this.getParsedGlobalConfirmedData();
     const parsedGlobalDeathsData = await this.getParsedGlobalDeathsData();
     const parsedGlobalRecoveredData = await this.getParsedGlobalRecoveredData();
@@ -497,7 +497,7 @@ export default class COVID19API {
    * @throws {@link DataGetterError} Thrown when there is an error getting the data.
    */
   private async loadUSStateAndCountyData(): Promise<void> {
-    this.onLoadingStatusChange?.(true, 'Loading the US data.');
+    this.onLoadingStatusChange?.(true, "Loading the US data.");
     const parsedUSConfirmedData = await this.getParsedUSConfirmedData();
     const parsedUSDeathsData = await this.getParsedUSDeathsData();
 

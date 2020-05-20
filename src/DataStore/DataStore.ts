@@ -1,5 +1,5 @@
-import { COVID19APIError } from 'COVID19APIError';
-import { InternalLocationData } from 'types';
+import { COVID19APIError } from "COVID19APIError";
+import { InternalLocationData } from "types";
 
 /**
  * The super class of data store specific errors.
@@ -7,7 +7,7 @@ import { InternalLocationData } from 'types';
 export class DataStoreError extends COVID19APIError {
   constructor(message: string) {
     super(message);
-    this.name = 'DataStoreError';
+    this.name = "DataStoreError";
 
     Object.setPrototypeOf(this, DataStoreError.prototype);
   }
@@ -18,8 +18,8 @@ export class DataStoreError extends COVID19APIError {
  */
 export class DataStoreNotInitializedError extends DataStoreError {
   constructor() {
-    super('The data store is not initialized. Make sure to first call the `init` method.');
-    this.name = 'DataStoreNotInitializedError';
+    super("The data store is not initialized. Make sure to first call the `init` method.");
+    this.name = "DataStoreNotInitializedError";
 
     Object.setPrototypeOf(this, DataStoreNotInitializedError.prototype);
   }
@@ -31,7 +31,7 @@ export class DataStoreNotInitializedError extends DataStoreError {
 export class DataStoreInvalidLocationError extends DataStoreError {
   constructor(location: string) {
     super(`Invalid location: "${location}".`);
-    this.name = 'DataStoreInvalidLocationError';
+    this.name = "DataStoreInvalidLocationError";
 
     Object.setPrototypeOf(this, DataStoreInvalidLocationError.prototype);
   }
@@ -86,7 +86,7 @@ export interface DataStore {
   getLocationData(locations: string[]): Promise<InternalLocationData[]>;
 
   /**
-   * Returns a cloen of the data for all of the states of the given country.
+   * Returns a clone of the data for all of the states of the given country.
    *
    * @param countryOrRegion
    * @throws {@link DataStoreNotInitializedError} Thrown when the data store instance has not been

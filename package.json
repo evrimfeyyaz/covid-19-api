@@ -12,48 +12,58 @@
     "api",
     "sars-cov-2"
   ],
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "module": "dist/covid-19-api.esm.js",
+  "repository": {
+    "type": "git",
+    "url": "github:evrimfeyyaz/covid-19-api"
+  },
+  "main": "lib/index.js",
+  "module": "lib-esm/index.js",
   "files": [
-    "dist",
-    "src"
+    "lib/",
+    "lib-esm/"
   ],
-  "engines": {
-    "node": ">=10"
-  },
+  "types": "lib/index.d.ts",
+  "typings": "lib/index.d.ts",
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build",
-    "docs": "typedoc --out docs --name \"COVID-19 API\" --includeVersion --readme none --theme minimal"
+    "build": "rimraf lib lib-esm && tsc && tsc -m ES6 --outDir lib-esm",
+    "docs": "typedoc --out docs --name \"COVID-19 API\" --includeVersion --readme none --theme minimal",
+    "lint": "eslint src --ext .js,.ts,.tsx",
+    "test": "jest",
+    "test-watch": "jest --watch",
+    "test-coverage": "jest --coverage"
   },
-  "peerDependencies": {},
   "husky": {
     "hooks": {
-      "pre-commit": "tsdx lint"
+      "pre-commit": "lint-staged"
     }
   },
-  "prettier": {
-    "printWidth": 100,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
   },
   "devDependencies": {
-    "@types/lodash.clonedeep": "^4.5.6",
+    "@types/csv-parse": "^1.2.2",
+    "@types/jest": "^25.2.3",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "eslint": "^7.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
     "fake-indexeddb": "^3.0.0",
     "husky": "^4.2.5",
+    "jest": "^26.0.1",
     "jest-fetch-mock": "^3.0.3",
-    "tsdx": "^0.13.2",
-    "tslib": "^1.11.2",
+    "lint-staged": "^10.2.4",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.0.0",
     "typedoc": "^0.17.6",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.2"
   },
   "dependencies": {
     "csv-parse": "^4.9.0",
-    "idb": "^5.0.2"
+    "idb": "^5.0.2",
+    "tslib": "^1.13.0"
   }
 }

@@ -4,7 +4,7 @@
 export class COVID19APIError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'COVID19APIError';
+    this.name = "COVID19APIError";
 
     // This is needed because of:
     // https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work

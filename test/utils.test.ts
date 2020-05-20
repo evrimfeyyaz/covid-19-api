@@ -1,62 +1,62 @@
-import { cloneInternalLocationData, getFullLocationName, pushUnique } from '../src/utils';
-import { internalLocationDataArray } from './testData/internalLocationData';
+import { cloneInternalLocationData, getFullLocationName, pushUnique } from "../src/utils";
+import { internalLocationDataArray } from "./testData/internalLocationData";
 
-describe('utils', () => {
-  describe('getFullLocationName', () => {
-    const country = 'US';
-    const state = 'New York';
-    const county = 'Ontario';
+describe("utils", () => {
+  describe("getFullLocationName", () => {
+    const country = "US";
+    const state = "New York";
+    const county = "Ontario";
 
-    it('returns the full location name when a country is given', () => {
+    it("returns the full location name when a country is given", () => {
       const result = getFullLocationName(country);
 
-      expect(result).toEqual('US');
+      expect(result).toEqual("US");
     });
 
-    it('returns the full location name when a country and state are given', () => {
+    it("returns the full location name when a country and state are given", () => {
       const result = getFullLocationName(country, state);
 
-      expect(result).toEqual('US (New York)');
+      expect(result).toEqual("US (New York)");
     });
 
-    it('returns the full location name when a country, state and county are given', () => {
+    it("returns the full location name when a country, state and county are given", () => {
       const result = getFullLocationName(country, state, county);
 
-      expect(result).toEqual('US (Ontario, New York)');
+      expect(result).toEqual("US (Ontario, New York)");
     });
   });
 
-  describe('pushUnique', () => {
+  describe("pushUnique", () => {
     let arr: number[];
 
     beforeEach(() => {
       arr = [1, 2, 3];
     });
 
-    it('pushes the given element into the given array if it does not exist', () => {
+    it("pushes the given element into the given array if it does not exist", () => {
       pushUnique(arr, 4);
 
       expect(arr).toEqual([1, 2, 3, 4]);
     });
 
-    it('does not push the given element into the given array if it exists', () => {
+    it("does not push the given element into the given array if it exists", () => {
       pushUnique(arr, 3);
 
       expect(arr).toEqual([1, 2, 3]);
     });
   });
 
-  describe('cloneInternalLocationData', () => {
-    it('clones the given internal location data object', () => {
+  describe("cloneInternalLocationData", () => {
+    it("clones the given internal location data object", () => {
       const data = internalLocationDataArray[0];
 
       const clone = cloneInternalLocationData(data);
-      clone.location = 'Unknown';
-      clone.provinceOrState = 'Unknown';
-      clone.countryOrRegion = 'Unknown';
-      clone.county = 'Unknown';
-      clone.latitude = 'Unknown';
-      clone.longitude = 'Unknown';
+      clone.location = "Unknown";
+      clone.provinceOrState = "Unknown";
+      clone.countryOrRegion = "Unknown";
+      clone.county = "Unknown";
+      clone.latitude = "Unknown";
+      clone.longitude = "Unknown";
       clone.values[0].confirmed = data.values[0].confirmed + 1;
       clone.values.pop();
 

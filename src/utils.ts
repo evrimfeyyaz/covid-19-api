@@ -6,7 +6,7 @@
  * @param provinceOrState
  * @param county
  */
-import { InternalLocationData } from 'types';
+import { InternalLocationData } from "types";
 
 export function getFullLocationName(
   countryOrRegion: string,
@@ -40,7 +40,7 @@ export function pushUnique<T>(arr: T[], el: T): void {
 }
 
 export function cloneInternalLocationData(data: InternalLocationData): InternalLocationData {
-  const clonedValues = data.values.map(valuesOnDate => ({
+  const clonedValues = data.values.map((valuesOnDate) => ({
     ...valuesOnDate,
   }));
 

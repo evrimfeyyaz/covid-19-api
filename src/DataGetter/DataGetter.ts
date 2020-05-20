@@ -1,4 +1,4 @@
-import { COVID19APIError } from 'COVID19APIError';
+import { COVID19APIError } from "COVID19APIError";
 
 /**
  * The super class of data getter specific errors.
@@ -6,7 +6,7 @@ import { COVID19APIError } from 'COVID19APIError';
 export class DataGetterError extends COVID19APIError {
   constructor(message: string) {
     super(message);
-    this.name = 'DataGetterError';
+    this.name = "DataGetterError";
     Object.setPrototypeOf(this, DataGetterError.prototype);
   }
 }

@@ -1,5 +1,5 @@
-import { DataGetter, DataGetterError } from 'DataGetter/DataGetter';
-import { promises as fs } from 'fs';
+import { DataGetter, DataGetterError } from "DataGetter/DataGetter";
+import { promises as fs } from "fs";
 
 /**
  * A data getter that loads the time series data from CSV files.

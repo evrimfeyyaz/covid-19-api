@@ -116,3 +116,7 @@ dist
 
 # Miscellaneous
 .DS_Store
+
+# Builds
+/lib
+/lib-esm
