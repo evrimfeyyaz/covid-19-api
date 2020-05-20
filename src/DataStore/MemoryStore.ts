@@ -2,16 +2,16 @@ import {
   DataStore,
   DataStoreInvalidLocationError,
   DataStoreNotInitializedError,
-} from "DataStore/DataStore";
-import { InternalLocationData } from "types";
-import { cloneInternalLocationData, pushUnique } from "utils";
+} from "./DataStore";
+import { InternalLocationData } from "../types";
+import { cloneInternalLocationData, pushUnique } from "../utils";
 
 /**
  * A data store that saves to and loads from the memory.
  *
  * For more information about its methods see {@link DataStore}.
  */
-export default class MemoryStore implements DataStore {
+export class MemoryStore implements DataStore {
   private data: { [location: string]: InternalLocationData } | undefined;
   private states: { [country: string]: string[] } | undefined;
   private counties: { [country: string]: { [state: string]: string[] } } | undefined;

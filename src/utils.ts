@@ -6,7 +6,7 @@
  * @param provinceOrState
  * @param county
  */
-import { InternalLocationData } from "types";
+import { InternalLocationData } from "./types";
 
 export function getFullLocationName(
   countryOrRegion: string,

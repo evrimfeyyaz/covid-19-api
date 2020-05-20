@@ -1,14 +1,14 @@
-import { COVID19APIError } from "COVID19APIError";
-import { DataGetter } from "DataGetter/DataGetter";
-import { FileGetter } from "DataGetter/FileGetter";
-import { GitHubGetter } from "DataGetter/GitHubGetter";
-import { DataStore } from "DataStore/DataStore";
-import IndexedDBStore from "DataStore/IndexedDBStore";
-import MemoryStore from "DataStore/MemoryStore";
-import { formatGlobalParsedData, formatUSParsedData } from "format";
-import { dateKeyToDate, dateToDateKey, parseCSV, ParsedCSV } from "parse";
-import { InternalLocationData, LocationData, ValuesOnDate } from "types";
-import { US_LOCATIONS } from "usLocations";
+import { COVID19APIError } from "./COVID19APIError";
+import { DataGetter } from "./DataGetter/DataGetter";
+import { FileGetter } from "./DataGetter/FileGetter";
+import { GitHubGetter } from "./DataGetter/GitHubGetter";
+import { DataStore } from "./DataStore/DataStore";
+import { IndexedDBStore } from "./DataStore/IndexedDBStore";
+import { MemoryStore } from "./DataStore/MemoryStore";
+import { formatGlobalParsedData, formatUSParsedData } from "./format";
+import { dateKeyToDate, dateToDateKey, parseCSV, ParsedCSV } from "./parse";
+import { InternalLocationData, LocationData, ValuesOnDate } from "./types";
+import { US_LOCATIONS } from "./usLocations";
 
 type LoadFromOptions = "github" | "files";
 type StoreOptions = "memory" | "indexeddb";
@@ -94,7 +94,7 @@ export class COVID19APIAlreadyInitializedError extends COVID19APIError {
 /**
  * A class that provides a simple API for interacting with the JHU CSSE COVID-19 time series data.
  */
-export default class COVID19API {
+export class COVID19API {
   private readonly dataValidityInMS: number;
   private readonly lazyLoadUSData: boolean;
   private readonly onLoadingStatusChange:

@@ -1,4 +1,4 @@
-import MemoryStore from "../../src/DataStore/MemoryStore";
+import { MemoryStore } from "../../src/DataStore/MemoryStore";
 import { sharedDataStoreTests } from "./sharedDataStoreTests";
 
 describe("MemoryStore", () => {

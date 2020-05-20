@@ -1,4 +1,4 @@
-import IndexedDBStore from "../../src/DataStore/IndexedDBStore";
+import { IndexedDBStore } from "../../src/DataStore/IndexedDBStore";
 import { sharedDataStoreTests } from "./sharedDataStoreTests";
 
 require("fake-indexeddb/auto");

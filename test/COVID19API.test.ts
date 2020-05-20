@@ -1,7 +1,8 @@
-import COVID19API, {
+import {
+  COVID19API,
   COVID19APIAlreadyInitializedError,
   COVID19APINotInitializedError,
-} from "../src/COVID19API";
+} from "../src";
 import { DataGetter } from "../src/DataGetter/DataGetter";
 import { GitHubGetter } from "../src/DataGetter/GitHubGetter";
 import { LocationData, ValuesOnDate } from "../src/types";

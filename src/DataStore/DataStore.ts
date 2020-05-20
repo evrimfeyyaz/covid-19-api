@@ -1,5 +1,5 @@
-import { COVID19APIError } from "COVID19APIError";
-import { InternalLocationData } from "types";
+import { COVID19APIError } from "../COVID19APIError";
+import { InternalLocationData } from "../types";
 
 /**
  * The super class of data store specific errors.

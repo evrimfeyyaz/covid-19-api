@@ -1,4 +1,4 @@
-import { DataGetter, DataGetterError } from "DataGetter/DataGetter";
+import { DataGetter, DataGetterError } from "./DataGetter";
 
 /**
  * A data getter that fetches the time series data from the JHU CSSE GitHub repository.

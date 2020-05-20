@@ -1,4 +1,4 @@
-import { COVID19APIError } from "COVID19APIError";
+import { COVID19APIError } from "../COVID19APIError";
 
 /**
  * The super class of data getter specific errors.

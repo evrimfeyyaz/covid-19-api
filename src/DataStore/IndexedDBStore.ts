@@ -2,9 +2,9 @@ import {
   DataStore,
   DataStoreInvalidLocationError,
   DataStoreNotInitializedError,
-} from "DataStore/DataStore";
+} from "./DataStore";
 import { DBSchema, IDBPDatabase, openDB } from "idb";
-import { InternalLocationData } from "types";
+import { InternalLocationData } from "../types";
 
 interface COVID19TimeSeriesDBSchema extends DBSchema {
   settings: {
@@ -26,7 +26,7 @@ interface COVID19TimeSeriesDBSchema extends DBSchema {
  *
  * For more information about its methods see {@link DataStore}.
  */
-export default class IndexedDBStore implements DataStore {
+export class IndexedDBStore implements DataStore {
   readonly savedAtKey = "DataSavedAt";
   readonly sourceLastUpdatedAtKey = "DataSourceLastUpdatedAt";
   readonly dbName = "COVID19TimeSeriesDB";

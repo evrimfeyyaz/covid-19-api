@@ -1,4 +1,4 @@
-import { DataGetter, DataGetterError } from "DataGetter/DataGetter";
+import { DataGetter, DataGetterError } from "./DataGetter";
 import { promises as fs } from "fs";
 
 /**

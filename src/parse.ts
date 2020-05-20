@@ -1,6 +1,6 @@
 import parse from "csv-parse";
-import { LocationInfo } from "types";
-import { getFullLocationName } from "utils";
+import { LocationInfo } from "./types";
+import { getFullLocationName } from "./utils";
 
 export interface ParsedCSV {
   [location: string]: ParsedCSVRow;
