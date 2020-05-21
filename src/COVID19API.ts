@@ -7,7 +7,7 @@ import { IndexedDBStore } from "./DataStore/IndexedDBStore";
 import { MemoryStore } from "./DataStore/MemoryStore";
 import { formatGlobalParsedData, formatUSParsedData } from "./format";
 import { dateKeyToDate, dateToDateKey, parseCSV, ParsedCSV } from "./parse";
-import { InternalLocationData, LocationData, ValuesOnDate } from "./types";
+import { Fetch, InternalLocationData, LocationData, ValuesOnDate } from "./types";
 import { US_LOCATIONS } from "./usLocations";
 
 type LoadFromOptions = "github" | "files";
@@ -63,6 +63,11 @@ export interface COVID19APIOptions {
    */
   dataValidityInMS?: number;
   /**
+   * The `fetch` function to use, mainly needed for NodeJS. When this is not provided, it is
+   * assumed that there is a `fetch` function in the global object.
+   */
+  fetch?: Fetch;
+  /**
    * Provide a callback function to receive updates on the loading status of an API instance.
    */
   onLoadingStatusChange?: (isLoading: boolean, loadingMessage?: string) => void;
@@ -108,7 +113,7 @@ export class COVID19API {
   private readonly dataGetter: DataGetter;
 
   constructor(options: COVID19APIOptions = {}) {
-    const { lazyLoadUSData, dataValidityInMS, onLoadingStatusChange } = options;
+    const { lazyLoadUSData, dataValidityInMS, onLoadingStatusChange, fetch } = options;
 
     this.lazyLoadUSData = lazyLoadUSData ?? true;
     this.dataValidityInMS = dataValidityInMS ?? 60 * 60 * 1000; // 1 hour
@@ -145,7 +150,7 @@ export class COVID19API {
         );
         break;
       case "github":
-        this.dataGetter = new GitHubGetter();
+        this.dataGetter = new GitHubGetter(fetch);
     }
   }
 
@@ -285,13 +290,13 @@ export class COVID19API {
       throw new COVID19APINotInitializedError();
     }
 
-    // Check if the user is requesting US state or county data data.
-    const loadUSData = locations.some((location) => location !== "US" && location.includes("US"));
-    await this.loadDataIfStoreHasNoFreshData(loadUSData);
+    // Check if the user is requesting US state or county data.
+    const shouldLoadUSData = locations.some(
+      (location) => location !== "US" && location.includes("US")
+    );
+    await this.loadDataIfStoreHasNoFreshData(shouldLoadUSData);
 
     const data = await this.dataStore.getLocationData(locations);
-
-    this.onLoadingStatusChange?.(false);
 
     return data.map(this.addCalculatedValues);
   }
@@ -324,7 +329,6 @@ export class COVID19API {
    * the `dataValidityInMS` option.
    */
   private async hasFreshDataInStore(): Promise<boolean> {
-    this.onLoadingStatusChange?.(true, "Checking if the data is already loaded and fresh.");
     const savedAt = await this.dataStore.getSavedAt();
     const locationCount = await this.dataStore.getLocationCount();
 
@@ -455,6 +459,8 @@ export class COVID19API {
         await this.loadGlobalData();
       }
 
+      this.onLoadingStatusChange?.(false);
+
       return;
     }
 
@@ -469,6 +475,7 @@ export class COVID19API {
       this.onLoadingStatusChange?.(true, "Finding out the last source update.");
       sourceLastUpdatedAt = await this.dataGetter.getSourceLastUpdatedAt();
       await this.dataStore.setSourceLastUpdatedAt(sourceLastUpdatedAt);
+      this.onLoadingStatusChange?.(false);
     }
   }
 
@@ -497,7 +504,7 @@ export class COVID19API {
    * @throws {@link DataGetterError} Thrown when there is an error getting the data.
    */
   private async loadUSStateAndCountyData(): Promise<void> {
-    this.onLoadingStatusChange?.(true, "Loading the US data.");
+    this.onLoadingStatusChange?.(true, "Loading the US data. This might take a little while.");
     const parsedUSConfirmedData = await this.getParsedUSConfirmedData();
     const parsedUSDeathsData = await this.getParsedUSDeathsData();
 

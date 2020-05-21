@@ -1,3 +1,4 @@
+import { Fetch } from "../types";
 import { DataGetter, DataGetterError } from "./DataGetter";
 
 /**
@@ -6,6 +7,7 @@ import { DataGetter, DataGetterError } from "./DataGetter";
  * For more information about its methods see {@link DataGetter}.
  */
 export class GitHubGetter implements DataGetter {
+  private readonly fetch: Fetch;
   private commitDataUrl =
     "https://api.github.com/repos/CSSEGISandData/COVID-19/commits?path=csse_covid_19_data%2Fcsse_covid_19_time_series&page=1&per_page=1";
   private baseUrl =
@@ -16,40 +18,46 @@ export class GitHubGetter implements DataGetter {
   private usConfirmedUrl = `${this.baseUrl}time_series_covid19_confirmed_US.csv`;
   private usDeathsUrl = `${this.baseUrl}time_series_covid19_deaths_US.csv`;
 
-  private static async fetchData(url: string): Promise<string> {
-    const rawResponse = await fetch(url);
+  constructor(fetchFn?: Fetch) {
+    // This is a hack for getting the global object.
+    // See: https://stackoverflow.com/a/3277192
+    const get = eval;
+    const global = get("this");
 
-    if (!rawResponse.ok) {
-      throw new DataGetterError(
-        `There was an error fetching the data from GitHub. Response status: ${rawResponse.status} - ${rawResponse.statusText}`
+    if (fetchFn == null && typeof global !== "undefined" && typeof fetch !== "undefined") {
+      // We need to bind the fetch function to the global object, e.g. window, for it to work.
+      this.fetch = global.fetch.bind(global);
+    } else if (fetchFn != null) {
+      this.fetch = fetchFn;
+    } else {
+      throw new Error(
+        "`fetch` is not available. Please check the COVID-19 API documentation for more information."
       );
     }
-
-    return await rawResponse.text();
   }
 
   async getGlobalConfirmedData(): Promise<string> {
-    return await GitHubGetter.fetchData(this.globalConfirmedUrl);
+    return await this.fetchData(this.globalConfirmedUrl);
   }
 
   async getGlobalDeathsData(): Promise<string> {
-    return await GitHubGetter.fetchData(this.globalDeathsUrl);
+    return await this.fetchData(this.globalDeathsUrl);
   }
 
   async getGlobalRecoveredData(): Promise<string> {
-    return await GitHubGetter.fetchData(this.globalRecoveredUrl);
+    return await this.fetchData(this.globalRecoveredUrl);
   }
 
   async getUSConfirmedData(): Promise<string> {
-    return await GitHubGetter.fetchData(this.usConfirmedUrl);
+    return await this.fetchData(this.usConfirmedUrl);
   }
 
   async getUSDeathsData(): Promise<string> {
-    return await GitHubGetter.fetchData(this.usDeathsUrl);
+    return await this.fetchData(this.usDeathsUrl);
   }
 
   async getSourceLastUpdatedAt(): Promise<Date | undefined> {
-    const response = await fetch(this.commitDataUrl);
+    const response = await this.fetch(this.commitDataUrl);
 
     if (!response.ok) {
       throw new DataGetterError(
@@ -60,5 +68,17 @@ export class GitHubGetter implements DataGetter {
     const json = await response.json();
 
     return new Date(json[0]["commit"]["author"]["date"]);
+  }
+
+  private async fetchData(url: string): Promise<string> {
+    const rawResponse = await this.fetch(url);
+
+    if (!rawResponse.ok) {
+      throw new DataGetterError(
+        `There was an error fetching the data from GitHub. Response status: ${rawResponse.status} - ${rawResponse.statusText}`
+      );
+    }
+
+    return await rawResponse.text();
   }
 }

@@ -56,3 +56,5 @@ export type LocationDataValues = ValuesOnDate[];
 export interface LocationData extends InternalLocationData {
   values: LocationDataValues;
 }
+
+export type Fetch = (input: RequestInfo, init?: RequestInit) => Promise<Response>;

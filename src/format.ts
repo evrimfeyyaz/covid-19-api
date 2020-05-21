@@ -1,7 +1,7 @@
 import { getDateKeys, getLocationInfoFromRow, ParsedCSV, ParsedCSVRow } from "./parse";
 import { InternalLocationData, InternalLocationDataValues } from "./types";
-import { getFullLocationName } from "./utils";
 import { US_STATES } from "./usStates";
+import { getFullLocationName } from "./utils";
 
 /**
  * Sums confirmed cases, deaths and recoveries in the given {@link InternalLocationData} objects.

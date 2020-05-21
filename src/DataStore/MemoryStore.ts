@@ -1,10 +1,10 @@
+import { InternalLocationData } from "../types";
+import { cloneInternalLocationData, pushUnique } from "../utils";
 import {
   DataStore,
   DataStoreInvalidLocationError,
   DataStoreNotInitializedError,
 } from "./DataStore";
-import { InternalLocationData } from "../types";
-import { cloneInternalLocationData, pushUnique } from "../utils";
 
 /**
  * A data store that saves to and loads from the memory.

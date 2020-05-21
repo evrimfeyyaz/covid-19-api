@@ -1,10 +1,10 @@
+import { DBSchema, IDBPDatabase, openDB } from "idb";
+import { InternalLocationData } from "../types";
 import {
   DataStore,
   DataStoreInvalidLocationError,
   DataStoreNotInitializedError,
 } from "./DataStore";
-import { DBSchema, IDBPDatabase, openDB } from "idb";
-import { InternalLocationData } from "../types";
 
 interface COVID19TimeSeriesDBSchema extends DBSchema {
   settings: {

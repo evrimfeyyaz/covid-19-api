@@ -13,8 +13,22 @@
 <hr />
 
 # What is COVID-19 API?
+COVID-19 API is a JavaScript library that provides a simple-to-use API for [the JHU CSSE time series data](https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series).
+
+The JHU CSSE time series dataset contains the confirmed cases, deaths and recoveries starting from January 22, 2020 for many locations. This library also calculates various extra data such as mortality rate, rate of recovery, new cases, and more.
 
 # Installation
+Using yarn:
+
+```bash
+yarn add covid-19-api
+```
+
+Using npm:
+
+```bash
+npm install --save covid-19-api
+```
 
 # Usage
 ## Initialization

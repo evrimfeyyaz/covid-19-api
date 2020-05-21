@@ -1,12 +1,12 @@
 import { formatGlobalParsedData, formatUSParsedData } from "../src/format";
+import { InternalLocationData } from "../src/types";
+import { US_STATES } from "../src/usStates";
 import {
   parsedGlobalConfirmedCSV,
   parsedGlobalDeathsCSV,
   parsedGlobalRecoveredCSV,
 } from "./testData/globalParsedCSV";
 import { parsedUSConfirmedCSV, parsedUSDeathsCSV } from "./testData/usParsedCSV";
-import { InternalLocationData } from "../src/types";
-import { US_STATES } from "../src/usStates";
 
 describe("format", () => {
   describe("formatGlobalParsedData", () => {

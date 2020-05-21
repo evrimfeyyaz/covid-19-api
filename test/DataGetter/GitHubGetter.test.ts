@@ -9,138 +9,166 @@ function mock404(): void {
 }
 
 describe("GitHubGetter", () => {
-  let gitHubGetter: GitHubGetter;
-  let mockSourceLastUpdatedAt: Date;
+  describe("when `fetch` is not globally available", () => {
+    it("can receive a `custom` fetch function", async () => {
+      const fakeFetch = jest.fn(() =>
+        Promise.resolve(({
+          ok: true,
+          text: () => "",
+        } as unknown) as Response)
+      );
+      const gitHubGetter = new GitHubGetter(fakeFetch);
 
-  beforeAll(() => {
-    enableFetchMocks();
+      await gitHubGetter.getGlobalConfirmedData();
+
+      expect(fakeFetch).toBeCalled();
+    });
+
+    it("throws an error when no `custom` fetch function is provided", async () => {
+      delete global.fetch;
+
+      let error: Error | undefined;
+      try {
+        new GitHubGetter();
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).toBeInstanceOf(Error);
+    });
   });
 
-  beforeEach(() => {
-    gitHubGetter = new GitHubGetter();
+  describe("when `fetch` is globally available", () => {
+    let gitHubGetter: GitHubGetter;
+    let mockSourceLastUpdatedAt: Date;
 
-    fetchMock.resetMocks();
-    fetchMock.mockResponse((req) => {
-      return new Promise((resolve) => {
-        const { url } = req;
-        if (url.match(/^https:\/\/raw\.githubusercontent\.com/)) {
-          // Return the last part of the file name, such as 'confirmed_global'.
-          resolve(url.match(/^.+_(\w+_\w+)\.csv$/)?.[1]);
-        } else if (url.match(/^https:\/\/api\.github\.com/)) {
-          mockSourceLastUpdatedAt = new Date();
-          resolve(
-            JSON.stringify([
-              {
-                commit: {
-                  author: {
-                    date: mockSourceLastUpdatedAt.toISOString(),
+    beforeAll(() => {
+      enableFetchMocks();
+    });
+
+    beforeEach(() => {
+      gitHubGetter = new GitHubGetter();
+
+      fetchMock.resetMocks();
+      fetchMock.mockResponse((req) => {
+        return new Promise((resolve) => {
+          const { url } = req;
+          if (url.match(/^https:\/\/raw\.githubusercontent\.com/)) {
+            // Return the last part of the file name, such as 'confirmed_global'.
+            resolve(url.match(/^.+_(\w+_\w+)\.csv$/)?.[1]);
+          } else if (url.match(/^https:\/\/api\.github\.com/)) {
+            mockSourceLastUpdatedAt = new Date();
+            resolve(
+              JSON.stringify([
+                {
+                  commit: {
+                    author: {
+                      date: mockSourceLastUpdatedAt.toISOString(),
+                    },
                   },
                 },
-              },
-            ])
-          );
-        }
+              ])
+            );
+          }
 
-        resolve({
-          status: 404,
-          body: "Not Found",
+          resolve({
+            status: 404,
+            body: "Not Found",
+          });
         });
       });
     });
-  });
 
-  describe("getGlobalConfirmedData", () => {
-    it("requests global confirmed data from GitHub", async () => {
-      const result = await gitHubGetter.getGlobalConfirmedData();
-      const expectedFromMock = "confirmed_global";
+    describe("getGlobalConfirmedData", () => {
+      it("requests global confirmed data from GitHub", async () => {
+        const result = await gitHubGetter.getGlobalConfirmedData();
+        const expectedFromMock = "confirmed_global";
 
-      expect(fetchMock).toBeCalledTimes(1);
-      expect(result).toEqual(expectedFromMock);
+        expect(fetchMock).toBeCalledTimes(1);
+        expect(result).toEqual(expectedFromMock);
+      });
+
+      it("throws an error when it cannot fetch the data", async () => {
+        mock404();
+
+        await expect(gitHubGetter.getGlobalConfirmedData()).rejects.toThrow(DataGetterError);
+      });
     });
 
-    it("throws an error when it cannot fetch the data", async () => {
-      mock404();
+    describe("getGlobalDeathsData", () => {
+      it("requests global deaths data from GitHub", async () => {
+        const result = await gitHubGetter.getGlobalDeathsData();
+        const expectedFromMock = "deaths_global";
 
-      await expect(gitHubGetter.getGlobalConfirmedData()).rejects.toThrow(DataGetterError);
-    });
-  });
+        expect(fetchMock).toBeCalledTimes(1);
+        expect(result).toEqual(expectedFromMock);
+      });
 
-  describe("getGlobalDeathsData", () => {
-    it("requests global deaths data from GitHub", async () => {
-      const result = await gitHubGetter.getGlobalDeathsData();
-      const expectedFromMock = "deaths_global";
+      it("throws an error when it cannot fetch the data", async () => {
+        mock404();
 
-      expect(fetchMock).toBeCalledTimes(1);
-      expect(result).toEqual(expectedFromMock);
-    });
-
-    it("throws an error when it cannot fetch the data", async () => {
-      mock404();
-
-      await expect(gitHubGetter.getGlobalDeathsData()).rejects.toThrow(DataGetterError);
-    });
-  });
-
-  describe("getGlobalRecoveredData", () => {
-    it("requests global recovered data from GitHub", async () => {
-      const result = await gitHubGetter.getGlobalRecoveredData();
-      const expectedFromMock = "recovered_global";
-
-      expect(fetchMock).toBeCalledTimes(1);
-      expect(result).toEqual(expectedFromMock);
+        await expect(gitHubGetter.getGlobalDeathsData()).rejects.toThrow(DataGetterError);
+      });
     });
 
-    it("throws an error when it cannot fetch the data", async () => {
-      mock404();
+    describe("getGlobalRecoveredData", () => {
+      it("requests global recovered data from GitHub", async () => {
+        const result = await gitHubGetter.getGlobalRecoveredData();
+        const expectedFromMock = "recovered_global";
 
-      await expect(gitHubGetter.getGlobalRecoveredData()).rejects.toThrow(DataGetterError);
-    });
-  });
+        expect(fetchMock).toBeCalledTimes(1);
+        expect(result).toEqual(expectedFromMock);
+      });
 
-  describe("getUSConfirmedData", () => {
-    it("requests US confirmed data from GitHub", async () => {
-      const result = await gitHubGetter.getUSConfirmedData();
-      const expectedFromMock = "confirmed_US";
+      it("throws an error when it cannot fetch the data", async () => {
+        mock404();
 
-      expect(fetchMock).toBeCalledTimes(1);
-      expect(result).toEqual(expectedFromMock);
-    });
-
-    it("throws an error when it cannot fetch the data", async () => {
-      mock404();
-
-      await expect(gitHubGetter.getUSConfirmedData()).rejects.toThrow(DataGetterError);
-    });
-  });
-
-  describe("getUSDeathsData", () => {
-    it("requests US deaths data from GitHub", async () => {
-      const result = await gitHubGetter.getUSDeathsData();
-      const expectedFromMock = "deaths_US";
-
-      expect(fetchMock).toBeCalledTimes(1);
-      expect(result).toEqual(expectedFromMock);
+        await expect(gitHubGetter.getGlobalRecoveredData()).rejects.toThrow(DataGetterError);
+      });
     });
 
-    it("throws an error when it cannot fetch the data", async () => {
-      mock404();
+    describe("getUSConfirmedData", () => {
+      it("requests US confirmed data from GitHub", async () => {
+        const result = await gitHubGetter.getUSConfirmedData();
+        const expectedFromMock = "confirmed_US";
 
-      await expect(gitHubGetter.getUSDeathsData()).rejects.toThrow(DataGetterError);
+        expect(fetchMock).toBeCalledTimes(1);
+        expect(result).toEqual(expectedFromMock);
+      });
+
+      it("throws an error when it cannot fetch the data", async () => {
+        mock404();
+
+        await expect(gitHubGetter.getUSConfirmedData()).rejects.toThrow(DataGetterError);
+      });
     });
-  });
 
-  describe("getSourceLastUpdatedAt", () => {
-    it("requests the last commit date for the JHU CSSE data time series directory", async () => {
-      const result = await gitHubGetter.getSourceLastUpdatedAt();
+    describe("getUSDeathsData", () => {
+      it("requests US deaths data from GitHub", async () => {
+        const result = await gitHubGetter.getUSDeathsData();
+        const expectedFromMock = "deaths_US";
 
-      expect(fetchMock).toBeCalledTimes(1);
-      expect(result).toEqual(mockSourceLastUpdatedAt);
+        expect(fetchMock).toBeCalledTimes(1);
+        expect(result).toEqual(expectedFromMock);
+      });
+
+      it("throws an error when it cannot fetch the data", async () => {
+        mock404();
+
+        await expect(gitHubGetter.getUSDeathsData()).rejects.toThrow(DataGetterError);
+      });
     });
 
-    it("throws an error when it cannot fetch the commit date", async () => {
-      mock404();
-
-      await expect(gitHubGetter.getSourceLastUpdatedAt()).rejects.toThrow(DataGetterError);
+    describe("getSourceLastUpdatedAt", () => {
+      it("requests the last commit date for the JHU CSSE data time series directory", async () => {
+        const result = await gitHubGetter.getSourceLastUpdatedAt();
+        expect(fetchMock).toBeCalledTimes(1);
+        expect(result).toEqual(mockSourceLastUpdatedAt);
+      });
+      it("throws an error when it cannot fetch the commit date", async () => {
+        mock404();
+        await expect(gitHubGetter.getSourceLastUpdatedAt()).rejects.toThrow(DataGetterError);
+      });
     });
   });
 });

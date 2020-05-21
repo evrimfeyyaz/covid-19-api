@@ -1,3 +1,4 @@
+import { LocationInfo } from "../src";
 import {
   dateKeyToDate,
   dateToDateKey,
@@ -10,7 +11,6 @@ import { globalConfirmedDataCSV } from "./testData/globalDataCSV";
 import { parsedGlobalConfirmedCSV } from "./testData/globalParsedCSV";
 import { usConfirmedDataCSV } from "./testData/usDataCSV";
 import { parsedUSConfirmedCSV } from "./testData/usParsedCSV";
-import { LocationInfo } from "../src";
 
 describe("parse", () => {
   describe("parseCSV", () => {
