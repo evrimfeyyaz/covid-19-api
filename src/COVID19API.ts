@@ -24,17 +24,17 @@ export interface COVID19APIOptions {
   /**
    * Where to load the data from. Either the JHU CSSE GitHub repository or from CSV files.
    *
-   * The default is `'github'`.
+   * The default is `"github"`.
    */
   loadFrom?: LoadFromOptions;
   /**
-   * Where to store and query the data. Either memory or IndexedDB.
+   * Where to store the data, and query it from. Either memory or IndexedDB.
    *
-   * The default is `'memory'`.
+   * The default is `"memory"`.
    */
   store?: StoreOptions;
   /**
-   * If `files` is selected for the `loadFrom` option, you can optionally enter the paths to the
+   * If `"files"` is selected for the `loadFrom` option, you can optionally enter the paths to the
    * CSV files.
    *
    * If this is omitted, it is assumed that the files are in the same folder, and have the
@@ -58,6 +58,9 @@ export interface COVID19APIOptions {
   lazyLoadUSData?: boolean;
   /**
    * The duration in milliseconds that the data in the data store should be valid for.
+   *
+   * After this duration, the data is automatically re-fetched either from GitHub or reloaded from
+   * local files, depending on the `loadFrom` option.
    *
    * The default is 1 hour.
    */
@@ -253,7 +256,7 @@ export class COVID19API {
   /**
    * Returns the location data for the given location name.
    *
-   * *If the API is initialized to lazy load US data, calling this also automatically loads
+   * *If the API is initialized to lazy load the US data, calling this also automatically loads
    * the US data if the given location name is of a US county or state.*
    *
    * @param location The full name of the location, e.g. `"US (Autauga, Alabama)"`.
@@ -270,7 +273,7 @@ export class COVID19API {
   /**
    * Returns the location data for the given location names.
    *
-   * *If the API is initialized to lazy load US data, calling this also automatically loads
+   * *If the API is initialized to lazy load the US data, calling this also automatically loads
    * the US data if one of the given location names is of a US county or state.*
    *
    * @param locations An array containing the full names of the locations, e.g. `["US (Autauga,
@@ -300,7 +303,7 @@ export class COVID19API {
   /**
    * Returns the location data for the given location name and date.
    *
-   * *If the API is initialized to lazy load US data, calling this also automatically loads
+   * *If the API is initialized to lazy load the US data, calling this also automatically loads
    * the US data if the given location name is of a US county or state.*
    *
    * @param location The full name of the location, e.g. `"US (Autauga, Alabama)"`.
