@@ -236,13 +236,10 @@ export class COVID19API {
    *   once.
    */
   async init(): Promise<void> {
-    this.onLoadingStatusChange?.(true, "Initializing the API.");
-
     if (this.isInitialized) {
       throw new COVID19APIAlreadyInitializedError();
     }
 
-    this.onLoadingStatusChange?.(true, "Initializing the data store.");
     await this.dataStore.init();
 
     await this.loadDataIfStoreHasNoFreshData(!this.lazyLoadUSData);
@@ -251,7 +248,6 @@ export class COVID19API {
     await this.setFirstAndLastDates();
 
     this.isInitialized = true;
-    this.onLoadingStatusChange?.(false);
   }
 
   /**
@@ -472,9 +468,9 @@ export class COVID19API {
         await this.loadUSStateAndCountyData();
       }
 
-      this.onLoadingStatusChange?.(true, "Finding out the last source update.");
       sourceLastUpdatedAt = await this.dataGetter.getSourceLastUpdatedAt();
       await this.dataStore.setSourceLastUpdatedAt(sourceLastUpdatedAt);
+
       this.onLoadingStatusChange?.(false);
     }
   }
