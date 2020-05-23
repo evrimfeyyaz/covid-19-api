@@ -68,23 +68,23 @@ You can query the dataset for the following information for any location on any 
 Using yarn:
 
 ```
-$ yarn add covid-19-api
+$ yarn add @evrimfeyyaz/covid-19-api
 ```
 
 Using npm:
 
 ```
-$ npm install --save covid-19-api
+$ npm install --save @evrimfeyyaz/covid-19-api
 ```
 
 ## Usage
 ### Initialization
 ```js
 // CommonJS
-const { COVID19API } = require("covid-19-api");
+const { COVID19API } = require("@evrimfeyyaz/covid-19-api");
 
 // ESM
-import { COVID19API } from "covid-19-api";
+import { COVID19API } from "@evrimfeyyaz/covid-19-api";
 ```
 
 Before using the API, you first need to call the `init` method, which returns an empty Promise when the initialization is completed.
