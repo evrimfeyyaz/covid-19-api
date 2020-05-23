@@ -2753,13 +2753,13 @@ img {
 					<a href="_covid19api_.covid19api.html#isinitialized" class="tsd-kind-icon">is<wbr>Initialized</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a href="_covid19api_.covid19api.html#isusdataloaded" class="tsd-kind-icon">isUSData<wbr>Loaded</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a href="_covid19api_.covid19api.html#lazyloadusdata" class="tsd-kind-icon">lazy<wbr>LoadUSData</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a href="_covid19api_.covid19api.html#onloadingstatuschange" class="tsd-kind-icon">on<wbr>Loading<wbr>Status<wbr>Change</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a href="_covid19api_.covid19api.html#shouldloadusdata" class="tsd-kind-icon">should<wbr>LoadUSData</a>
 				</li>
 				<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 					<a href="_covid19api_.covid19api.html#firstdate" class="tsd-kind-icon">first<wbr>Date</a>
@@ -2803,6 +2803,9 @@ img {
 				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 					<a href="_covid19api_.covid19api.html#hasfreshdatainstore" class="tsd-kind-icon">has<wbr>Fresh<wbr>Data<wbr>InStore</a>
 				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a href="_covid19api_.covid19api.html#hasusdatainstore" class="tsd-kind-icon">hasUSData<wbr>InStore</a>
+				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="_covid19api_.covid19api.html#init" class="tsd-kind-icon">init</a>
 				</li>
@@ -2820,6 +2823,9 @@ img {
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 					<a href="_covid19api_.covid19api.html#setlocations" class="tsd-kind-icon">set<wbr>Locations</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a href="_covid19api_.covid19api.html#setshouldloadusdata" class="tsd-kind-icon">set<wbr>Should<wbr>LoadUSData</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 					<a href="_covid19api_.covid19api.html#setsourcelastupdatedat" class="tsd-kind-icon">set<wbr>Source<wbr>Last<wbr>Updated<wbr>At</a>
@@ -2887,9 +2893,9 @@ img {
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#datastore" class="tsd-kind-icon">data<wbr>Store</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#datavalidityinms" class="tsd-kind-icon">data<wbr>Validity<wbr>InMS</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#isinitialized" class="tsd-kind-icon">is<wbr>Initialized</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#isusdataloaded" class="tsd-kind-icon">isUSData<wbr>Loaded</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#lazyloadusdata" class="tsd-kind-icon">lazy<wbr>LoadUSData</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#onloadingstatuschange" class="tsd-kind-icon">on<wbr>Loading<wbr>Status<wbr>Change</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#shouldloadusdata" class="tsd-kind-icon">should<wbr>LoadUSData</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
@@ -2914,12 +2920,14 @@ img {
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#getparsedusconfirmeddata" class="tsd-kind-icon">get<wbr>ParsedUSConfirmed<wbr>Data</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#getparsedusdeathsdata" class="tsd-kind-icon">get<wbr>ParsedUSDeaths<wbr>Data</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#hasfreshdatainstore" class="tsd-kind-icon">has<wbr>Fresh<wbr>Data<wbr>InStore</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#hasusdatainstore" class="tsd-kind-icon">hasUSData<wbr>InStore</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="_covid19api_.covid19api.html#init" class="tsd-kind-icon">init</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#loaddataifstorehasnofreshdata" class="tsd-kind-icon">load<wbr>Data<wbr>IfStore<wbr>Has<wbr>NoFresh<wbr>Data</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#loadglobaldata" class="tsd-kind-icon">load<wbr>Global<wbr>Data</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#loadusstateandcountydata" class="tsd-kind-icon">loadUSState<wbr>And<wbr>County<wbr>Data</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#setfirstandlastdates" class="tsd-kind-icon">set<wbr>First<wbr>And<wbr>Last<wbr>Dates</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#setlocations" class="tsd-kind-icon">set<wbr>Locations</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#setshouldloadusdata" class="tsd-kind-icon">set<wbr>Should<wbr>LoadUSData</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_covid19api_.covid19api.html#setsourcelastupdatedat" class="tsd-kind-icon">set<wbr>Source<wbr>Last<wbr>Updated<wbr>At</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_covid19api_.covid19api.html#getparseddata" class="tsd-kind-icon">get<wbr>Parsed<wbr>Data</a></li>
 						</ul>
@@ -2939,7 +2947,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L116">src/COVID19API.ts:116</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L116">src/COVID19API.ts:116</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2961,7 +2969,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">_first<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L193">src/COVID19API.ts:193</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L193">src/COVID19API.ts:193</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2971,7 +2979,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">_last<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L208">src/COVID19API.ts:208</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L208">src/COVID19API.ts:208</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2981,7 +2989,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">_locations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L160">src/COVID19API.ts:160</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L160">src/COVID19API.ts:160</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2991,7 +2999,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">_source<wbr>Last<wbr>Updated<wbr>At<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L175">src/COVID19API.ts:175</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L175">src/COVID19API.ts:175</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3001,7 +3009,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">data<wbr>Getter<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_datagetter_datagetter_.datagetter.html" class="tsd-signature-type">DataGetter</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L116">src/COVID19API.ts:116</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L116">src/COVID19API.ts:116</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3011,7 +3019,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">data<wbr>Store<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_datastore_datastore_.datastore.html" class="tsd-signature-type">DataStore</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L115">src/COVID19API.ts:115</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L115">src/COVID19API.ts:115</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3021,7 +3029,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">data<wbr>Validity<wbr>InMS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L106">src/COVID19API.ts:106</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L106">src/COVID19API.ts:106</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3031,17 +3039,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">is<wbr>Initialized<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L113">src/COVID19API.ts:113</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-				<a name="isusdataloaded" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagPrivate">Private</span> isUSData<wbr>Loaded</h3>
-				<div class="tsd-signature tsd-kind-icon">isUSData<wbr>Loaded<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L112">src/COVID19API.ts:112</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L113">src/COVID19API.ts:113</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3051,7 +3049,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">lazy<wbr>LoadUSData<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L107">src/COVID19API.ts:107</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L107">src/COVID19API.ts:107</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3061,7 +3059,17 @@ img {
 				<div class="tsd-signature tsd-kind-icon">on<wbr>Loading<wbr>Status<wbr>Change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>isLoading<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, loadingMessage<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L108">src/COVID19API.ts:108</a></li>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L108">src/COVID19API.ts:108</a></li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<a name="shouldloadusdata" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagPrivate">Private</span> should<wbr>LoadUSData</h3>
+				<div class="tsd-signature tsd-kind-icon">should<wbr>LoadUSData<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L112">src/COVID19API.ts:112</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3078,7 +3086,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L200">src/COVID19API.ts:200</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L200">src/COVID19API.ts:200</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3106,7 +3114,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L215">src/COVID19API.ts:215</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L215">src/COVID19API.ts:215</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3134,12 +3142,12 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L167">src/COVID19API.ts:167</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L167">src/COVID19API.ts:167</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Returns the list of locations.</p>
+								<p>Returns the list of locations in the JHU CSSE dataset.</p>
 							</div>
 							<dl class="tsd-comment-tags">
 								<dt>throws</dt>
@@ -3162,7 +3170,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L185">src/COVID19API.ts:185</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L185">src/COVID19API.ts:185</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3195,7 +3203,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L351">src/COVID19API.ts:351</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L382">src/COVID19API.ts:382</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3227,7 +3235,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L269">src/COVID19API.ts:269</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L270">src/COVID19API.ts:270</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3273,7 +3281,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L319">src/COVID19API.ts:319</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L320">src/COVID19API.ts:320</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3324,7 +3332,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L287">src/COVID19API.ts:287</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L288">src/COVID19API.ts:288</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3371,7 +3379,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L519">src/COVID19API.ts:519</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L548">src/COVID19API.ts:548</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3395,7 +3403,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L525">src/COVID19API.ts:525</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L554">src/COVID19API.ts:554</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3419,7 +3427,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L531">src/COVID19API.ts:531</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L560">src/COVID19API.ts:560</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3443,7 +3451,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L537">src/COVID19API.ts:537</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L566">src/COVID19API.ts:566</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3467,7 +3475,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L543">src/COVID19API.ts:543</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L572">src/COVID19API.ts:572</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3491,13 +3499,35 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L330">src/COVID19API.ts:330</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L331">src/COVID19API.ts:331</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Checks if the data store already has data AND it is not stale, i.e. hasn&#39;t expired based on
 								the <code>dataValidityInMS</code> option.</p>
+							</div>
+						</div>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+				<a name="hasusdatainstore" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagPrivate">Private</span> hasUSData<wbr>InStore</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<li class="tsd-signature tsd-kind-icon">hasUSData<wbr>InStore<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L360">src/COVID19API.ts:360</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Returns <code>true</code> if the data store already has US county-level data.</p>
 							</div>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -3514,7 +3544,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L241">src/COVID19API.ts:241</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L241">src/COVID19API.ts:241</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3539,19 +3569,18 @@ img {
 				<a name="loaddataifstorehasnofreshdata" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagPrivate">Private</span> load<wbr>Data<wbr>IfStore<wbr>Has<wbr>NoFresh<wbr>Data</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<li class="tsd-signature tsd-kind-icon">load<wbr>Data<wbr>IfStore<wbr>Has<wbr>NoFresh<wbr>Data<span class="tsd-signature-symbol">(</span>forceLoadUSData<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li class="tsd-signature tsd-kind-icon">load<wbr>Data<wbr>IfStore<wbr>Has<wbr>NoFresh<wbr>Data<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L444">src/COVID19API.ts:444</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L472">src/COVID19API.ts:472</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Loads data if the store does not have data or the data in the store is expired, while still
-								respecting the <code>lazyLoadUSData</code> option (unless force overridden).</p>
+								<p>Loads data if the store does not have data or the data in the store is expired.</p>
 							</div>
 							<dl class="tsd-comment-tags">
 								<dt>throws</dt>
@@ -3559,16 +3588,6 @@ img {
 								</dd>
 							</dl>
 						</div>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5><span class="tsd-flag ts-flagDefault value">Default value</span> forceLoadUSData: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
-								<div class="tsd-comment tsd-typography">
-									<p>Load the US state and county data, even if the <code>lazyLoadUSData</code> option
-									is set to <code>true</code>.</p>
-								</div>
-							</li>
-						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 					</li>
 				</ul>
@@ -3583,7 +3602,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L486">src/COVID19API.ts:486</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L515">src/COVID19API.ts:515</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3610,7 +3629,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L505">src/COVID19API.ts:505</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L534">src/COVID19API.ts:534</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3637,7 +3656,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L426">src/COVID19API.ts:426</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L457">src/COVID19API.ts:457</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3659,7 +3678,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L411">src/COVID19API.ts:411</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L442">src/COVID19API.ts:442</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3668,6 +3687,30 @@ img {
 									state and county location names even if they are not yet loaded, so that they can still be
 								requested even when they are lazy loaded.</p>
 							</div>
+						</div>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+				<a name="setshouldloadusdata" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagPrivate">Private</span> set<wbr>Should<wbr>LoadUSData</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<li class="tsd-signature tsd-kind-icon">set<wbr>Should<wbr>LoadUSData<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L351">src/COVID19API.ts:351</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Decide whether or not the US county-level data should be loaded.</p>
+							</div>
+							<p>If the data already exists in the store, or if the <code>lazyLoadUSData</code> option is <code>false</code>, then
+							load the US data.</p>
 						</div>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 					</li>
@@ -3683,7 +3726,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L402">src/COVID19API.ts:402</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L433">src/COVID19API.ts:433</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3706,7 +3749,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/25b0d4a/src/COVID19API.ts#L228">src/COVID19API.ts:228</a></li>
+								<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/36eb955/src/COVID19API.ts#L228">src/COVID19API.ts:228</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">

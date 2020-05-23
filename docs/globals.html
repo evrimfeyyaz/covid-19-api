@@ -2729,24 +2729,74 @@ img {
 		<div class="tsd-panel tsd-typography">
 			<div align="center">
 				<h1>COVID-19 API</h1>
-				<p>A JavaScript library that provides a simple API for the JHU CSSE COVID-19 time series data.</p>
+				<p>A JavaScript library that provides a simple API for the Johns Hopkins University CSSE COVID-19 time series data.</p>
 				<p>
 					<img src="https://github.com/evrimfeyyaz/covid-19-api/workflows/CI/badge.svg?branch=master">
 					<a href="https://snyk.io/test/github/evrimfeyyaz/covid-19-api"><img src="https://snyk.io/test/github/evrimfeyyaz/covid-19-api/badge.svg" /></a>
 					<a href="https://codeclimate.com/github/evrimfeyyaz/covid-19-api/maintainability"><img src="https://api.codeclimate.com/v1/badges/3885a32d01e7c71066eb/maintainability" /></a>
 					<a href="https://codeclimate.com/github/evrimfeyyaz/covid-19-api/test_coverage"><img src="https://api.codeclimate.com/v1/badges/3885a32d01e7c71066eb/test_coverage" /></a>
 				</p>
-				<hr />
-				<p>  <a href="#installation">Installation</a> |
-				<a href="#usage">Usage</a> |</p>
-				<hr />
 			</div>
+			<hr>
+			<!-- TOC -->
+			<ul>
+				<li><a href="#what-is-covid-19-api">What is COVID-19 API</a></li>
+				<li><a href="#installation">Installation</a></li>
+				<li><a href="#usage">Usage</a><ul>
+						<li><a href="#initialization">Initialization</a></li>
+						<li><a href="#getting-the-values-for-a-location">Getting the values for a location</a><ul>
+								<li><a href="#getdatabylocation"><code>getDataByLocation</code></a></li>
+								<li><a href="#getdatabylocations"><code>getDataByLocations</code></a></li>
+								<li><a href="#getdatabylocationanddate"><code>getDataByLocationAndDate</code></a></li>
+								<li><a href="#locations"><code>locations</code></a></li>
+								<li><a href="#sourcelastupdatedat"><code>sourceLastUpdatedAt</code></a></li>
+								<li><a href="#firstdate"><code>firstDate</code></a></li>
+								<li><a href="#lastdate"><code>lastDate</code></a></li>
+								<li><a href="#locationdata"><code>LocationData</code></a></li>
+								<li><a href="#valuesondate"><code>ValuesOnDate</code></a></li>
+							</ul>
+						</li>
+						<li><a href="#fetching-the-data-from-github">Fetching the data from GitHub</a></li>
+						<li><a href="#loading-the-data-from-local-files">Loading the data from local files</a></li>
+						<li><a href="#storing-the-data-in-indexeddb">Storing the data in IndexedDB</a></li>
+						<li><a href="#eager-loading-the-us-county-level-data">Eager loading the US county-level data</a></li>
+						<li><a href="#loading-status-updates">Loading status updates</a></li>
+						<li><a href="#data-validity">Data validity</a></li>
+						<li><a href="#error-handling">Error handling</a><ul>
+								<li><a href="#covid19apierror"><code>COVID19APIError</code></a><ul>
+										<li><a href="#datastoreerror"><code>DataStoreError</code></a></li>
+										<li><a href="#datagettererror"><code>DataGetterError</code></a></li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li><a href="#calculated-data">Calculated data</a></li>
+						<li><a href="#typescript">TypeScript</a></li>
+					</ul>
+				</li>
+				<li><a href="#api">API</a></li>
+				<li><a href="#about-the-source-data">About the source data</a></li>
+				<li><a href="#contributing">Contributing</a></li>
+				<li><a href="#author">Author</a></li>
+				<li><a href="#license">License</a></li>
+			</ul>
+			<!-- /TOC -->
 			<a href="#what-is-covid-19-api" id="what-is-covid-19-api" style="color: inherit; text-decoration: none;">
 				<h2>What is COVID-19 API?</h2>
 			</a>
 			<p>COVID-19 API is a JavaScript library that provides a simple-to-use API for <a href="https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series">the JHU CSSE time series data</a>.</p>
-			<p>The JHU CSSE time series dataset contains the confirmed cases, deaths and recoveries starting from January 22, 2020 for many locations. This library also calculates various extra data such as mortality rate, rate of recovery, new cases, and more.</p>
-			<p>--- Show these better in bullets</p>
+			<p>You can query the dataset for the following information for any location on any given day (starting from January 21, 2020):</p>
+			<ul>
+				<li>Confirmed cases*</li>
+				<li>New cases*</li>
+				<li>Deaths*</li>
+				<li>New deaths</li>
+				<li>Mortality rate</li>
+				<li>Recoveries</li>
+				<li>New recoveries</li>
+				<li>Recovery rate</li>
+			</ul>
+			<p><em>\</em> Included in the JHU CSSE dataset. The rest are calculated by this library.*</p>
 			<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 				<h2>Installation</h2>
 			</a>
@@ -2769,6 +2819,195 @@ img {
 
 api.init().then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Initialized."</span>));</code></pre>
 			<p>During initialization, the instance gets populated with data.</p>
+			<a href="#getting-the-values-for-a-location" id="getting-the-values-for-a-location" style="color: inherit; text-decoration: none;">
+				<h3>Getting the values for a location</h3>
+			</a>
+			<p>There are three getter methods provided for you:</p>
+			<a href="#getdatabylocation" id="getdatabylocation" style="color: inherit; text-decoration: none;">
+				<h4><code>getDataByLocation</code></h4>
+			</a>
+			<p>Returns the data for the given location grouped by date.</p>
+			<pre><code class="language-js">api.getDataByLocation(<span class="hljs-string">"Turkey"</span>).then(<span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> {
+  <span class="hljs-comment">// Print the name of the location.</span>
+  <span class="hljs-built_in">console</span>.log(data.location); <span class="hljs-comment">// -&gt; Turkey</span>
+
+  <span class="hljs-comment">// Print the number of confirmed cases on Jan 21, 2020.</span>
+  <span class="hljs-built_in">console</span>.log(data.values[<span class="hljs-number">0</span>].confirmed); <span class="hljs-comment">// -&gt; 0</span>
+});</code></pre>
+			<p>This method returns a Promise that resolves to an object that implements the <code>LocationData</code> interface.</p>
+			<p>See <a href="#locationdata"><code>LocationData</code></a> for more information.</p>
+			<a href="#getdatabylocations" id="getdatabylocations" style="color: inherit; text-decoration: none;">
+				<h4><code>getDataByLocations</code></h4>
+			</a>
+			<p>Same as <a href="#getdatabylocation"><code>getDataByLocation</code></a>, but can be used to request data for multiple countries at the same time.</p>
+			<pre><code class="language-js">api.getDataByLocations([<span class="hljs-string">"Turkey"</span>, <span class="hljs-string">"US"</span>]).then(<span class="hljs-function">(<span class="hljs-params">dataArray</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> turkeyData = dataArray[<span class="hljs-number">0</span>];
+  <span class="hljs-comment">// Print the name of the location.</span>
+  <span class="hljs-built_in">console</span>.log(turkeyData.location); <span class="hljs-comment">// -&gt; Turkey</span>
+
+  <span class="hljs-keyword">const</span> usData = dataArray[<span class="hljs-number">1</span>];
+  <span class="hljs-comment">// Print the number of confirmed cases on Jan 21, 2020.</span>
+  <span class="hljs-built_in">console</span>.log(usData.values[<span class="hljs-number">0</span>].confirmed); <span class="hljs-comment">// -&gt; 1</span>
+});</code></pre>
+			<p>This method returns a Promise that resolves to an array containing objects that implement the <code>LocationData</code> interface.</p>
+			<p>See <a href="#locationdata"><code>LocationData</code></a> for more information.</p>
+			<a href="#getdatabylocationanddate" id="getdatabylocationanddate" style="color: inherit; text-decoration: none;">
+				<h4><code>getDataByLocationAndDate</code></h4>
+			</a>
+			<p>Returns all available values (confirmed cases, recoveries, etc.) on a certain date for a given location.</p>
+			<pre><code class="language-js"><span class="hljs-keyword">const</span> may1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">2020</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>);
+api.getDataByLocationAndDate(<span class="hljs-string">"Turkey"</span>, may1).then(<span class="hljs-function">(<span class="hljs-params">values</span>) =&gt;</span> {
+  <span class="hljs-comment">// Print the number of confirmed cases on May 1, 2020.</span>
+  <span class="hljs-built_in">console</span>.log(values.confirmed); <span class="hljs-comment">// -&gt; 122392</span>
+
+  <span class="hljs-comment">// Print the number of deaths on May 1, 2020.</span>
+  <span class="hljs-built_in">console</span>.log(values.deaths); <span class="hljs-comment">// -&gt; 3258</span>
+
+  <span class="hljs-comment">// Print the number of recoveries on May 1, 2020.</span>
+  <span class="hljs-built_in">console</span>.log(values.recovered); <span class="hljs-comment">// -&gt; 53808</span>
+});</code></pre>
+			<p>This method returns a Promise that resolves to an array containing objects that implement the <a href="#valuesondate"><code>ValuesOnDate</code></a> interface.</p>
+			<a href="#locations" id="locations" style="color: inherit; text-decoration: none;">
+				<h4><code>locations</code></h4>
+			</a>
+			<p>Returns the list of all locations in the dataset.</p>
+			<pre><code class="language-js"><span class="hljs-keyword">const</span> listOfLocations = api.locations;
+
+<span class="hljs-built_in">console</span>.log(listOfLocations);</code></pre>
+			<p>Outputs:</p>
+			<pre><code class="language-sh">[
+  <span class="hljs-string">'Afghanistan'</span>,
+  <span class="hljs-string">'Albania'</span>,
+  <span class="hljs-string">'Algeria'</span>,
+  <span class="hljs-string">'Andorra'</span>,
+  <span class="hljs-string">'Angola'</span>,
+  <span class="hljs-string">'Antigua and Barbuda'</span>,
+  <span class="hljs-string">'Argentina'</span>,
+  <span class="hljs-string">'Armenia'</span>,
+  <span class="hljs-string">'Australia (Australian Capital Territory)'</span>,
+  <span class="hljs-string">'Australia (New South Wales)'</span>,
+  ...
+]</code></pre>
+			<a href="#sourcelastupdatedat" id="sourcelastupdatedat" style="color: inherit; text-decoration: none;">
+				<h4><code>sourceLastUpdatedAt</code></h4>
+			</a>
+			<p>Returns the last date that the source data was updated.</p>
+			<p>If you are fetching the data from the JHU CSSE GitHub repository, this returns the last commit date that includes the directory containing the dataset.</p>
+			<p>If you are loading the data from local files, this returns <code>undefined</code>.</p>
+			<a href="#firstdate" id="firstdate" style="color: inherit; text-decoration: none;">
+				<h4><code>firstDate</code></h4>
+			</a>
+			<p>Returns the first day of the time series data, which is January 21, 2020.</p>
+			<a href="#lastdate" id="lastdate" style="color: inherit; text-decoration: none;">
+				<h4><code>lastDate</code></h4>
+			</a>
+			<p>Returns the last day of the time series data, which should be either today or the day before.</p>
+			<a href="#locationdata" id="locationdata" style="color: inherit; text-decoration: none;">
+				<h4><code>LocationData</code></h4>
+			</a>
+			<p><a href="#getdatabylocation"><code>getDataByLocation</code></a> and <a href="#getdatabylocations"><code>getDataByLocations</code></a> methods return an object that implements the <code>LocationData</code> interface, which has the following keys:</p>
+			<table>
+				<thead>
+					<tr>
+						<th>Key</th>
+						<th>Type</th>
+						<th>Example</th>
+					</tr>
+				</thead>
+				<tbody><tr>
+						<td>location</td>
+						<td><code>string</code></td>
+						<td><code>&quot;US (Autauga, Alabama&quot;</code></td>
+					</tr>
+					<tr>
+						<td>countryOrRegion</td>
+						<td><code>string</code></td>
+						<td><code>&quot;US&quot;</code></td>
+					</tr>
+					<tr>
+						<td>provinceOrState</td>
+						<td>`string</td>
+						<td>null`</td>
+					</tr>
+					<tr>
+						<td>county</td>
+						<td>`string</td>
+						<td>null`</td>
+					</tr>
+					<tr>
+						<td>latitude</td>
+						<td><code>string</code></td>
+						<td><code>&quot;32.53952745&quot;</code></td>
+					</tr>
+					<tr>
+						<td>longitude</td>
+						<td><code>string</code></td>
+						<td><code>&quot;-86.64408227&quot;</code></td>
+					</tr>
+					<tr>
+						<td>values</td>
+						<td><code>ValuesOnDate[]</code></td>
+						<td>See <a href="#valuesondate"><code>ValuesOnDate</code></a> below.</td>
+					</tr>
+			</tbody></table>
+			<a href="#valuesondate" id="valuesondate" style="color: inherit; text-decoration: none;">
+				<h4><code>ValuesOnDate</code></h4>
+			</a>
+			<p><a href="#getdatabylocationanddate"><code>getDataByLocationAndDate</code></a> method returns an object that implements the <code>ValuesOnDate</code> interface, which has the following keys:</p>
+			<table>
+				<thead>
+					<tr>
+						<th>Key</th>
+						<th>Type</th>
+						<th>Example</th>
+					</tr>
+				</thead>
+				<tbody><tr>
+						<td>date</td>
+						<td><code>string</code></td>
+						<td><code>&quot;1/1/20&quot;</code></td>
+					</tr>
+					<tr>
+						<td>confirmed</td>
+						<td><code>number</code></td>
+						<td><code>10</code></td>
+					</tr>
+					<tr>
+						<td>newConfirmed</td>
+						<td><code>number</code></td>
+						<td><code>5</code></td>
+					</tr>
+					<tr>
+						<td>deaths</td>
+						<td>`number</td>
+						<td>null`</td>
+					</tr>
+					<tr>
+						<td>newDeaths</td>
+						<td>`number</td>
+						<td>null`</td>
+					</tr>
+					<tr>
+						<td>mortalityRate</td>
+						<td>`number</td>
+						<td>null`</td>
+					</tr>
+					<tr>
+						<td>recovered</td>
+						<td>`number</td>
+						<td>null`</td>
+					</tr>
+					<tr>
+						<td>newRecovered</td>
+						<td>`number</td>
+						<td>null`</td>
+					</tr>
+					<tr>
+						<td>recoveryRate</td>
+						<td>`number</td>
+						<td>null`</td>
+					</tr>
+			</tbody></table>
 			<a href="#fetching-the-data-from-github" id="fetching-the-data-from-github" style="color: inherit; text-decoration: none;">
 				<h3>Fetching the data from GitHub</h3>
 			</a>
@@ -2819,63 +3058,14 @@ $ npm install --save node-fetch</code></pre>
 			<p>With this option, the data is loaded into an IndexedDB database named <code>COVID19APIDB</code>.</p>
 			<p>This is useful in a browser environment, as it prevents the library from repeatedly fetching the data from GitHub with every page load, i.e. it provides a way to persist the data between page requests.</p>
 			<p><strong>Note:</strong> This feature is not available when you&#39;re using the library in NodeJS.</p>
-			<a href="#getting-the-values-for-a-location" id="getting-the-values-for-a-location" style="color: inherit; text-decoration: none;">
-				<h3>Getting the values for a location</h3>
-			</a>
-			<p>There are three getter methods provided for you:</p>
-			<a href="#getdatabylocation" id="getdatabylocation" style="color: inherit; text-decoration: none;">
-				<h4><code>getDataByLocation</code></h4>
-			</a>
-			<p>Returns the data for the given location grouped by date.</p>
-			<pre><code class="language-js">api.getDataByLocation(<span class="hljs-string">"Turkey"</span>).then(<span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> {
-  <span class="hljs-comment">// Print the name of the location.</span>
-  <span class="hljs-built_in">console</span>.log(data.location); <span class="hljs-comment">// -&gt; Turkey</span>
-
-  <span class="hljs-comment">// Print the number of confirmed cases on Jan 21, 2020.</span>
-  <span class="hljs-built_in">console</span>.log(data.values[<span class="hljs-number">0</span>].confirmed); <span class="hljs-comment">// -&gt; 0</span>
-});</code></pre>
-			<p>This method returns a Promise that resolves to an object that implements the <code>LocationData</code> interface.</p>
-			<p>See <a href="#locationdata"><code>LocationData</code></a> for more information.</p>
-			<a href="#getdatabylocations" id="getdatabylocations" style="color: inherit; text-decoration: none;">
-				<h4><code>getDataByLocations</code></h4>
-			</a>
-			<p>Same as <a href="#getdatabylocation"><code>getDataByLocation</code></a>, but can be used to request data for multiple countries at the same time.</p>
-			<pre><code class="language-js">api.getDataByLocations([<span class="hljs-string">"Turkey"</span>, <span class="hljs-string">"US"</span>]).then(<span class="hljs-function">(<span class="hljs-params">dataArray</span>) =&gt;</span> {
-  <span class="hljs-keyword">const</span> turkeyData = dataArray[<span class="hljs-number">0</span>];
-  <span class="hljs-comment">// Print the name of the location.</span>
-  <span class="hljs-built_in">console</span>.log(turkeyData.location); <span class="hljs-comment">// -&gt; Turkey</span>
-
-  <span class="hljs-keyword">const</span> usData = dataArray[<span class="hljs-number">1</span>];
-  <span class="hljs-comment">// Print the number of confirmed cases on Jan 21, 2020.</span>
-  <span class="hljs-built_in">console</span>.log(usData.values[<span class="hljs-number">0</span>].confirmed); <span class="hljs-comment">// -&gt; 1</span>
-});</code></pre>
-			<p>This method returns a Promise that resolves to an array containing objects that implement the <code>LocationData</code> interface.</p>
-			<p>See <a href="#locationdata"><code>LocationData</code></a> for more information.</p>
-			<a href="#getdatabylocationanddate" id="getdatabylocationanddate" style="color: inherit; text-decoration: none;">
-				<h4><code>getDataByLocationAndDate</code></h4>
-			</a>
-			<p>Returns all available values (confirmed cases, recoveries, etc.) on a certain date for a given location.</p>
-			<pre><code class="language-js"><span class="hljs-keyword">const</span> may1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">2020</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>);
-api.getDataByLocationAndDate(<span class="hljs-string">"Turkey"</span>, may1).then(<span class="hljs-function">(<span class="hljs-params">values</span>) =&gt;</span> {
-  <span class="hljs-comment">// Print the number of confirmed cases on May 1, 2020.</span>
-  <span class="hljs-built_in">console</span>.log(values.confirmed); <span class="hljs-comment">// -&gt; 122392</span>
-
-  <span class="hljs-comment">// Print the number of deaths on May 1, 2020.</span>
-  <span class="hljs-built_in">console</span>.log(values.deaths); <span class="hljs-comment">// -&gt; 3258</span>
-
-  <span class="hljs-comment">// Print the number of recoveries on May 1, 2020.</span>
-  <span class="hljs-built_in">console</span>.log(values.recovered); <span class="hljs-comment">// -&gt; 53808</span>
-});</code></pre>
-			<p>This method returns a Promise that resolves to an array containing objects that implement the <code>ValuesOnDate</code> interface.</p>
-			<p>See <a href="#valuesondate"><code>ValuesOnDate</code></a> for more information.</p>
-			<a href="#eager-loading-us-data" id="eager-loading-us-data" style="color: inherit; text-decoration: none;">
-				<h3>Eager loading US data</h3>
+			<a href="#eager-loading-the-us-county-level-data" id="eager-loading-the-us-county-level-data" style="color: inherit; text-decoration: none;">
+				<h3>Eager loading the US county-level data</h3>
 			</a>
 			<p>The county-level confirmed cases and deaths datasets for the US are included in separate files in the JHU CSSE repository, and they are relatively large (~1.2MB and ~1.1MB respectively at the time this is written).</p>
 			<p>For this reason, these are by default lazy loaded when a US county or state data is requested using one of the getter methods explained above.</p>
 			<p>If you would like to have them eager loaded, you can use the <code>lazyLoadUSData</code> option:</p>
 			<pre><code class="language-js"><span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> COVID19API({ <span class="hljs-attr">lazyLoadUSData</span>: <span class="hljs-literal">false</span> });</code></pre>
-			<p><strong>Note:</strong> The data for the US as a whole is included in the global data, so this lazy loading is only for US counties and states, and not for the country-level data.</p>
+			<p><strong>Note:</strong> The data for the US as a whole is included in the global data, so this lazy loading is only for the US counties and states, and not for the country-level data.</p>
 			<p><strong>Note:</strong> The US county-level data only includes confirmed cases and deaths, and no recoveries, but country-wide recoveries data is included in the global data.</p>
 			<a href="#loading-status-updates" id="loading-status-updates" style="color: inherit; text-decoration: none;">
 				<h3>Loading status updates</h3>
@@ -2898,21 +3088,66 @@ api.init().then(<span class="hljs-function"><span class="hljs-params">()</span> 
 Loading the global data.
 Loaded!
 Initialized!</code></pre>
-			<a href="#typescript" id="typescript" style="color: inherit; text-decoration: none;">
-				<h3>TypeScript</h3>
+			<a href="#data-validity" id="data-validity" style="color: inherit; text-decoration: none;">
+				<h3>Data validity</h3>
 			</a>
+			<p>To avoid constantly reloading the data, the data is considered valid for a period of time, and no reloading is done. This is especially important when you are fetching the data directly from GitHub.</p>
+			<p>By default, the data is considered fresh for a period of one hour from the moment it was loaded.</p>
+			<p>If you would like to change the validity duration, you can use the <code>dataValidityInMS</code> option.</p>
+			<pre><code class="language-js"><span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> COVID19API({
+  <span class="hljs-attr">dataValidityInMS</span>: <span class="hljs-number">2</span> * <span class="hljs-number">60</span> * <span class="hljs-number">60</span> * <span class="hljs-number">1000</span> <span class="hljs-comment">// 2 hours</span>
+});</code></pre>
+			<a href="#error-handling" id="error-handling" style="color: inherit; text-decoration: none;">
+				<h3>Error handling</h3>
+			</a>
+			<p>This library throws the below errors (among others that subclass them):</p>
+			<a href="#covid19apierror" id="covid19apierror" style="color: inherit; text-decoration: none;">
+				<h4><code>COVID19APIError</code></h4>
+			</a>
+			<p>This is the super class of all the errors in this library. You can use this class to catch any error that this library may throw.</p>
+			<a href="#datastoreerror" id="datastoreerror" style="color: inherit; text-decoration: none;">
+				<h4><code>DataStoreError</code></h4>
+			</a>
+			<p>Thrown when there is an error reading the data from or saving the data to the store (memory or IndexedDB).</p>
+			<a href="#datagettererror" id="datagettererror" style="color: inherit; text-decoration: none;">
+				<h4><code>DataGetterError</code></h4>
+			</a>
+			<p>Thrown when there is an error loading the data (from local files or GitHub).</p>
 			<a href="#calculated-data" id="calculated-data" style="color: inherit; text-decoration: none;">
 				<h3>Calculated data</h3>
 			</a>
+			<p>The JHU CSSE data includes confirmed cases, deaths and recoveries in its global dataset, and confirmed cases and deaths in its US dataset.</p>
+			<p>This library also calculates a few extra values for ease-of-use:</p>
+			<p>Number of new confirmed cases on any given day (<code>newConfirmed</code>).</p>
+			<ol>
+				<li>Number of new deaths on any given day (<code>newDeaths</code>).</li>
+				<li>Number of new recoveries on any given day (<code>newRecovered</code>).</li>
+				<li>Mortality rate on any given day (<code>mortalityRate</code>).</li>
+				<li>Recovery rate out of all confirmed cases (<code>recoveryRate</code>).</li>
+			</ol>
+			<a href="#typescript" id="typescript" style="color: inherit; text-decoration: none;">
+				<h3>TypeScript</h3>
+			</a>
+			<p>This library is written in TypeScript, hence contains all the necessary typings.</p>
 			<a href="#api" id="api" style="color: inherit; text-decoration: none;">
 				<h2>API</h2>
 			</a>
+			<p><a href="https://evrim.io/covid-19-api">View the full API</a></p>
+			<p>Here are the most important parts of the documentation you might need:</p>
+			<ul>
+				<li><a href="https://evrim.io/covid-19-api/modules/_covid19api_.html">COVID19API</a></li>
+				<li><a href="https://evrim.io/covid-19-api/interfaces/_covid19api_.covid19apioptions.html">COVID19APIOptions</a></li>
+			</ul>
 			<a href="#about-the-source-data" id="about-the-source-data" style="color: inherit; text-decoration: none;">
 				<h2>About the source data</h2>
 			</a>
+			<p>The source data is from the <a href="https://github.com/CSSEGISandData/COVID-19">&quot;COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University&quot;</a>.</p>
+			<p>Please send any feedback regarding the data directly to them, as I have no control over the source data.</p>
+			<p><strong>This project is not affiliated by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University.</strong></p>
 			<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
 				<h2>Contributing</h2>
 			</a>
+			<p>Contributions are welcome, but before sending pull requests, please open an issue explaining what needs to be changed.</p>
 			<hr>
 			<a href="#author" id="author" style="color: inherit; text-decoration: none;">
 				<h3>Author</h3>
