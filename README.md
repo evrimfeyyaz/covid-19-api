@@ -63,7 +63,7 @@ You can query the dataset for the following information for any location on any 
 - New recoveries
 - Recovery rate
 
-This API is extracted from the codebase of [COVID-19 in Charts](https://covid19incharts.com) [(repo)](https://github.com/evrimfeyyaz/covid-19-in-charts).
+This library is extracted from the codebase of [COVID-19 in Charts](https://covid19incharts.com) [(repo)](https://github.com/evrimfeyyaz/covid-19-in-charts).
 
 *\* Included in the JHU CSSE dataset. The rest are calculated by this library.*
 
