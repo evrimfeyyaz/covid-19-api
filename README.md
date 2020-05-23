@@ -377,6 +377,11 @@ Number of new confirmed cases on any given day (`newConfirmed`).
 2. Mortality rate on any given day (`mortalityRate`).
 3. Recovery rate out of all confirmed cases (`recoveryRate`).
 
+Also, there are a few calculated locations which are not originally included in the source dataset:
+
+1. The country-level data for Australia, Canada and China are calculated by combining the values of their states/provinces.
+1. The state-level data for all US states are calculated by combining the values of their counties.
+
 ### TypeScript
 This library is written in TypeScript, hence contains all the necessary typings.
 
