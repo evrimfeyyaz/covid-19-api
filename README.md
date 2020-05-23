@@ -7,6 +7,7 @@
     <a href="https://snyk.io/test/github/evrimfeyyaz/covid-19-api"><img src="https://snyk.io/test/github/evrimfeyyaz/covid-19-api/badge.svg" /></a>
     <a href="https://codeclimate.com/github/evrimfeyyaz/covid-19-api/maintainability"><img src="https://api.codeclimate.com/v1/badges/3885a32d01e7c71066eb/maintainability" /></a>
     <a href="https://codeclimate.com/github/evrimfeyyaz/covid-19-api/test_coverage"><img src="https://api.codeclimate.com/v1/badges/3885a32d01e7c71066eb/test_coverage" /></a>
+    <a href="https://badge.fury.io/js/%40evrimfeyyaz%2Fcovid-19-api"><img src="https://badge.fury.io/js/%40evrimfeyyaz%2Fcovid-19-api.svg" alt="npm version" height="18"></a>
   </p>
 </div>
 
