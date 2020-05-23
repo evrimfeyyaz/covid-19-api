@@ -51,7 +51,7 @@
 ## What is COVID-19 API?
 COVID-19 API is a JavaScript library that provides a simple-to-use API for [the JHU CSSE time series data](https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series).
 
-You can query the dataset for the following information for any location on any given day (starting from January 21, 2020):
+You can query the dataset for the following information for any location on any given day (starting from January 22, 2020):
 
 - Confirmed cases*
 - New cases*
@@ -109,7 +109,7 @@ api.getDataByLocation("Turkey").then((data) => {
   // Print the name of the location.
   console.log(data.location); // -> Turkey
 
-  // Print the number of confirmed cases on Jan 21, 2020.
+  // Print the number of confirmed cases on Jan 22, 2020.
   console.log(data.values[0].confirmed); // -> 0
 });
 ```
@@ -129,7 +129,7 @@ api.getDataByLocations(["Turkey", "US"]).then((dataArray) => {
   console.log(turkeyData.location); // -> Turkey
 
   const usData = dataArray[1];
-  // Print the number of confirmed cases on Jan 21, 2020.
+  // Print the number of confirmed cases on Jan 22, 2020.
   console.log(usData.values[0].confirmed); // -> 1
 });
 ```
@@ -192,7 +192,7 @@ If you are fetching the data from the JHU CSSE GitHub repository, this returns t
 If you are loading the data from local files, this returns `undefined`.
 
 #### `firstDate`
-Returns the first day of the time series data, which is January 21, 2020.
+Returns the first day of the time series data, which is January 22, 2020.
 
 #### `lastDate`
 Returns the last day of the time series data, which should be either today or the day before.
