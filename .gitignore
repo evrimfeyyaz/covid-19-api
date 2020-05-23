@@ -120,6 +120,3 @@ dist
 # Builds
 /lib
 /lib-esm
-
-# Documentation
-/docs

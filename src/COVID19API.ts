@@ -77,8 +77,8 @@ export interface COVID19APIOptions {
 }
 
 /**
- * Thrown when a method of an instance of {@link COVID19API} is called without it being initialized
- * first.
+ * Thrown when a method or property of an instance of {@link COVID19API} is called without it being
+ * initialized first.
  */
 export class COVID19APINotInitializedError extends COVID19APIError {
   constructor() {
@@ -159,7 +159,7 @@ export class COVID19API {
 
   private _locations: string[] | undefined;
   /**
-   * Returns the list of locations.
+   * Returns the list of locations in the JHU CSSE dataset.
    *
    * @throws {@link COVID19APINotInitializedError} Thrown when the API instance is not initialized
    *   by calling the `init` method first.
