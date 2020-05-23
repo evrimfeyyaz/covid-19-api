@@ -29,7 +29,7 @@ interface COVID19TimeSeriesDBSchema extends DBSchema {
 export class IndexedDBStore implements DataStore {
   readonly savedAtKey = "DataSavedAt";
   readonly sourceLastUpdatedAtKey = "DataSourceLastUpdatedAt";
-  readonly dbName = "COVID19TimeSeriesDB";
+  readonly dbName = "COVID19APIDB";
   readonly dbVersion = 1;
 
   private _db: IDBPDatabase<COVID19TimeSeriesDBSchema> | undefined;
