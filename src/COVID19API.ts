@@ -2,7 +2,7 @@ import { COVID19APIError } from "./COVID19APIError";
 import { DataGetter } from "./DataGetter/DataGetter";
 import { FileGetter } from "./DataGetter/FileGetter";
 import { GitHubGetter } from "./DataGetter/GitHubGetter";
-import { DataStore } from "./DataStore/DataStore";
+import { DataStore, DataStoreInvalidLocationError } from "./DataStore/DataStore";
 import { IndexedDBStore } from "./DataStore/IndexedDBStore";
 import { MemoryStore } from "./DataStore/MemoryStore";
 import { formatGlobalParsedData, formatUSParsedData } from "./format";
@@ -109,7 +109,7 @@ export class COVID19API {
     | ((isLoading: boolean, loadingMessage?: string) => void)
     | undefined;
 
-  private isUSDataLoaded = false;
+  private shouldLoadUSData = false;
   private isInitialized = false;
 
   private readonly dataStore: DataStore;
@@ -245,7 +245,8 @@ export class COVID19API {
 
     await this.dataStore.init();
 
-    await this.loadDataIfStoreHasNoFreshData(!this.lazyLoadUSData);
+    await this.setShouldLoadUSData();
+    await this.loadDataIfStoreHasNoFreshData();
     await this.setSourceLastUpdatedAt();
     await this.setLocations();
     await this.setFirstAndLastDates();
@@ -290,10 +291,10 @@ export class COVID19API {
     }
 
     // Check if the user is requesting US state or county data.
-    const shouldLoadUSData = locations.some(
-      (location) => location !== "US" && location.includes("US")
-    );
-    await this.loadDataIfStoreHasNoFreshData(shouldLoadUSData);
+    if (locations.some((location) => location !== "US" && location.includes("US"))) {
+      this.shouldLoadUSData = true;
+    }
+    await this.loadDataIfStoreHasNoFreshData();
 
     const data = await this.dataStore.getLocationData(locations);
 
@@ -339,6 +340,36 @@ export class COVID19API {
     const expirationTime = savedAt.getTime() + dataValidity;
 
     return Date.now() < expirationTime;
+  }
+
+  /**
+   * Decide whether or not the US county-level data should be loaded.
+   *
+   * If the data already exists in the store, or if the `lazyLoadUSData` option is `false`, then
+   * load the US data.
+   */
+  private async setShouldLoadUSData(): Promise<void> {
+    const hasUSData = await this.hasUSDataInStore();
+
+    this.shouldLoadUSData = !this.lazyLoadUSData || hasUSData;
+  }
+
+  /**
+   * Returns `true` if the data store already has US county-level data.
+   */
+  private async hasUSDataInStore(): Promise<boolean> {
+    try {
+      const someUSCounty = "US (Autauga, Alabama)";
+      await this.dataStore.getLocationData([someUSCounty]);
+
+      return true;
+    } catch (e) {
+      if (e instanceof DataStoreInvalidLocationError) {
+        return false;
+      }
+
+      throw e;
+    }
   }
 
   /**
@@ -434,18 +465,16 @@ export class COVID19API {
   }
 
   /**
-   * Loads data if the store does not have data or the data in the store is expired, while still
-   * respecting the `lazyLoadUSData` option (unless force overridden).
+   * Loads data if the store does not have data or the data in the store is expired.
    *
-   * @param forceLoadUSData Load the US state and county data, even if the `lazyLoadUSData` option
-   *   is set to `true`.
    * @throws {@link DataGetterError} Thrown when there is an error getting the data.
    */
-  private async loadDataIfStoreHasNoFreshData(forceLoadUSData = false): Promise<void> {
+  private async loadDataIfStoreHasNoFreshData(): Promise<void> {
     const hasFreshData = await this.hasFreshDataInStore();
+    const hasUSData = await this.hasUSDataInStore();
     let sourceLastUpdatedAt: Date | undefined;
 
-    if (forceLoadUSData && !this.isUSDataLoaded) {
+    if (!hasUSData && this.shouldLoadUSData) {
       await this.loadUSStateAndCountyData();
 
       sourceLastUpdatedAt = await this.dataGetter.getSourceLastUpdatedAt();
@@ -467,7 +496,7 @@ export class COVID19API {
       await this.dataStore.clearData();
 
       await this.loadGlobalData();
-      if (this.isUSDataLoaded) {
+      if (this.shouldLoadUSData) {
         await this.loadUSStateAndCountyData();
       }
 
@@ -510,7 +539,7 @@ export class COVID19API {
     const formattedUSData = formatUSParsedData(parsedUSConfirmedData, parsedUSDeathsData);
 
     await this.dataStore.putLocationData(formattedUSData);
-    this.isUSDataLoaded = true;
+    this.shouldLoadUSData = false;
   }
 
   /**

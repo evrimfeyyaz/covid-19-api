@@ -2,9 +2,12 @@ import {
   COVID19API,
   COVID19APIAlreadyInitializedError,
   COVID19APINotInitializedError,
+  DataStoreInvalidLocationError,
 } from "../src";
 import { DataGetter } from "../src/DataGetter/DataGetter";
 import { GitHubGetter } from "../src/DataGetter/GitHubGetter";
+import { DataStore } from "../src/DataStore/DataStore";
+import { IndexedDBStore } from "../src/DataStore/IndexedDBStore";
 import { LocationData, ValuesOnDate } from "../src/types";
 import "./customMatchers";
 import {
@@ -12,9 +15,11 @@ import {
   globalDeathsDataCSV,
   globalRecoveredDataCSV,
 } from "./testData/globalDataCSV";
+import { internalLocationDataArray } from "./testData/internalLocationData";
 import { usConfirmedDataCSV, usDeathsDataCSV } from "./testData/usDataCSV";
 
 jest.mock("../src/DataGetter/GitHubGetter");
+jest.mock("../src/DataStore/IndexedDBStore");
 
 describe("COVID19API", () => {
   const mockSourceLastUpdatedAt = new Date();
@@ -313,6 +318,43 @@ describe("COVID19API", () => {
         expect(mockGetGlobalConfirmedData).not.toBeCalled();
         expect(mockGetGlobalDeathsData).not.toBeCalled();
         expect(mockGetGlobalRecoveredData).not.toBeCalled();
+      });
+
+      it("does not reload the US data if the store already has the US data", async () => {
+        jest.clearAllMocks();
+
+        const MockIndexedDBStore = (IndexedDBStore as unknown) as jest.Mock<Partial<DataStore>>;
+        const mockIndexedDBStoreImplementation: Partial<DataStore> = {
+          init: () => Promise.resolve(),
+          getLocationsList: () =>
+            Promise.resolve(internalLocationDataArray.map((data) => data.location)),
+          getLocationCount: () => Promise.resolve(internalLocationDataArray.length),
+          getSourceLastUpdatedAt: () => Promise.resolve(mockSourceLastUpdatedAt),
+          getSavedAt: () => Promise.resolve(new Date()),
+          getLocationData: (locations: string[]) => {
+            const locationData = internalLocationDataArray.filter((data) =>
+              locations.includes(data.location)
+            );
+
+            if (locationData.length !== locations.length) {
+              throw new DataStoreInvalidLocationError("");
+            }
+
+            return Promise.resolve(locationData);
+          },
+          clearData: () => Promise.resolve(),
+          putLocationData: () => Promise.resolve(),
+          setSourceLastUpdatedAt: () => Promise.resolve(),
+        };
+        MockIndexedDBStore.mockImplementation(() => mockIndexedDBStoreImplementation);
+
+        const covid19API = new COVID19API({ store: "indexeddb" });
+        await covid19API.init();
+
+        await covid19API.getDataByLocation("US (Autauga, Alabama)");
+
+        expect(mockGetUSConfirmedData).not.toBeCalled();
+        expect(mockGetUSDeathsData).not.toBeCalled();
       });
     });
 
