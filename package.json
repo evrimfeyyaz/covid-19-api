@@ -2,7 +2,7 @@
   "name": "covid-19-api",
   "author": "Evrim Persembe",
   "version": "0.1.0",
-  "description": "A JavaScript library that provides a simple API for the JHU CSSE COVID-19 time series data.",
+  "description": "A JavaScript library that provides a simple API for the Johns Hopkins University CSSE COVID-19 time series data.",
   "license": "ISC",
   "keywords": [
     "covid",

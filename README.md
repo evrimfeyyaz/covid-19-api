@@ -1,6 +1,6 @@
 <div align="center">
   <h1>COVID-19 API</h1>
-  <p>A JavaScript library that provides a simple API for the JHU CSSE COVID-19 time series data.</p>
+  <p>A JavaScript library that provides a simple API for the Johns Hopkins University CSSE COVID-19 time series data.</p>
 
   <p>
     <img src="https://github.com/evrimfeyyaz/covid-19-api/workflows/CI/badge.svg?branch=master">
