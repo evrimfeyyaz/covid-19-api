@@ -319,43 +319,6 @@ describe("COVID19API", () => {
         expect(mockGetGlobalDeathsData).not.toBeCalled();
         expect(mockGetGlobalRecoveredData).not.toBeCalled();
       });
-
-      it("does not reload the US data if the store already has the US data", async () => {
-        jest.clearAllMocks();
-
-        const MockIndexedDBStore = (IndexedDBStore as unknown) as jest.Mock<Partial<DataStore>>;
-        const mockIndexedDBStoreImplementation: Partial<DataStore> = {
-          init: () => Promise.resolve(),
-          getLocationsList: () =>
-            Promise.resolve(internalLocationDataArray.map((data) => data.location)),
-          getLocationCount: () => Promise.resolve(internalLocationDataArray.length),
-          getSourceLastUpdatedAt: () => Promise.resolve(mockSourceLastUpdatedAt),
-          getSavedAt: () => Promise.resolve(new Date()),
-          getLocationData: (locations: string[]) => {
-            const locationData = internalLocationDataArray.filter((data) =>
-              locations.includes(data.location)
-            );
-
-            if (locationData.length !== locations.length) {
-              throw new DataStoreInvalidLocationError("");
-            }
-
-            return Promise.resolve(locationData);
-          },
-          clearData: () => Promise.resolve(),
-          putLocationData: () => Promise.resolve(),
-          setSourceLastUpdatedAt: () => Promise.resolve(),
-        };
-        MockIndexedDBStore.mockImplementation(() => mockIndexedDBStoreImplementation);
-
-        const covid19API = new COVID19API({ store: "indexeddb" });
-        await covid19API.init();
-
-        await covid19API.getDataByLocation("US (Autauga, Alabama)");
-
-        expect(mockGetUSConfirmedData).not.toBeCalled();
-        expect(mockGetUSDeathsData).not.toBeCalled();
-      });
     });
 
     it("reloads the data when it is expired", async () => {
@@ -508,6 +471,58 @@ describe("COVID19API", () => {
           );
           expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
         });
+      });
+    });
+  });
+
+  describe("when the store already has fresh data", () => {
+    const MockIndexedDBStore = (IndexedDBStore as unknown) as jest.Mock<Partial<DataStore>>;
+    const mockIndexedDBStoreImplementation: Partial<DataStore> = {
+      init: () => Promise.resolve(),
+      getLocationsList: () =>
+        Promise.resolve(internalLocationDataArray.map((data) => data.location)),
+      getLocationCount: () => Promise.resolve(internalLocationDataArray.length),
+      getSourceLastUpdatedAt: () => Promise.resolve(mockSourceLastUpdatedAt),
+      getSavedAt: () => Promise.resolve(new Date()),
+      getLocationData: (locations: string[]) => {
+        const locationData = internalLocationDataArray.filter((data) =>
+          locations.includes(data.location)
+        );
+
+        if (locationData.length !== locations.length) {
+          throw new DataStoreInvalidLocationError("");
+        }
+
+        return Promise.resolve(locationData);
+      },
+      clearData: () => Promise.resolve(),
+      putLocationData: () => Promise.resolve(),
+      setSourceLastUpdatedAt: () => Promise.resolve(),
+    };
+    MockIndexedDBStore.mockImplementation(() => mockIndexedDBStoreImplementation);
+
+    const mockOnLoadingStatusChanged = jest.fn();
+    let covid19API: COVID19API;
+    beforeEach(async () => {
+      covid19API = new COVID19API({
+        store: "indexeddb",
+        onLoadingStatusChange: mockOnLoadingStatusChanged,
+      });
+      await covid19API.init();
+    });
+
+    describe("init", () => {
+      it("still sends out a loading finished notification", () => {
+        expect(mockOnLoadingStatusChanged).toHaveBeenLastCalledWith(false);
+      });
+    });
+
+    describe("getDataByLocation", () => {
+      it("does not reload the US data if the store already has the US data", async () => {
+        await covid19API.getDataByLocation("US (Autauga, Alabama)");
+
+        expect(mockGetUSConfirmedData).not.toBeCalled();
+        expect(mockGetUSDeathsData).not.toBeCalled();
       });
     });
   });

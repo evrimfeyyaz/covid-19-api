@@ -502,9 +502,9 @@ export class COVID19API {
 
       sourceLastUpdatedAt = await this.dataGetter.getSourceLastUpdatedAt();
       await this.dataStore.setSourceLastUpdatedAt(sourceLastUpdatedAt);
-
-      this.onLoadingStatusChange?.(false);
     }
+
+    this.onLoadingStatusChange?.(false);
   }
 
   /**
