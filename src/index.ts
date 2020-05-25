@@ -1,6 +1,6 @@
 export * from "./COVID19API";
 export * from "./COVID19APIError";
-export { LocationData, LocationDataValues, LocationInfo } from "./types";
+export { LocationData, LocationDataValues, LocationInfo, ValuesOnDate } from "./types";
 export { DataGetterError } from "./DataGetter/DataGetter";
 export {
   DataStoreError,
