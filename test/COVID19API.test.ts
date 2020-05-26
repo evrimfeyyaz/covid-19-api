@@ -3,12 +3,13 @@ import {
   COVID19APIAlreadyInitializedError,
   COVID19APINotInitializedError,
   DataStoreInvalidLocationError,
+  LocationData,
+  ValuesOnDate,
 } from "../src";
 import { DataGetter } from "../src/DataGetter/DataGetter";
 import { GitHubGetter } from "../src/DataGetter/GitHubGetter";
 import { DataStore } from "../src/DataStore/DataStore";
 import { IndexedDBStore } from "../src/DataStore/IndexedDBStore";
-import { LocationData, ValuesOnDate } from "../src/types";
 import "./customMatchers";
 import {
   globalConfirmedDataCSV,
@@ -321,20 +322,37 @@ describe("COVID19API", () => {
       });
     });
 
-    it("reloads the data when it is expired", async () => {
-      const covid19API = new COVID19API({ dataValidityInMS: 10 });
-      await covid19API.init();
+    describe("when the stored data is expired", () => {
+      let covid19API: COVID19API;
 
-      await new Promise((r) => setTimeout(r, 100));
-      mockGetGlobalConfirmedData.mockClear();
-      mockGetGlobalDeathsData.mockClear();
-      mockGetGlobalRecoveredData.mockClear();
+      beforeEach(async () => {
+        covid19API = new COVID19API({ dataValidityInMS: 100 });
+        await covid19API.init();
 
-      await covid19API.getDataByLocation("Turkey");
+        await new Promise((r) => setTimeout(r, 100));
+      });
 
-      expect(mockGetGlobalConfirmedData).toBeCalledTimes(1);
-      expect(mockGetGlobalDeathsData).toBeCalledTimes(1);
-      expect(mockGetGlobalRecoveredData).toBeCalledTimes(1);
+      it("reloads the data when it is expired", async () => {
+        mockGetGlobalConfirmedData.mockClear();
+        mockGetGlobalDeathsData.mockClear();
+        mockGetGlobalRecoveredData.mockClear();
+
+        await covid19API.getDataByLocation("Turkey");
+
+        expect(mockGetGlobalConfirmedData).toBeCalledTimes(1);
+        expect(mockGetGlobalDeathsData).toBeCalledTimes(1);
+        expect(mockGetGlobalRecoveredData).toBeCalledTimes(1);
+      });
+
+      it("does not load the US state and county data before they are requested", async () => {
+        mockGetUSConfirmedData.mockClear();
+        mockGetUSDeathsData.mockClear();
+
+        await covid19API.getDataByLocation("Turkey");
+
+        expect(mockGetUSConfirmedData).not.toBeCalled();
+        expect(mockGetUSDeathsData).not.toBeCalled();
+      });
     });
   });
 

@@ -109,7 +109,6 @@ export class COVID19API {
     | ((isLoading: boolean, loadingMessage?: string) => void)
     | undefined;
 
-  private shouldLoadUSData = false;
   private isInitialized = false;
 
   private readonly dataStore: DataStore;
@@ -245,7 +244,6 @@ export class COVID19API {
 
     await this.dataStore.init();
 
-    await this.setShouldLoadUSData();
     await this.loadDataIfStoreHasNoFreshData();
     await this.setSourceLastUpdatedAt();
     await this.setLocations();
@@ -290,11 +288,12 @@ export class COVID19API {
       throw new COVID19APINotInitializedError();
     }
 
+    let forceLoadUSData = false;
     // Check if the user is requesting US state or county data.
     if (locations.some((location) => location !== "US" && location.includes("US"))) {
-      this.shouldLoadUSData = true;
+      forceLoadUSData = true;
     }
-    await this.loadDataIfStoreHasNoFreshData();
+    await this.loadDataIfStoreHasNoFreshData(forceLoadUSData);
 
     const data = await this.dataStore.getLocationData(locations);
 
@@ -340,18 +339,6 @@ export class COVID19API {
     const expirationTime = savedAt.getTime() + dataValidity;
 
     return Date.now() < expirationTime;
-  }
-
-  /**
-   * Decide whether or not the US county-level data should be loaded.
-   *
-   * If the data already exists in the store, or if the `lazyLoadUSData` option is `false`, then
-   * load the US data.
-   */
-  private async setShouldLoadUSData(): Promise<void> {
-    const hasUSData = await this.hasUSDataInStore();
-
-    this.shouldLoadUSData = !this.lazyLoadUSData || hasUSData;
   }
 
   /**
@@ -467,14 +454,16 @@ export class COVID19API {
   /**
    * Loads data if the store does not have data or the data in the store is expired.
    *
+   * @param forceLoadUSData When `true`, loads the US county-level data even when `lazyLoadUSData`
+   *   option is also set to `true`.
    * @throws {@link DataGetterError} Thrown when there is an error getting the data.
    */
-  private async loadDataIfStoreHasNoFreshData(): Promise<void> {
+  private async loadDataIfStoreHasNoFreshData(forceLoadUSData = false): Promise<void> {
     const hasFreshData = await this.hasFreshDataInStore();
     const hasUSData = await this.hasUSDataInStore();
     let sourceLastUpdatedAt: Date | undefined;
 
-    if (!hasUSData && this.shouldLoadUSData) {
+    if (!hasUSData && forceLoadUSData) {
       await this.loadUSStateAndCountyData();
 
       sourceLastUpdatedAt = await this.dataGetter.getSourceLastUpdatedAt();
@@ -496,7 +485,7 @@ export class COVID19API {
       await this.dataStore.clearData();
 
       await this.loadGlobalData();
-      if (this.shouldLoadUSData) {
+      if (forceLoadUSData || !this.lazyLoadUSData) {
         await this.loadUSStateAndCountyData();
       }
 
@@ -539,7 +528,6 @@ export class COVID19API {
     const formattedUSData = formatUSParsedData(parsedUSConfirmedData, parsedUSDeathsData);
 
     await this.dataStore.putLocationData(formattedUSData);
-    this.shouldLoadUSData = false;
   }
 
   /**
