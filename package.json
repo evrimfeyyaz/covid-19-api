@@ -31,7 +31,7 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "test-coverage": "jest --coverage",
-    "version": "npm run lint && npm run test && npm run build && npm run docs && git add docs"
+    "version": "npm run lint && npm run build && npm run docs && git add docs"
   },
   "husky": {
     "hooks": {
