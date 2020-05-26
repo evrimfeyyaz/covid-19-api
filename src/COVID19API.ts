@@ -242,6 +242,7 @@ export class COVID19API {
       throw new COVID19APIAlreadyInitializedError();
     }
 
+    this.onLoadingStatusChange?.(true, "Initializing.");
     await this.dataStore.init();
 
     await this.loadDataIfStoreHasNoFreshData();
