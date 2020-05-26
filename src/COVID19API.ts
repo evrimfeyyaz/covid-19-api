@@ -251,6 +251,7 @@ export class COVID19API {
     await this.setFirstAndLastDates();
 
     this.isInitialized = true;
+    this.onLoadingStatusChange?.(false);
   }
 
   /**
@@ -477,7 +478,9 @@ export class COVID19API {
         await this.loadGlobalData();
       }
 
-      this.onLoadingStatusChange?.(false);
+      if (this.isInitialized) {
+        this.onLoadingStatusChange?.(false);
+      }
 
       return;
     }
@@ -494,7 +497,9 @@ export class COVID19API {
       await this.dataStore.setSourceLastUpdatedAt(sourceLastUpdatedAt);
     }
 
-    this.onLoadingStatusChange?.(false);
+    if (this.isInitialized) {
+      this.onLoadingStatusChange?.(false);
+    }
   }
 
   /**

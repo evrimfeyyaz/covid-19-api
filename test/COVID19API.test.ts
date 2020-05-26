@@ -423,6 +423,27 @@ describe("COVID19API", () => {
           expect(mockOnLoadingStatusChange).toHaveBeenNthCalledWith(1, true, expect.any(String));
           expect(mockOnLoadingStatusChange).toHaveBeenLastCalledWith(false);
         });
+
+        it("does not send out a loading finished notification until the initialization is done", async () => {
+          let firstDate: Date | undefined;
+          let lastDate: Date | undefined;
+          let locations: string[] | undefined;
+
+          const covid19API2 = new COVID19API({
+            onLoadingStatusChange: (isLoading): void => {
+              if (!isLoading) {
+                firstDate = covid19API2.firstDate;
+                lastDate = covid19API2.lastDate;
+                locations = covid19API2.locations;
+              }
+            },
+          });
+          await covid19API2.init();
+
+          expect(firstDate).toBeDefined();
+          expect(lastDate).toBeDefined();
+          expect(locations).toBeDefined();
+        });
       });
 
       describe("getDataByLocation", () => {
