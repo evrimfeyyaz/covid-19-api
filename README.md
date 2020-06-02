@@ -62,6 +62,7 @@ You can query the dataset for the following information for any location on any 
 - Recoveries
 - New recoveries
 - Recovery rate
+- Active cases
 
 This library is extracted from the codebase of [COVID-19 in Charts](https://covid19incharts.com) [(repo)](https://github.com/evrimfeyyaz/covid-19-in-charts).
 
@@ -227,6 +228,7 @@ Returns the last day of the time series data, which should be either today or th
 |recovered|`number | null`|`5`|
 |newRecovered|`number | null`|`2`|
 |recoveryRate|`number | null`|`0.5`|
+|activeCases|`number | null`|`3`|
 
 ### Fetching the data from GitHub
 The JHU CSSE data is located in [a GitHub repository](https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series). If you would like to directly fetch the data from this repository (which is the recommended and default option), you can do the following:
@@ -373,11 +375,12 @@ The JHU CSSE data includes confirmed cases, deaths and recoveries in its global 
 
 This library also calculates a few extra values for ease-of-use:
 
-Number of new confirmed cases on any given day (`newConfirmed`).
+1. Number of new confirmed cases on any given day (`newConfirmed`).
 1. Number of new deaths on any given day (`newDeaths`).
 1. Number of new recoveries on any given day (`newRecovered`).
-2. Mortality rate on any given day (`mortalityRate`).
-3. Recovery rate out of all confirmed cases (`recoveryRate`).
+1. Mortality rate on any given day (`mortalityRate`). Calculated as `deaths / confirmedCases`. Only available if the death numbers are available for the location.
+1. Recovery rate out of all confirmed cases (`recoveryRate`). Calculated as `recovered / confirmedCases`. Only available if the recovery numbers are available for the location.
+1. Number of active cases on any given day (`activeCases`). Calculated as `confirmedCases - (deaths + recovered)`. Only available if the death and recovery numbers are available for the location.
 
 Also, there are a few calculated locations which are not originally included in the source dataset:
 

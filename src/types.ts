@@ -72,6 +72,11 @@ export interface ValuesOnDate extends InternalValuesOnDate {
    * The recovery rate out of all confirmed cases.
    */
   recoveryRate: number | null;
+  /**
+   * The number of active cases on this date. `null` if either the `deaths` or `recovered` data is
+   * not available, as without them the number of active cases cannot be calculated.
+   */
+  activeCases: number | null;
 }
 
 /**

@@ -106,6 +106,7 @@ describe("COVID19API", () => {
               newDeaths: null,
               newRecovered: null,
               recoveryRate: 0,
+              activeCases: 0,
             },
             {
               date: "1/23/20",
@@ -117,6 +118,7 @@ describe("COVID19API", () => {
               newDeaths: 1,
               newRecovered: 2,
               recoveryRate: 2 / 4,
+              activeCases: 1,
             },
           ],
         };
@@ -146,6 +148,7 @@ describe("COVID19API", () => {
               newDeaths: null,
               newConfirmed: 0,
               mortalityRate: 0,
+              activeCases: null,
             },
             {
               date: "1/23/20",
@@ -157,6 +160,7 @@ describe("COVID19API", () => {
               recoveryRate: null,
               newRecovered: null,
               mortalityRate: 1 / 4,
+              activeCases: null,
             },
           ],
         };
@@ -197,6 +201,7 @@ describe("COVID19API", () => {
           newDeaths: 1,
           newRecovered: 2,
           recoveryRate: 2 / 4,
+          activeCases: 1,
         };
 
         expect(result).toEqual(expected);
@@ -425,9 +430,9 @@ describe("COVID19API", () => {
         });
 
         it("does not send out a loading finished notification until the initialization is done", async () => {
-          let firstDate: Date | undefined;
-          let lastDate: Date | undefined;
-          let locations: string[] | undefined;
+          let firstDate: Date | undefined = undefined;
+          let lastDate: Date | undefined = undefined;
+          let locations: string[] | undefined = undefined;
 
           const covid19API2 = new COVID19API({
             onLoadingStatusChange: (isLoading): void => {

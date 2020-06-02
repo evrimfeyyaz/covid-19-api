@@ -371,13 +371,19 @@ export class COVID19API {
   private addCalculatedValues(locationData: InternalLocationData): LocationData {
     const calculatedValues = locationData.values.map((valuesOnDate, index) => {
       let newConfirmed = 0;
-      let newRecovered = null;
-      let newDeaths = null;
+      let newRecovered: number | null = null;
+      let newDeaths: number | null = null;
       let recoveryRate: number | null = 0;
       let mortalityRate: number | null = 0;
+      let activeCases: number | null = null;
+
+      const { confirmed, recovered, deaths } = valuesOnDate;
+
+      if (recovered != null && deaths != null) {
+        activeCases = confirmed - (recovered + deaths);
+      }
 
       if (index > 0) {
-        const { confirmed, recovered, deaths } = valuesOnDate;
         const yesterdaysData = locationData.values?.[index - 1];
 
         if (recovered != null && yesterdaysData?.recovered != null) {
@@ -388,11 +394,11 @@ export class COVID19API {
           newDeaths = deaths - yesterdaysData.deaths;
         }
 
-        if (confirmed != null && yesterdaysData?.confirmed != null) {
+        if (yesterdaysData?.confirmed != null) {
           newConfirmed = confirmed - yesterdaysData.confirmed;
         }
 
-        if (confirmed != null && confirmed > 0) {
+        if (confirmed > 0) {
           recoveryRate = recovered != null ? recovered / confirmed : null;
           mortalityRate = deaths != null ? deaths / confirmed : null;
         }
@@ -405,6 +411,7 @@ export class COVID19API {
         newDeaths,
         recoveryRate,
         mortalityRate,
+        activeCases,
       };
     });
 
