@@ -17,15 +17,15 @@
     "url": "github:evrimfeyyaz/covid-19-api"
   },
   "main": "lib/index.js",
-  "module": "lib-esm/index.js",
+  "module": "esm/index.js",
   "files": [
     "lib/",
-    "lib-esm/"
+    "esm/"
   ],
   "types": "lib/index.d.ts",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "build": "rimraf lib lib-esm && tsc && tsc -m ES6 --outDir lib-esm",
+    "build": "rimraf lib esm && tsc && tsc -m ES6 --outDir esm",
     "docs": "rimraf docs && typedoc --out docs --name \"COVID-19 API\" --includeVersion && touch docs/_config.yml && echo \"include:\\n  - \\\"_*_.html\\\"\\n  - \\\"_*_.*.html\\\"\" >> docs/_config.yml",
     "lint": "eslint . --ext .js,.ts,.tsx",
     "test": "jest",

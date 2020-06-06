@@ -9,5 +9,5 @@ module.exports = {
     "prettier/@typescript-eslint",
     "plugin:prettier/recommended",
   ],
-  ignorePatterns: ["lib", "lib-esm", "docs"],
+  ignorePatterns: ["lib", "esm", "docs"],
 };
