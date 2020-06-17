@@ -42,8 +42,8 @@
   - [Calculated data](#calculated-data)
   - [TypeScript](#typescript)
 - [API](#api)
-- [Updating from earlier versions](#updating-from-earlier-versions)
-  - [v0.x.x to v1.x.x](#v0xx-to-v1xx)
+- [Upgrading from earlier versions](#upgrading-from-earlier-versions)
+  - [Upgrading to v2](#upgrading-to-v2)
 - [About the source data](#about-the-source-data)
 - [Contributing](#contributing)
 - [Author](#author)
@@ -400,9 +400,9 @@ Here are the most important parts of the documentation you might need:
 - [COVID19API](https://evrim.io/covid-19-api/modules/_covid19api_.html)
 - [COVID19APIOptions](https://evrim.io/covid-19-api/interfaces/_covid19api_.covid19apioptions.html)
 
-## Updating from earlier versions
-### v0.x.x to v1.x.x
-The only breaking change between v0.x.x and v1.x.x is that `mortalityRate` in [`ValuesOnDate`](#valuesondate) is changed to `caseFatalityRate` in v1.x.x.
+## Upgrading from earlier versions
+### Upgrading to v2
+The only breaking change in v2 is that `mortalityRate` in [`ValuesOnDate`](#valuesondate) is changed to `caseFatalityRate`.
 
 ## About the source data
 The source data is from the ["COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University"](https://github.com/CSSEGISandData/COVID-19).
