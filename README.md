@@ -58,7 +58,7 @@ You can query the dataset for the following information for any location on any 
 - New cases*
 - Deaths*
 - New deaths
-- Mortality rate
+- Case Fatality Rate
 - Recoveries
 - New recoveries
 - Recovery rate
@@ -224,7 +224,7 @@ Returns the last day of the time series data, which should be either today or th
 |newConfirmed|`number`|`5`|
 |deaths|`number | null`|`2`|
 |newDeaths|`number | null`|`1`
-|mortalityRate|`number | null`|`0.2`|
+|caseFatalityRate|`number | null`|`0.2`|
 |recovered|`number | null`|`5`|
 |newRecovered|`number | null`|`2`|
 |recoveryRate|`number | null`|`0.5`|
@@ -378,7 +378,7 @@ This library also calculates a few extra values for ease-of-use:
 1. Number of new confirmed cases on any given day (`newConfirmed`).
 1. Number of new deaths on any given day (`newDeaths`).
 1. Number of new recoveries on any given day (`newRecovered`).
-1. Mortality rate on any given day (`mortalityRate`). Calculated as `deaths / confirmedCases`. Only available if the death numbers are available for the location.
+1. Case Fatality Rate on any given day (`caseFatalityRate`). Calculated as `deaths / confirmedCases`. Only available if the death numbers are available for the location.
 1. Recovery rate out of all confirmed cases (`recoveryRate`). Calculated as `recovered / confirmedCases`. Only available if the recovery numbers are available for the location.
 1. Number of active cases on any given day (`activeCases`). Calculated as `confirmedCases - (deaths + recovered)`. Only available if the death and recovery numbers are available for the location.
 

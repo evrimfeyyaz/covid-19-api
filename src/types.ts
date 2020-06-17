@@ -61,9 +61,9 @@ export interface ValuesOnDate extends InternalValuesOnDate {
    */
   newDeaths: number | null;
   /**
-   * The mortality rate on this date. `null` if this information is not available.
+   * The case fatality rate on this date. `null` if this information is not available.
    */
-  mortalityRate: number | null;
+  caseFatalityRate: number | null;
   /**
    * The number of new recoveries on this date. `null` if this information is not available.
    */

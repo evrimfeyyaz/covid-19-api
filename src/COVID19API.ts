@@ -363,7 +363,7 @@ export class COVID19API {
 
   /**
    * The internal location data only includes confirmed cases, deaths and recoveries data. This
-   * method adds extra calculated values to the data, such as new confirmed cases and mortality
+   * method adds extra calculated values to the data, such as new confirmed cases and case fatality
    * rate.
    *
    * @param locationData
@@ -374,7 +374,7 @@ export class COVID19API {
       let newRecovered: number | null = null;
       let newDeaths: number | null = null;
       let recoveryRate: number | null = 0;
-      let mortalityRate: number | null = 0;
+      let caseFatalityRate: number | null = 0;
       let activeCases: number | null = null;
 
       const { confirmed, recovered, deaths } = valuesOnDate;
@@ -400,7 +400,7 @@ export class COVID19API {
 
         if (confirmed > 0) {
           recoveryRate = recovered != null ? recovered / confirmed : null;
-          mortalityRate = deaths != null ? deaths / confirmed : null;
+          caseFatalityRate = deaths != null ? deaths / confirmed : null;
         }
       }
 
@@ -410,7 +410,7 @@ export class COVID19API {
         newRecovered,
         newDeaths,
         recoveryRate,
-        mortalityRate,
+        caseFatalityRate,
         activeCases,
       };
     });
