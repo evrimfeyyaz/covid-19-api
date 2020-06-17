@@ -42,6 +42,8 @@
   - [Calculated data](#calculated-data)
   - [TypeScript](#typescript)
 - [API](#api)
+- [Updating from earlier versions](#updating-from-earlier-versions)
+  - [v0.x.x to v1.x.x](#v0xx-to-v1xx)
 - [About the source data](#about-the-source-data)
 - [Contributing](#contributing)
 - [Author](#author)
@@ -58,7 +60,7 @@ You can query the dataset for the following information for any location on any 
 - New cases*
 - Deaths*
 - New deaths
-- Case Fatality Rate
+- Case fatality rate
 - Recoveries
 - New recoveries
 - Recovery rate
@@ -378,7 +380,7 @@ This library also calculates a few extra values for ease-of-use:
 1. Number of new confirmed cases on any given day (`newConfirmed`).
 1. Number of new deaths on any given day (`newDeaths`).
 1. Number of new recoveries on any given day (`newRecovered`).
-1. Case Fatality Rate on any given day (`caseFatalityRate`). Calculated as `deaths / confirmedCases`. Only available if the death numbers are available for the location.
+1. Case fatality rate on any given day (`caseFatalityRate`). Calculated as `deaths / confirmedCases`. Only available if the death numbers are available for the location.
 1. Recovery rate out of all confirmed cases (`recoveryRate`). Calculated as `recovered / confirmedCases`. Only available if the recovery numbers are available for the location.
 1. Number of active cases on any given day (`activeCases`). Calculated as `confirmedCases - (deaths + recovered)`. Only available if the death and recovery numbers are available for the location.
 
@@ -397,6 +399,10 @@ Here are the most important parts of the documentation you might need:
 
 - [COVID19API](https://evrim.io/covid-19-api/modules/_covid19api_.html)
 - [COVID19APIOptions](https://evrim.io/covid-19-api/interfaces/_covid19api_.covid19apioptions.html)
+
+## Updating from earlier versions
+### v0.x.x to v1.x.x
+The only breaking change between v0.x.x and v1.x.x is that `mortalityRate` in [`ValuesOnDate`](#valuesondate) is changed to `caseFatalityRate` in v1.x.x.
 
 ## About the source data
 The source data is from the ["COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University"](https://github.com/CSSEGISandData/COVID-19).
