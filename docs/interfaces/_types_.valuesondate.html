@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ValuesOnDate | COVID-19 API - v1.0.0</title>
-	<meta name="description" content="Documentation for COVID-19 API - v1.0.0">
+	<title>ValuesOnDate | COVID-19 API - v2.0.0</title>
+	<meta name="description" content="Documentation for COVID-19 API - v2.0.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">COVID-19 API - v1.0.0</a>
+					<a href="../index.html" class="title">COVID-19 API - v2.0.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -97,10 +97,10 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.valuesondate.html#activecases" class="tsd-kind-icon">active<wbr>Cases</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.valuesondate.html#casefatalityrate" class="tsd-kind-icon">case<wbr>Fatality<wbr>Rate</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_types_.valuesondate.html#confirmed" class="tsd-kind-icon">confirmed</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_types_.valuesondate.html#date" class="tsd-kind-icon">date</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_types_.valuesondate.html#deaths" class="tsd-kind-icon">deaths</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.valuesondate.html#mortalityrate" class="tsd-kind-icon">mortality<wbr>Rate</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.valuesondate.html#newconfirmed" class="tsd-kind-icon">new<wbr>Confirmed</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.valuesondate.html#newdeaths" class="tsd-kind-icon">new<wbr>Deaths</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.valuesondate.html#newrecovered" class="tsd-kind-icon">new<wbr>Recovered</a></li>
@@ -119,13 +119,28 @@
 					<div class="tsd-signature tsd-kind-icon">active<wbr>Cases<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/dffb148/src/types.ts#L79">src/types.ts:79</a></li>
+							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/4224059/src/types.ts#L79">src/types.ts:79</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The number of active cases on this date. <code>null</code> if either the <code>deaths</code> or <code>recovered</code> data is
 							not available, as without them the number of active cases cannot be calculated.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="casefatalityrate" class="tsd-anchor"></a>
+					<h3>case<wbr>Fatality<wbr>Rate</h3>
+					<div class="tsd-signature tsd-kind-icon">case<wbr>Fatality<wbr>Rate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/4224059/src/types.ts#L66">src/types.ts:66</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The case fatality rate on this date. <code>null</code> if this information is not available.</p>
 						</div>
 					</div>
 				</section>
@@ -136,7 +151,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_types_.internalvaluesondate.html">InternalValuesOnDate</a>.<a href="_types_.internalvaluesondate.html#confirmed">confirmed</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/dffb148/src/types.ts#L12">src/types.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/4224059/src/types.ts#L12">src/types.ts:12</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -152,7 +167,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_types_.internalvaluesondate.html">InternalValuesOnDate</a>.<a href="_types_.internalvaluesondate.html#date">date</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/dffb148/src/types.ts#L8">src/types.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/4224059/src/types.ts#L8">src/types.ts:8</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -168,7 +183,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_types_.internalvaluesondate.html">InternalValuesOnDate</a>.<a href="_types_.internalvaluesondate.html#deaths">deaths</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/dffb148/src/types.ts#L16">src/types.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/4224059/src/types.ts#L16">src/types.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -178,27 +193,12 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="mortalityrate" class="tsd-anchor"></a>
-					<h3>mortality<wbr>Rate</h3>
-					<div class="tsd-signature tsd-kind-icon">mortality<wbr>Rate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/dffb148/src/types.ts#L66">src/types.ts:66</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The mortality rate on this date. <code>null</code> if this information is not available.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="newconfirmed" class="tsd-anchor"></a>
 					<h3>new<wbr>Confirmed</h3>
 					<div class="tsd-signature tsd-kind-icon">new<wbr>Confirmed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/dffb148/src/types.ts#L58">src/types.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/4224059/src/types.ts#L58">src/types.ts:58</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -213,7 +213,7 @@
 					<div class="tsd-signature tsd-kind-icon">new<wbr>Deaths<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/dffb148/src/types.ts#L62">src/types.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/4224059/src/types.ts#L62">src/types.ts:62</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -228,7 +228,7 @@
 					<div class="tsd-signature tsd-kind-icon">new<wbr>Recovered<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/dffb148/src/types.ts#L70">src/types.ts:70</a></li>
+							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/4224059/src/types.ts#L70">src/types.ts:70</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -244,7 +244,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_types_.internalvaluesondate.html">InternalValuesOnDate</a>.<a href="_types_.internalvaluesondate.html#recovered">recovered</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/dffb148/src/types.ts#L20">src/types.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/4224059/src/types.ts#L20">src/types.ts:20</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -259,7 +259,7 @@
 					<div class="tsd-signature tsd-kind-icon">recovery<wbr>Rate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/dffb148/src/types.ts#L74">src/types.ts:74</a></li>
+							<li>Defined in <a href="https://github.com/evrimfeyyaz/covid-19-api/blob/4224059/src/types.ts#L74">src/types.ts:74</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -345,6 +345,9 @@
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_types_.valuesondate.html#activecases" class="tsd-kind-icon">active<wbr>Cases</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_types_.valuesondate.html#casefatalityrate" class="tsd-kind-icon">case<wbr>Fatality<wbr>Rate</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_types_.valuesondate.html#confirmed" class="tsd-kind-icon">confirmed</a>
 							</li>
@@ -353,9 +356,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_types_.valuesondate.html#deaths" class="tsd-kind-icon">deaths</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_types_.valuesondate.html#mortalityrate" class="tsd-kind-icon">mortality<wbr>Rate</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_types_.valuesondate.html#newconfirmed" class="tsd-kind-icon">new<wbr>Confirmed</a>
