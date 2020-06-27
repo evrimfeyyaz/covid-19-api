@@ -210,8 +210,8 @@ Returns the last day of the time series data, which should be either today or th
 |---|----|-------|
 |location|`string`|`"US (Autauga, Alabama"`|
 |countryOrRegion|`string`|`"US"`|
-|provinceOrState|`string | null`|`"Alabama"`|
-|county|`string | null`|`"Autauga"`|
+|provinceOrState|`string`|`null`|`"Alabama"`|
+|county|`string`|`null`|`"Autauga"`|
 |latitude|`string`|`"32.53952745"`|
 |longitude|`string`|`"-86.64408227"`|
 |values|`ValuesOnDate[]`|See [`ValuesOnDate`](#valuesondate) below.|
@@ -224,13 +224,13 @@ Returns the last day of the time series data, which should be either today or th
 |date|`string`|`"1/1/20"`|
 |confirmed|`number`|`10`|
 |newConfirmed|`number`|`5`|
-|deaths|`number | null`|`2`|
-|newDeaths|`number | null`|`1`
-|caseFatalityRate|`number | null`|`0.2`|
-|recovered|`number | null`|`5`|
-|newRecovered|`number | null`|`2`|
-|recoveryRate|`number | null`|`0.5`|
-|activeCases|`number | null`|`3`|
+|deaths|`number`|`null`|`2`|
+|newDeaths|`number`|`null`|`1`
+|caseFatalityRate|`number`|`null`|`0.2`|
+|recovered|`number`|`null`|`5`|
+|newRecovered|`number`|`null`|`2`|
+|recoveryRate|`number`|`null`|`0.5`|
+|activeCases|`number`|`null`|`3`|
 
 ### Fetching the data from GitHub
 The JHU CSSE data is located in [a GitHub repository](https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series). If you would like to directly fetch the data from this repository (which is the recommended and default option), you can do the following:
