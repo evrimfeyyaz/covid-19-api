@@ -1,7 +1,7 @@
 {
   "name": "@evrimfeyyaz/covid-19-api",
   "author": "Evrim Persembe",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A JavaScript library that provides a simple API for the Johns Hopkins University CSSE COVID-19 time series data.",
   "license": "ISC",
   "keywords": [
