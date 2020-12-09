@@ -31,7 +31,8 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "test-coverage": "jest --coverage",
-    "version": "npm run lint && npm run build && npm run docs && git add docs"
+    "version": "npm run lint && npm run build && npm run docs && git add docs",
+    "release": "np"
   },
   "husky": {
     "hooks": {
@@ -60,7 +61,8 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^26.0.0",
     "typedoc": "^0.17.6",
-    "typescript": "^3.9.2"
+    "typescript": "^3.9.2",
+    "np": "*"
   },
   "dependencies": {
     "csv-parse": "^4.9.1",
