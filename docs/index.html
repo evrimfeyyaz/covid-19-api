@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>COVID-19 API - v2.0.3</title>
-	<meta name="description" content="Documentation for COVID-19 API - v2.0.3">
+	<title>COVID-19 API - v2.0.4</title>
+	<meta name="description" content="Documentation for COVID-19 API - v2.0.4">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">COVID-19 API - v2.0.3</a>
+					<a href="index.html" class="title">COVID-19 API - v2.0.4</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1>COVID-19 API - v2.0.3</h1>
+			<h1>COVID-19 API - v2.0.4</h1>
 		</div>
 	</div>
 </header>
@@ -154,14 +154,14 @@
 					<h3>Initialization</h3>
 				</a>
 				<pre><code class="language-js"><span class="hljs-comment">// CommonJS</span>
-<span class="hljs-keyword">const</span> { COVID19API } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@evrimfeyyaz/covid-19-api"</span>);
+<span class="hljs-keyword">const</span> { COVID19API } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;@evrimfeyyaz/covid-19-api&quot;</span>);
 
 <span class="hljs-comment">// ESM</span>
-<span class="hljs-keyword">import</span> { COVID19API } <span class="hljs-keyword">from</span> <span class="hljs-string">"@evrimfeyyaz/covid-19-api"</span>;</code></pre>
+<span class="hljs-keyword">import</span> { COVID19API } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@evrimfeyyaz/covid-19-api&quot;</span>;</code></pre>
 				<p>Before using the API, you first need to call the <code>init</code> method, which returns an empty Promise when the initialization is completed.</p>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> COVID19API();
 
-api.init().then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Initialized."</span>));</code></pre>
+api.init().then(<span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Initialized.&quot;</span>));</code></pre>
 				<p>During initialization, the instance gets populated with data.</p>
 				<a href="#getting-the-values-for-a-location" id="getting-the-values-for-a-location" style="color: inherit; text-decoration: none;">
 					<h3>Getting the values for a location</h3>
@@ -171,7 +171,7 @@ api.init().then(<span class="hljs-function"><span class="hljs-params">()</span> 
 					<h4><code>getDataByLocation</code></h4>
 				</a>
 				<p>Returns the data for the given location grouped by date.</p>
-				<pre><code class="language-js">api.getDataByLocation(<span class="hljs-string">"Turkey"</span>).then(<span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> {
+				<pre><code class="language-js">api.getDataByLocation(<span class="hljs-string">&quot;Turkey&quot;</span>).then(<span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> {
   <span class="hljs-comment">// Print the name of the location.</span>
   <span class="hljs-built_in">console</span>.log(data.location); <span class="hljs-comment">// -&gt; Turkey</span>
 
@@ -184,7 +184,7 @@ api.init().then(<span class="hljs-function"><span class="hljs-params">()</span> 
 					<h4><code>getDataByLocations</code></h4>
 				</a>
 				<p>Same as <a href="#getdatabylocation"><code>getDataByLocation</code></a>, but can be used to request data for multiple countries at the same time.</p>
-				<pre><code class="language-js">api.getDataByLocations([<span class="hljs-string">"Turkey"</span>, <span class="hljs-string">"US"</span>]).then(<span class="hljs-function">(<span class="hljs-params">dataArray</span>) =&gt;</span> {
+				<pre><code class="language-js">api.getDataByLocations([<span class="hljs-string">&quot;Turkey&quot;</span>, <span class="hljs-string">&quot;US&quot;</span>]).then(<span class="hljs-function">(<span class="hljs-params">dataArray</span>) =&gt;</span> {
   <span class="hljs-keyword">const</span> turkeyData = dataArray[<span class="hljs-number">0</span>];
   <span class="hljs-comment">// Print the name of the location.</span>
   <span class="hljs-built_in">console</span>.log(turkeyData.location); <span class="hljs-comment">// -&gt; Turkey</span>
@@ -200,7 +200,7 @@ api.init().then(<span class="hljs-function"><span class="hljs-params">()</span> 
 				</a>
 				<p>Returns all available values (confirmed cases, recoveries, etc.) on a certain date for a given location.</p>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> may1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">2020</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>);
-api.getDataByLocationAndDate(<span class="hljs-string">"Turkey"</span>, may1).then(<span class="hljs-function">(<span class="hljs-params">values</span>) =&gt;</span> {
+api.getDataByLocationAndDate(<span class="hljs-string">&quot;Turkey&quot;</span>, may1).then(<span class="hljs-function">(<span class="hljs-params">values</span>) =&gt;</span> {
   <span class="hljs-comment">// Print the number of confirmed cases on May 1, 2020.</span>
   <span class="hljs-built_in">console</span>.log(values.confirmed); <span class="hljs-comment">// -&gt; 122392</span>
 
@@ -220,16 +220,16 @@ api.getDataByLocationAndDate(<span class="hljs-string">"Turkey"</span>, may1).th
 <span class="hljs-built_in">console</span>.log(listOfLocations);</code></pre>
 				<p>Outputs:</p>
 				<pre><code class="language-sh">[
-  <span class="hljs-string">'Afghanistan'</span>,
-  <span class="hljs-string">'Albania'</span>,
-  <span class="hljs-string">'Algeria'</span>,
-  <span class="hljs-string">'Andorra'</span>,
-  <span class="hljs-string">'Angola'</span>,
-  <span class="hljs-string">'Antigua and Barbuda'</span>,
-  <span class="hljs-string">'Argentina'</span>,
-  <span class="hljs-string">'Armenia'</span>,
-  <span class="hljs-string">'Australia (Australian Capital Territory)'</span>,
-  <span class="hljs-string">'Australia (New South Wales)'</span>,
+  <span class="hljs-string">&#x27;Afghanistan&#x27;</span>,
+  <span class="hljs-string">&#x27;Albania&#x27;</span>,
+  <span class="hljs-string">&#x27;Algeria&#x27;</span>,
+  <span class="hljs-string">&#x27;Andorra&#x27;</span>,
+  <span class="hljs-string">&#x27;Angola&#x27;</span>,
+  <span class="hljs-string">&#x27;Antigua and Barbuda&#x27;</span>,
+  <span class="hljs-string">&#x27;Argentina&#x27;</span>,
+  <span class="hljs-string">&#x27;Armenia&#x27;</span>,
+  <span class="hljs-string">&#x27;Australia (Australian Capital Territory)&#x27;</span>,
+  <span class="hljs-string">&#x27;Australia (New South Wales)&#x27;</span>,
   ...
 ]</code></pre>
 				<a href="#sourcelastupdatedat" id="sourcelastupdatedat" style="color: inherit; text-decoration: none;">
@@ -361,9 +361,9 @@ api.getDataByLocationAndDate(<span class="hljs-string">"Turkey"</span>, may1).th
 					<h3>Fetching the data from GitHub</h3>
 				</a>
 				<p>The JHU CSSE data is located in <a href="https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series">a GitHub repository</a>. If you would like to directly fetch the data from this repository (which is the recommended and default option), you can do the following:</p>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> COVID19API({ <span class="hljs-attr">loadFrom</span>: <span class="hljs-string">"github"</span> });
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> COVID19API({ <span class="hljs-attr">loadFrom</span>: <span class="hljs-string">&quot;github&quot;</span> });
 
-<span class="hljs-comment">// Or you can omit this option as "github" is the default value:</span>
+<span class="hljs-comment">// Or you can omit this option as &quot;github&quot; is the default value:</span>
 <span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> COVID19API();</code></pre>
 				<a href="#important-if-you-are-using-this-library-in-nodejs" id="important-if-you-are-using-this-library-in-nodejs" style="color: inherit; text-decoration: none;">
 					<h4>Important if you are using this library in NodeJS</h4>
@@ -377,10 +377,10 @@ $ yarn add node-fetch
 $ npm install --save node-fetch</code></pre>
 				<p>Then import the <code>fetch</code> function:</p>
 				<pre><code class="language-js"><span class="hljs-comment">// CommonJS</span>
-<span class="hljs-keyword">const</span> nodeFetch = <span class="hljs-built_in">require</span>(<span class="hljs-string">"node-fetch"</span>);
+<span class="hljs-keyword">const</span> nodeFetch = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;node-fetch&quot;</span>);
 
 <span class="hljs-comment">// ESM</span>
-<span class="hljs-keyword">import</span> nodeFetch <span class="hljs-keyword">from</span> <span class="hljs-string">"node-fetch"</span>;</code></pre>
+<span class="hljs-keyword">import</span> nodeFetch <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;node-fetch&quot;</span>;</code></pre>
 				<p>And supply it to the API:</p>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> COVID19API({ <span class="hljs-attr">fetch</span>: nodeFetch });</code></pre>
 				<p><em>If you are using this library on a modern browser, the <code>fetch</code> function should already be implemented, and you shouldn&#39;t need to supply it yourself.</em></p>
@@ -397,13 +397,13 @@ $ npm install --save node-fetch</code></pre>
 					<li><a href="https://github.com/CSSEGISandData/COVID-19/raw/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv">time_series_covid19_deaths_US.csv</a></li>
 				</ol>
 				<p>Then, put these files in the same folder as your script, and supply the following option to the API:</p>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> COVID19API({ <span class="hljs-attr">loadFrom</span>: <span class="hljs-string">'files'</span> });</code></pre>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> COVID19API({ <span class="hljs-attr">loadFrom</span>: <span class="hljs-string">&#x27;files&#x27;</span> });</code></pre>
 				<a href="#storing-the-data-in-indexeddb" id="storing-the-data-in-indexeddb" style="color: inherit; text-decoration: none;">
 					<h3>Storing the data in IndexedDB</h3>
 				</a>
 				<p>By default, when the API is initialized, the data is loaded into the memory.</p>
 				<p>If, instead, you would prefer to load the data into an IndexedDB database, you can do the following:</p>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> COVID19API({ <span class="hljs-attr">store</span>: <span class="hljs-string">"indexeddb"</span> });</code></pre>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> COVID19API({ <span class="hljs-attr">store</span>: <span class="hljs-string">&quot;indexeddb&quot;</span> });</code></pre>
 				<p>With this option, the data is loaded into an IndexedDB database named <code>COVID19APIDB</code>.</p>
 				<p>This is useful in a browser environment, as it prevents the library from repeatedly fetching the data from GitHub with every page load, i.e. it provides a way to persist the data between page requests.</p>
 				<p><strong>Note:</strong> This feature is not available when you&#39;re using the library in NodeJS.</p>
@@ -424,14 +424,14 @@ $ npm install --save node-fetch</code></pre>
   <span class="hljs-keyword">if</span> (isLoading) {
     <span class="hljs-built_in">console</span>.log(message);
   } <span class="hljs-keyword">else</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Loaded!"</span>);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Loaded!&quot;</span>);
   }
 }
 
 <span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> COVID19API({
   <span class="hljs-attr">onLoadingStatusChange</span>: logLoadingStatusChange
 });
-api.init().then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Initialized!"</span>));</code></pre>
+api.init().then(<span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Initialized!&quot;</span>));</code></pre>
 				<pre><code class="language-sh"><span class="hljs-comment"># Output:</span>
 
 Loading the global data.
